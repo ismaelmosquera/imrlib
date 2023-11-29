@@ -117,13 +117,12 @@ An abstract class from you can derive any kined of wave.
 An abstract class having an envelope and a wave, from you can derive  
 a subclass just setting its wave type.  
 >  
-> - Carrier.java: Derived from Synthesizer having a SineWave.  
-> - MusicalInstrument.java: Derived from Synthesizer having a MusicalNote.  
+> - MusicalSynthesizer.java: Derived from Synthesizer having a MusicalNote.  
 >  
 
 ###### **Modulator.java**  
 
-A class to modulate another signal. In addition to an envelope,  
+An abstract class to modulate another signal. In addition to an envelope,  
 you can choose the kind of wave to modulate a signal.  
 Wave types to choose:  
 >  
@@ -133,16 +132,20 @@ Wave types to choose:
 > - TriangularWave.  
 >  
 
-###### **AMInstrument.java**  
+###### **AmplitudeModulator.java**  
 
 A class suitable to perform AM synthesis.  
-It has a Carrier and a Modulator.  
+Derived from Modulator.  
 
-###### **FMInstrument.java**  
+###### **FrequencyModulator.java**  
 
 A class suitable to perform FM synthesis.  
-It has an Oscillator object as  a carrier,  
-and a modulator as an inner class.  
+Derived from Modulator.  
+
+###### **RingModulator.java**  
+
+A class suitable to perform ring modulation.  
+Derived from Modulator.  
 
 ###### **WaveType.java**  
 
