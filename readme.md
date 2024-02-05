@@ -113,13 +113,13 @@ Input: n-traccks to be mixed. Output: one mixed track.
   
 Package imr.sound.audio.analysis:  
   
-  #### **Fourier.java**  
-    
-    This class has static methods to perform FFT and IFFT.  
-      
-      #### **FrameShifter.java**  
-        
-        A class to manage hop size to perform spectral analysis.  
+#### **Fourier.java**  
+  
+This class has static methods to perform FFT and IFFT.  
+  
+#### **FrameShifter.java**  
+  
+A class to manage hop size to perform spectral analysis.  
   
 #### **SpectralAnalyzer**  
   
