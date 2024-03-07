@@ -5,6 +5,7 @@
 This is a Java implementation as a library having the following packages:  
 >  
 > - imr.matrix  
+> - imr.plot  
 > - imr.sound  
 > - imr.sound.audio  
 > - imr.sound.audio.analysis  
@@ -201,9 +202,9 @@ A class suitable to perform spectral synthesis.
 Input <- a Spectrum object.  
 Output -> a floating point vector with the resulting synthesized audio signal.  
   
-#### **WiteNoise.java**  
+#### **RandomNoise.java**  
   
-A white noise signal generator.  
+A random noise signal generator.  
   
 Package imr.sound.audio.window:  
   
@@ -221,6 +222,18 @@ Implemented window types:
 There is also an abstract class that could be extended by any other in order to have windowing support.  
 For instance, the SpectralAnalyzer and SpectralSynthesizer extend from this class since they need do windowing.  
 The analyzer does windowing and the synthesizer undoes it.  
+  
+Package imr.plot  
+  
+This new added package implements a base subsystem to code visualizers for your data.  
+There are some visualizers already implemented:  
+>  
+> - AudioPlot  
+> - SignalPlot  
+> - SpectrumPlot  
+>  
+  
+See the API documentation for more details.  
   
 We also added examples to test all of these new components.  
 We encourage you to run the examples to know more about them.  
