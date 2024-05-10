@@ -6,9 +6,11 @@ This is a Java implementation as a library having the following packages:
 >  
 > - imr.matrix  
 > - imr.plot  
+> - imr.sigslot  
 > - imr.sound  
 > - imr.sound.audio  
 > - imr.sound.audio.analysis  
+> - imr.sound.audio.filter  
 > - imr.sound.audio.synthesis  
 > - imr.sound.audio.window  
 > - imr.sound.midi  
@@ -231,6 +233,22 @@ There are some visualizers already implemented:
 > - AudioPlot  
 > - SignalPlot  
 > - SpectrumPlot  
+>  
+  
+  Package imr.sigslot:  
+    
+    A package implementing a signal/slot subsystem with signals and slots with capabilities to manage   
+    emition and reception for 0, 1, 2, and 3 generic data.  
+  
+Package imr.sound.audio.filter:  
+  
+A package implementing FIR ( Finite impulsional Response ) filters using the windowed/sinc strategy.  
+Implemented filters:  
+>  
+> - Low-pass.  
+> - High-pass.  
+> - Band-pass.  
+> - Band-reject.  
 >  
   
 See the API documentation for more details.  
