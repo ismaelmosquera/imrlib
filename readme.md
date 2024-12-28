@@ -23,7 +23,7 @@ There is also a random number generator and some new added classes
 as ComplexNumber and ByteBuffer.  
 	The imr.matrix package offers functionality to perform the most common operations applied to matrices and vectors  
 	and several ways to solve linear systems of NxN equations.  
-It also have functionallity to perform QR factorization.  
+It also have functionallity to perform QR factorization for square matrices.  
 	The imr.sound.audio package has an audio player with support to play, pause and stop playback.  
 	Supported audio formats for the audio player:  
 >  
