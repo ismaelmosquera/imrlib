@@ -24,6 +24,12 @@ as ComplexNumber and ByteBuffer.
 	The imr.matrix package offers functionality to perform the most common operations applied to matrices and vectors  
 	and several ways to solve linear systems of NxN equations.  
 It also have functionallity to perform QR factorization for square matrices.  
+Eigen:  
+The matrix package also has support to find eigenvalues and eigenvectors.  
+An Eigen is a pair eigenvalue/eigenvector.  
+Find the maximum Eigen of a matrix using the Power Method.  
+find the eigen system of a matrix using the QR Algorithm.  
+  
 	The imr.sound.audio package has an audio player with support to play, pause and stop playback.  
 	Supported audio formats for the audio player:  
 >  
