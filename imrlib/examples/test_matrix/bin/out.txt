@@ -1,0 +1,192 @@
+system matrix:
+[2.00, 1.00, 1.00, 5.00]
+[4.00, -6.00, 0.00, -2.00]
+[-2.00, 7.00, 2.00, 9.00]
+
+Solution using CramerSolver:
+solution:
+[1.00, 1.00, 2.00]
+
+chunk 1..2 from the solution vector:
+[1.00, 2.00]
+
+Solve system using an alternative method from CramerSolver...
+[1.00, 1.00, 2.00]
+
+Solve system using Gaussian elimination.
+system matrix:
+[2.00, 1.00, 1.00, 5.00]
+[4.00, -6.00, 0.00, -2.00]
+[-2.00, 7.00, 2.00, 9.00]
+
+solution:
+[1.00, 1.00, 2.00]
+
+Solve system using an alternative method for Gaussian elimination
+matrix of coefficients:
+[2.00, 1.00, 1.00]
+[4.00, -6.00, 0.00]
+[-2.00, 7.00, 2.00]
+
+vector of coefficients:
+[5.00, -2.00, 9.00]
+
+solution:
+[1.00, 1.00, 2.00]
+
+coeficient matrix:
+[2.00, 1.00, 1.00]
+[4.00, -6.00, 0.00]
+[-2.00, 7.00, 2.00]
+
+inverse:
+[0.75, -0.31, -0.38]
+[0.50, -0.38, -0.25]
+[-1.00, 1.00, 1.00]
+
+Store inverse in mcoef_inv.dat
+Inverse matrix stored.
+
+A * A^-1 = I
+[1.00, 0.00, 0.00]
+[0.00, 1.00, 0.00]
+[0.00, 0.00, 1.00]
+
+2x2 chunk from the identity matrix:
+[1.00, 0.00]
+[0.00, 1.00]
+
+coeficient matrix:
+[2.00, 1.00, 1.00]
+[4.00, -6.00, 0.00]
+[-2.00, 7.00, 2.00]
+
+LU:
+Lower:
+[1.00, 0.00, 0.00]
+[0.50, 1.00, 0.00]
+[-0.50, 1.00, 1.00]
+
+Upper:
+[4.00, -6.00, 0.00]
+[0.00, 4.00, 1.00]
+[0.00, 0.00, 1.00]
+
+Permutations:
+[1, 0, 2]
+
+coeficient matrix:
+[2.00, 1.00, 1.00]
+[4.00, -6.00, 0.00]
+[-2.00, 7.00, 2.00]
+
+coeficient vector:
+[5.00, -2.00, 9.00]
+
+solution:
+[1.00, 1.00, 2.00]
+
+rotation matrix:
+[0.85, 0.15, 0.50]
+[0.15, 0.85, -0.50]
+[-0.50, 0.50, 0.71]
+
+transposed of the rotation matrix (inverse):
+[0.85, 0.15, -0.50]
+[0.15, 0.85, 0.50]
+[0.50, -0.50, 0.71]
+
+R *R^-1 = I
+[1.00, 0.00, 0.00]
+[0.00, 1.00, -0.00]
+[0.00, -0.00, 1.00]
+
+Compute QR factorization:
+original matrix (A):
+[2.00, 1.00, 1.00]
+[4.00, -6.00, 0.00]
+[-2.00, 7.00, 2.00]
+
+QR:
+Q:
+[0.41, 0.71, 0.58]
+[0.82, -0.00, -0.58]
+[-0.41, 0.71, -0.58]
+
+R:
+[4.90, -7.35, -0.41]
+[-0.00, 5.66, 2.12]
+[0.00, -0.00, -0.58]
+
+A = QR:
+[2.00, 1.00, 1.00]
+[4.00, -6.00, -0.00]
+[-2.00, 7.00, 2.00]
+
+Q is orthogonal = true
+Q is orthonormal = true
+det(A) = -16,00
+
+solve linear system using QR:
+Vector of coeficients:
+[5.00, -2.00, 9.00]
+
+Solution:
+[1.00, 1.00, 2.00]
+
+EIGEN
+Matrix:
+[2.00, 1.00, 1.00]
+[4.00, -6.00, 0.00]
+[-2.00, 7.00, 2.00]
+
+Find maximum Eigen using the Power Method:
+eigenvalue = -6.06
+eigenvector:
+[-0.02, 1.00, -0.87]
+
+Find eigensystem using the QR Algorithm:
+eigenvalue = -6.06
+eigenvector:
+[0.00, -0.15, 0.13]
+
+eigenvalue = 3.25
+eigenvector:
+[0.58, 0.25, 0.48]
+
+eigenvalue = 0.81
+eigenvector:
+[-0.08, -0.05, 0.14]
+
+singular Value Decomposition
+M:
+[1.50, -0.50, 7.40]
+[-1.00, -1.80, 5.20]
+
+SVD
+U:
+[0.81, -0.58]
+[0.58, 0.81]
+
+sigma:
+[-9.18, 0.00, 0.00]
+[0.00, -2.06, 0.00]
+
+V:
+[-0.07, 0.82, -0.57]
+[0.16, 0.57, 0.81]
+[-0.98, 0.03, 0.17]
+
+U is orthogonal = true
+V is orthogonal = true
+U is orthonormal = true
+V is orthonormal = true
+det(U) = 1,00
+
+det(V) = -1,00
+
+M = UDV^t:
+[1.50, -0.50, 7.40]
+[-1.00, -1.80, 5.20]
+
+bye.
