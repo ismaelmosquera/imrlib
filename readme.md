@@ -29,6 +29,15 @@ The matrix package also has support to find eigenvalues and eigenvectors.
 An Eigen is a pair eigenvalue/eigenvector.  
 Find the maximum Eigen of a matrix using the Power Method.  
 find the eigen system of a matrix using the QR Algorithm.  
+  Perform Singular Value Decomposition for MxN matrices.  
+Such a factorization is as follows:  
+M = UDV^t  
+where  
+>  
+> - U is an orthogonal matrix having the left singular vectors of M.  
+> - Sigma is a diagonal matrix having the singular values of M.  
+> - V is an orthogonal matrix having the right singular vectors of M.  
+>  
   
 	The imr.sound.audio package has an audio player with support to play, pause and stop playback.  
 	Supported audio formats for the audio player:  
