@@ -39,7 +39,10 @@ where
 > - V is an orthogonal matrix having the right singular vectors of M.  
 >  
   
-	The imr.sound.audio package has an audio player with support to play, pause and stop playback.  
+Compute the pseudoinverse of a MxN matrix using SVD.  
+Get the nearest orthogonal matrix of a NxN matrix using SVD.  
+  
+The imr.sound.audio package has an audio player with support to play, pause and stop playback.  
 	Supported audio formats for the audio player:  
 >  
 > - mp3  
