@@ -1,0 +1,6 @@
+@echo off
+echo deleting old files...
+del bin\*.class
+echo compiling...
+javac -d bin -classpath .;..\..\lib\imr-lib.jar TestAudioRecorder.java 
+

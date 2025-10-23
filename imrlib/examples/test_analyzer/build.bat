@@ -1,0 +1,6 @@
+@echo off
+cls
+echo deleting old files...
+del bin\*.class
+echo compiling...
+javac -d bin -classpath .;..\..\lib\imr-lib.jar TestAnalyzer.java
