@@ -114,14 +114,3 @@ there are also an API documentation.
 This piece of code is devoted to my loved assistant dog Inuit, he passed away on 12/08/2025 ( day/month/year ).  
 Hope that you enjoy and appreciate this work made for free.  
   
-
-
-
-
-
- 
-
- 
-
- 
- 
