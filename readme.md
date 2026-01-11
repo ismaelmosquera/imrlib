@@ -4,7 +4,9 @@
 
 This is a Java implementation as a library having the following packages:  
 >  
-> - imr.matrix  
+> - imr.math  
+> - imr.math.matrix  
+> - imr.math.polynomial  
 > - imr.plot  
 > - imr.sigslot  
 > - imr.sound  
@@ -16,266 +18,110 @@ This is a Java implementation as a library having the following packages:
 > - imr.sound.midi  
 > - imr.util  
 >  
-	  
-	  In the imr.util package, we can find the iArray class with static methods to clone, resize and get chunks from arrays of any Java primitive  
-type using reflection to achieve the goal.  
-There is also a random number generator and some new added classes  
-as ComplexNumber and ByteBuffer.  
-	The imr.matrix package offers functionality to perform the most common operations applied to matrices and vectors  
-	and several ways to solve linear systems of NxN equations.  
-It also have functionallity to perform QR factorization for square matrices.  
-Eigen:  
-The matrix package also has support to find eigenvalues and eigenvectors.  
-An Eigen is a pair eigenvalue/eigenvector.  
-Find the maximum Eigen of a matrix using the Power Method.  
-find the eigen system of a matrix using the QR Algorithm.  
-  Perform Singular Value Decomposition for MxN matrices.  
-Such a factorization is as follows:  
-M = UDV^t  
-where  
+  
+Following, a brief explanation about the functionallity offered for each package  
+  
+#### imr.math  
+This package has useful classes to do some math computation, like complex number, random number generation and so on.  
+  
+#### imr.matrix  
+This package has to do with linear algebra.  
+Here, you can find classes to perform the most common operations with matrices and vectors,  
+and solve NxN linear equations systems.  
+The techniques used are as follows:  
 >  
-> - U is an orthogonal matrix having the left singular vectors of M.  
-> - Sigma is a diagonal matrix having the singular values of M.  
-> - V is an orthogonal matrix having the right singular vectors of M.  
+> - Cramer's rule.  
+> - Gaussian elimination.  
+> - LU decomposition.  
+> QR factorization.  
 >  
   
-Compute the pseudoinverse of a MxN matrix using SVD.  
-Get the nearest orthogonal matrix of a NxN matrix using SVD.  
+Where numerical analysis skills are used to implement the concrete algorithms.  
+You can also find eigen values and its associated eigen-vectors by using the Power method and the QR algorithm.  
+The package has support to perform SVD ( Singular Value Decomposition ), and several applications related to it.  
   
-The imr.sound.audio package has an audio player with support to play, pause and stop playback.  
-	Supported audio formats for the audio player:  
+#### imr.math.polynomial  
+  
+Here you can know how to do polynomial Lagrange interpolation, compute Ruffini's rule and polynomial operations like:  
 >  
-> - mp3  
-> - wav  
-> - aif  
-> - au  
->  
-	  
-	  In the imr.sound.midi package there are classes to manage MIDI data with the equivalent wrapper ones for the classes  
-	in the javax.sound.midi package.  
-	This package also has support to load and store Standard MIDI Files ( SMF ),  
-	and a MIDI player suitable to play, pause and stop like in the case of the audio player in the imr.sound.audio package.  
-	In the imr.sound package, you can find two interfaces and a SoundPlayer class which uses and audio and a midi player  
-	to have support to play audio and MIDI files.  
-	This sound player has some extra features to loop, shuffle and select a concrete song from a list to be played.  
-You can also play an entire folder containing supported sound files.  
-Supported extensions for the sound player:  
->  
-> - mp3  
-> - mid  
-> - m3u ( lists )  
-> - wav  
-> - aiff  
-> - au  
->  
-	  
-	  There is also a ‘doc’ folder with the API documentation generated using the ‘javadoc’ tool.  
-	We decided to name this library ‘Java IMR-LIB’, where IMR stands for Ismael Mosquera Rivera.  
-	
-
-Fixed: There was a bug in the AudioPlayer.java file causing problems loading  
-*.aif and *.au files. It was already fixed.  
-
-The documentation is now placed in a compressed file ( doc.zip ).  
-
-New feature: In the imr.sound.audio package an audio recorder was added ( AudioRecorder.java ).  
-It has the following functionalities:  
-Two constructors:  
-AudioRecorder() default sample rate = 44100.0f  
-AudioRecorder(float sampleRate) Allowed values: 11025.0f, 22050.0f and 44100.0f  
-
-public methods:  
-void rec() Starts recording.  
-void play() Starts playing if some audio is already recorded.  
-void stop() Stops recording or playing.  
-void save(String filename) Stores the current recorded audio into a file.  
-
-Supported audio formats:  
->  
-> - WAVE ( *.wav ).  
-> - AIFF ( *.aif ).  
-> - AU ( *.au ).  
+> - Arithmetic.  
+> - Derivation and integration.  
+> - Roots finding.  
 >  
 
-New example: test_recorder folder.  
-A command line aplication to test the new feature added.  
-
-Please, look at the readme.txt files to know more about each subject.  
-
-New audio features added to imr.sound.audio package:  
   
-#### **AudioFileIO**  
-    
-    A class to load and store audio files.  
-  
-#### **RawDataPlayer.java**  
-
-A player suitable to reproduce raw audio data, for instance,  
-the data generated by an oscillator.  
-
-#### **RawDataStorage.java**  
-
-Using this class, you can save raw audio data in an audio file.  
-Supported audio formats:  
+All of them are available for any type of numeric coefficient:  
 >  
-> - WAVE ( *.wav ).  
-> - AIFF ( *.aif ).  
-> - AU ( *au ).  
+> - Integer.  
+> - Real.  
+> - Complex.  
 >  
   
-#### **FrameFactory.java**  
-
-A class to produce empty frames at any duration.  
-And functionallity to clone data frames among other things.    
-
-#### **AudioMixer.java**  
-
-This class allows you to mix n-tracks into just one.  
-Input: n-traccks to be mixed. Output: one mixed track.  
+#### imr.plot  
   
-Package imr.sound.audio.analysis:  
+This package offers a basic visualization system from you can easily code your own plots.  
+There are already implemented visualizers, see the comcrete API documentation to know more about it.  
   
-#### **Fourier.java**  
+#### imr.sigslot  
   
-This class has static methods to perform FFT and IFFT.  
+A useful system of signals and slots for generic objects.  
+A signal emits some kind of data, which is received by a slot to do a concrete task.  
+There are support for signals and slots for 0, 1, 2, and 3 parameters of generic data.  
   
-#### **FrameShifter.java**  
+#### imr.sound  
   
-A class to manage hop size to perform spectral analysis.  
+This package offers, mainly, a sound player suitable to play digital audio and MIDI.  
+You can reproduce digital audio for several audio file formats, and for SMF ( Standard MIDI File ),  
+with the functionallity offered by a comprehensive sound player.  
   
-#### **SpectralAnalyzer**  
+#### imr.sound.audio  
   
-  A class to perform spectral analysis.  
-Input <- a floating point vector with audio signal data.  
-Output -> a Spectrum object with the resulting analysis.  
-  #### **Spectrum.java**  
+With the features offered by this package, you can manage audio devices and audio file I/O among other things.  
   
-A class to keep data resulting of spectral analysis.  
+#### imr.sound.audio.analysis  
   
-#### **SpectrumList.java**  
+This package has support to perform spectral analysis.  
   
-Container to store Spectrum objects.  
+#### imr.sound.audio.filter  
   
-Package imr.sound.audio.synthesis:  
-  
-#### **Envelope.java**  
-
-An ADSR envelope.  
-
-#### **Oscillator.java**  
-
-An oscillator to generate sinusoidal waves oscillating at any frequency.  
-
-#### **Wave.java**
-
-An abstract class from you can derive any kined of wave.  
+This package implements FIR ( Finite Impulse Response ) filters.  
+The implemented skill is through the sinc function.  
+Implemented filters:
 >  
-> - SawWave.java: Derived from Wave.  
-> - SineWave.java: Derived from Wave.  
-> - SquareWave.java: Derived from Wave.  
-> - TriangularWave.java: Derived from Wave.  
-> - MusicalNote.java: A 4-harmonic musical note derived from Wave.  
->  
-
-#### **Synthesizer.java**  
-
-An abstract class having an envelope and a wave, from you can derive  
-a subclass just setting its wave type.  
->  
-> - MusicalSynthesizer.java: Derived from Synthesizer having a MusicalNote.  
->  
-
-#### **Modulator.java**  
-
-An abstract class to modulate another signal. In addition to an envelope,  
-you can choose the kind of wave to modulate a signal.  
-Wave types to choose:  
->  
-> - SawWave.  
-> - SineWave.  
-> - SquareWave.  
-> - TriangularWave.  
->  
-
-#### **AmplitudeModulator.java**  
-
-A class suitable to perform AM synthesis.  
-Derived from Modulator.  
-
-#### **FrequencyModulator.java**  
-
-A class suitable to perform FM synthesis.  
-Derived from Modulator.  
-
-#### **RingModulator.java**  
-
-A class suitable to perform ring modulation.  
-Derived from Modulator.  
-
-#### **WaveType.java**  
-
-A class with public static fields useful, for example,  
-to set the wave type in a modulator.  
-  
-#### **SpectralSynthesizer**  
-  
-A class suitable to perform spectral synthesis.  
-Input <- a Spectrum object.  
-Output -> a floating point vector with the resulting synthesized audio signal.  
-  
-#### **RandomNoise.java**  
-  
-A random noise signal generator.  
-  
-Package imr.sound.audio.window:  
-  
-This package contains classes implementing several kind of windows useful to perform  
-spectral analysis.  
-Implemented window types:  
-  
->  
-> - BlackmanHarris92dB.  
-> - Gaussian.  
-> - Hamming.  
-> - Triangular.  
+> - Low pass.  
+> - High pass.  
+> - Band pass.  
+> - Band reject.  
 >  
   
-There is also an abstract class that could be extended by any other in order to have windowing support.  
-For instance, the SpectralAnalyzer and SpectralSynthesizer extend from this class since they need do windowing.  
-The analyzer does windowing and the synthesizer undoes it.  
+#### imr.sound.audio.synthesis  
   
-Package imr.plot  
+This package has functionallity to generate audio waves ( Saw, sine, Square, Triangular ), ADSR ( Attack, Decay, Sustain, Release ) envelopes,  
+several kind of modulation ( Amplitude, Frequency, Ring ), random noise signals and so on.  
+There is support to spectral synthesis too.  
   
-This new added package implements a base subsystem to code visualizers for your data.  
-There are some visualizers already implemented:  
->  
-> - AudioPlot  
-> - SignalPlot  
-> - SpectrumPlot  
->  
+#### imr.sound.window  
   
-  Package imr.sigslot:  
-    
-    A package implementing a signal/slot subsystem with signals and slots with capabilities to manage   
-    emition and reception for 0, 1, 2, and 3 generic data.  
+Here you can generate some kind of useful windows to do analysis, synthesis, and filtering.  
+   
+#### imr.util  
   
-Package imr.sound.audio.filter:  
+This package offers some utility classes like some kind of buffers and a so useful iArray class to deal with  
+1, 2, and 3-dimensional arrays for any atomic type.  
   
-A package implementing FIR ( Finite impulsional Response ) filters using the windowed/sinc strategy.  
-Implemented filters:  
->  
-> - Low-pass.  
-> - High-pass.  
-> - Band-pass.  
-> - Band-reject.  
->  
+The examples folder has a lot of examples to know whow to use the classes offered by this Java code library, we encourage you to run them.  
+there are also an API documentation.  
+This piece of code is devoted to my loved assistant dog Inuit, he passed away on 12/08/2025 ( day/month/year ).  
+Hope that you enjoy and appreciate this work made for free.  
   
-See the API documentation for more details.  
-  
-We also added examples to test all of these new components.  
-We encourage you to run the examples to know more about them.  
-The API documentation was also updated and placed in the 'doc.zip' compressed file.  
 
-We hope to continue adding more features to this library.  
-Any contribution is welcome.  
 
+
+
+
+ 
+
+ 
+
+ 
+ 
