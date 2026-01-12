@@ -33,11 +33,11 @@ The techniques used are as follows:
 > - Cramer's rule.  
 > - Gaussian elimination.  
 > - LU decomposition.  
-> QR factorization.  
+> - QR factorization.  
 >  
   
 Where numerical analysis skills are used to implement the concrete algorithms.  
-You can also find eigen values and its associated eigen-vectors by using the Power method and the QR algorithm.  
+You can also find eigen values and its associated eigen-vectors by using the Power method or the QR algorithm.  
 The package has support to perform SVD ( Singular Value Decomposition ), and several applications related to it.  
   
 #### imr.math.polynomial  
@@ -103,14 +103,20 @@ There is support to spectral synthesis too.
 #### imr.sound.window  
   
 Here you can generate some kind of useful windows to do analysis, synthesis, and filtering.  
-   
+  
+#### imr.sound.midi  
+  
+This package has support to manage MIDI data structures, MIDI file I/O and MIDI playing.  
+  
 #### imr.util  
   
 This package offers some utility classes like some kind of buffers and a so useful iArray class to deal with  
 1, 2, and 3-dimensional arrays for any atomic type.  
   
-The examples folder has a lot of examples to know whow to use the classes offered by this Java code library, we encourage you to run them.  
-there are also an API documentation.  
+The examples folder has a lot of examples to know how to use the classes offered by this Java code library, we encourage you to run them.  
+there are also an API documentation compressed in a doc.zip archive.  
 This piece of code is devoted to my loved assistant dog Inuit, he passed away on 12/08/2025 ( day/month/year ).  
 Hope that you enjoy and appreciate this work made for free.  
+  
+Latest revision: 10/01/2026 ( day/month/year )  
   
