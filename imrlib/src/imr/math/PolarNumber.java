@@ -297,7 +297,9 @@ return div(this, p);
 */
 public static PolarNumber add(PolarNumber p1, PolarNumber p2)
 {
-return p1.toComplex().add(p2.toComplex()).toPolar();
+float mag = p1.getMagnitude() + p2.getMagnitude();
+float phase = p1.getArgument();
+return new PolarNumber(mag, phase);
 }
 
 /**
@@ -312,7 +314,9 @@ return p1.toComplex().add(p2.toComplex()).toPolar();
 */
 public static PolarNumber sub(PolarNumber p1, PolarNumber p2)
 {
-return p1.toComplex().sub(p2.toComplex()).toPolar();
+float mag = p1.getMagnitude() - p2.getMagnitude();
+float phase = p1.getArgument();
+return new PolarNumber(mag, phase);
 }
 
 /**
