@@ -282,6 +282,63 @@ public PolarNumber div(PolarNumber p)
 return div(this, p);
 }
 
+/**
+* Computes the square of this polar number.
+* <p>
+* @return this * this
+*/
+public PolarNumber square()
+{
+return square(this);
+}
+
+/**
+* Raises this polar number to the power passed as parameter.
+* <p>
+* @param n
+* An integer value as power.
+* <p>
+* @return this^n
+*
+*/
+public PolarNumber pow(int n)
+{
+return pow(this, n);
+}
+
+/**
+* Computes the square root of this polar number.
+* <p>
+* @return sqrt(this)
+*/
+public PolarNumber sqrt()
+{
+return ithrt(this, 2);
+}
+
+/**
+* computes the cubic root of this polar number.
+* <p>
+* @return cubic root of this polar number.
+*/
+public PolarNumber curt()
+{
+return ithrt(this, 3);
+}
+
+/**
+* Computes the ith root of this polar number.
+* <p>
+* @param n
+* An integer value greater than zero as radix.
+* <p>
+* @return ith root of this polar number.
+*/
+public PolarNumber ithrt(int n)
+{
+return ithrt(this, n);
+}
+
 
 // Static methods
 
@@ -297,7 +354,7 @@ return div(this, p);
 */
 public static PolarNumber add(PolarNumber p1, PolarNumber p2)
 {
-return p1.toComplex().add(p2.toComplex()).toPolar();
+	return p1.toComplex().add(p2.toComplex()).toPolar();
 }
 
 /**
@@ -312,7 +369,7 @@ return p1.toComplex().add(p2.toComplex()).toPolar();
 */
 public static PolarNumber sub(PolarNumber p1, PolarNumber p2)
 {
-return p1.toComplex().sub(p2.toComplex()).toPolar();
+	return p1.toComplex().sub(p2.toComplex()).toPolar();
 }
 
 /**
@@ -347,6 +404,110 @@ public static PolarNumber div(PolarNumber p1, PolarNumber p2)
 	float mag = p1.getMagnitude() / p2.getMagnitude();
 	float phase = p1.getArgument() - p2.getArgument();
 return new PolarNumber(mag, phase);
+}
+
+/**
+* Computes the square of the polar number passed as parameter.
+* <p>
+* @param p
+* A polar number object.
+* <p>
+* @return p * p
+*/
+public static PolarNumber square(PolarNumber p)
+{
+return p.mul(p);
+}
+
+/**
+* Raises the polar number passed as first parameter to the power value passed as second parameter.
+* <p>
+* @param p
+* A polar number object.
+* <p>
+* @param n
+* an integer value as a power.
+* <p>
+* @return p^n
+*
+*/
+public static PolarNumber pow(PolarNumber p, int n)
+{
+double w = (double)n * (double)p.getArgument();
+float r = (float)(Math.pow((double)p.getMagnitude(), (double)n));
+float real = r* (float)Math.cos(w);
+float imag = r * (float)Math.sin(w);
+return (new ComplexNumber(real, imag)).toPolar();
+}
+
+/**
+* Computes the square root of the polar number passed as parameter.
+* <p>
+* @param p
+* A polar number object.
+* <p>
+* @return sqrt(p)
+*/
+public static PolarNumber sqrt(PolarNumber p)
+{
+return ithrt(p, 2);
+}
+
+/**
+* Computes the cubic root of the polar number passed as parameter.
+* <p>
+* @param p
+* A polar number object.
+* <p>
+* @return cubic root of the polar passed as parameter.
+*/
+public static PolarNumber curt(PolarNumber p)
+{
+return ithrt(p, 3);
+}
+
+/**
+* Computes the ith root of the polar number passed as first parameter according to the radix passed as second parameter.
+* <p>
+* @param p
+* A polar number object.
+* <p>
+* @param n
+* An integer value greater than zero as radix.
+* <p>
+* @return ith root of the polar number related to the radix passed as second parameter.
+*/
+public static PolarNumber ithrt(PolarNumber p, int n)
+{
+assert(n > 0): "PolarNumber.ithrt: Bad parameter.";
+double w = (double)p.getArgument() / (double)n;
+float r = (float)(Math.pow((double)p.getMagnitude(), 1.0/(double)n));
+float real = r* (float)Math.cos(w);
+float imag = r * (float)Math.sin(w);
+return (new ComplexNumber(real, imag)).toPolar();
+}
+
+/**
+* Prints an array of polar numbers to the console.
+* <p>
+* @param parray
+* An array of polar numbers.
+*
+*/
+public static void print(PolarNumber[] parray)
+{
+if(parray == null || parray.length == 0)
+{
+System.out.println("[]");
+return;
+}
+System.out.print("[");
+for(int i = 0; i < parray.length; i++)
+{
+	if(i > 0) System.out.print(", ");
+	System.out.print(parray[i]);
+}
+System.out.println("]");
 }
 
 /**
