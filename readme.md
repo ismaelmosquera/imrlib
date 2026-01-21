@@ -19,6 +19,8 @@ This is a Java implementation as a library having the following packages:
 > - imr.util  
 >  
   
+where IMR stands for Ismael Mosquera Rivera.  
+  
 Following, a brief explanation about the functionallity offered for each package  
   
 #### imr.math  
@@ -26,7 +28,7 @@ This package has useful classes to do some math computation, like complex number
   
 #### imr.matrix  
 This package has to do with linear algebra.  
-Here, you can find classes to perform the most common operations with matrices and vectors,  
+Here, you can find classes to perform the most common operations applied to matrices and vectors,  
 and solve NxN linear equations systems.  
 The techniques used are as follows:  
 >  
