@@ -511,6 +511,100 @@ System.out.println("]");
 }
 
 /**
+* Loads a polar number array from a file.
+* <p>
+* File format:
+* <p>
+* #size ( array size ) <p>
+* n0 d0 <p>
+* n1 d1 <p>
+* .. <p>
+* ni di <p>
+* where i = size-1
+* <p>
+* @param filename
+* A file from to load the polar number array.
+* <p>
+* @return loaded polar number array.
+*
+*/
+public static PolarNumber[] loadPolarArray(String filename)
+{
+	PolarNumber[] out = null;
+Scanner in = null;
+try
+{
+	in = new Scanner(new BufferedReader(new FileReader(filename)));
+	in.useLocale(Locale.US);
+	int n = in.nextInt();
+	out = new PolarNumber[n];
+	float mag = 0.0f;
+	float phase = 0.0f;
+	for(int i = 0; i < n; i++)
+	{
+		mag = in.nextFloat();
+		phase = in.nextFloat();
+		out[i] = new PolarNumber(mag, phase);
+	}
+}
+catch(FileNotFoundException e)
+{
+	System.err.printf("PolarNumber FileNotFoundException: %s file not found.%n",filename);
+}
+finally
+{
+		if(in != null) in.close();
+}
+return out;
+}
+
+/**
+* Stores a polar number array to a file.
+* <p>
+* File format:
+* <p>
+* #size ( array size ) <p>
+* n0 d0 <p>
+* n1 d1 <p>
+* .. <p>
+* ni di <p>
+* where i = size-1
+* <p>
+* @param parray
+* A polar number array to be stored.
+* <p>
+* @param filename
+* A file to store the polar number array.
+*
+*/
+public static void storePolarArray(PolarNumber[] parray, String filename)
+{
+PrintWriter out = null;
+try
+{
+	out = new PrintWriter(filename);
+	float mag = 0.0f;
+	float phase = 0.0f;
+	int n = parray.length;
+	out.println(n);
+	for(int i = 0; i < n; i++)
+	{
+	mag = parray[i].getMagnitude();
+	phase = parray[i].getArgument();
+		out.println(mag+" "+phase);
+	}
+}
+catch(IOException e)
+{
+	System.err.println("PolarNumber IOException: "+e);
+}
+finally
+{
+		if(out != null) out.close();
+}
+}
+
+/**
 * Converts this polar number to complex.
 * <p>
 * @return converted complex from this polar.

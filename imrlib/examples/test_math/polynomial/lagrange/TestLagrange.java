@@ -40,12 +40,8 @@ public class TestLagrange
 {
 public static void main(String[] args)
 {
-// 3 points set.
-Point2D[] p = new Point2D[3];
-p[0] = new Point2D(-2.0f, 0.0f);
-p[1] = new Point2D(0.0f, 1.0f);
-p[2] = new Point2D(2.0f, 0.0f);
-
+// load point set.
+Point2D[] p = Point2D.loadPoint2DArray("pointset.dat");
 System.out.println("Points to pass through:");
 Point2D.print(p);
 
@@ -73,6 +69,10 @@ for(int i = 4; i < 7; i++) points[i+2] = new Point2D(x[i], y[i]);
 
 System.out.println("All points:");
 Point2D.print(points);
+
+// Save a result to a file.
+Point2D.storePoint2DArray(points, "result.dat");
+System.out.println("Output points saved to bin/result.dat file.");
 
 System.out.println();
 System.out.println("bye.");

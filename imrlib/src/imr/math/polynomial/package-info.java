@@ -40,6 +40,9 @@
 * <li>Complex.</li>
 * </ul>
 * <p>
+* The <code>CharacteristicPolynomial</code> class computes the characteristic polynomial for a NxN ( square ) matrix A. <p>
+* The roots of such a polynomial are the eigen values of A. <p>
+* Once the eigen values are known, you can compute each associated eigen vector solving N homogeneous linear systems. <p>
 * To know more about how to use these classes, see the concrete API documentation and the examples.
 * <p>
 * @author Ismael Mosquera Rivera.

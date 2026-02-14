@@ -37,7 +37,10 @@
 * </ul>
 *
 * <p>
-*
+* Compute the pseudo-inverst of a MxN matrix using SVD. <p>
+* Get the nearest orthogonal matrix using SVD. <p>
+* Recently, some new features were added, like minors computation and its applications. <p>
+* And another way to compute eigen systems using characteristic polynomial and much more. <p>
 * @author Ismael Mosquera Rivera
 *
 */

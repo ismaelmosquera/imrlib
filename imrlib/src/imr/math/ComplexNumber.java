@@ -326,6 +326,19 @@ return new ComplexNumber(_real, -_imag);
 }
 
 /**
+* Evaluates whether the complex number passed as parameter is conjugated related to this one. <p>
+* @param c
+* An instance for a complex number.
+* <p>
+* @return true if its conjugated or false otherwise.
+*
+*/
+public boolean isConjugated(ComplexNumber c)
+{
+return (_real==c.getReal() && _imag==(-c.getImag()));
+}
+
+/**
 * Gets the reciprocal of this complex number.
 *
 * @return reciprocal complex number
@@ -518,7 +531,7 @@ return new PolarNumber(this.magnitude(), this.argument());
 }
 
 /**
-** Gets a <code>ComplexNumber</code> array built from a floating number point vector.
+* Gets a <code>ComplexNumber</code> array built from a floating number point vector.
 * This method is so useful, mainly, to prepare a signal chunk to compute its FFT.
 * It ensures that the returned array of complex numbers will be a power of 2.
 * It performs zero padding if necessary.
@@ -571,6 +584,100 @@ for(int i = 0; i < n; i++)
 	System.out.print(z[i]);
 }
 System.out.println("]");
+}
+
+/**
+* Loads a complex number array from a file.
+* <p>
+* File format:
+* <p>
+* #size ( array size ) <p>
+* n0 d0 <p>
+* n1 d1 <p>
+* .. <p>
+* ni di <p>
+* where i = size-1
+* <p>
+* @param filename
+* A file from to load the complex number array.
+* <p>
+* @return loaded complex number array.
+*
+*/
+public static ComplexNumber[] loadComplexArray(String filename)
+{
+	ComplexNumber[] out = null;
+Scanner in = null;
+try
+{
+	in = new Scanner(new BufferedReader(new FileReader(filename)));
+	in.useLocale(Locale.US);
+	int n = in.nextInt();
+	out = new ComplexNumber[n];
+	float real = 0.0f;
+	float imag = 0.0f;
+	for(int i = 0; i < n; i++)
+	{
+		real = in.nextFloat();
+		imag = in.nextFloat();
+		out[i] = new ComplexNumber(real, imag);
+	}
+}
+catch(FileNotFoundException e)
+{
+	System.err.printf("ComplexNumber FileNotFoundException: %s file not found.%n",filename);
+}
+finally
+{
+		if(in != null) in.close();
+}
+return out;
+}
+
+/**
+* Stores a complex number array to a file.
+* <p>
+* File format:
+* <p>
+* #size ( array size ) <p>
+* n0 d0 <p>
+* n1 d1 <p>
+* .. <p>
+* ni di <p>
+* where i = size-1
+* <p>
+* @param carray
+* A complex number array to be stored.
+* <p>
+* @param filename
+* A file to store the complex number array.
+*
+*/
+public static void storeComplexArray(ComplexNumber[] carray, String filename)
+{
+PrintWriter out = null;
+try
+{
+	out = new PrintWriter(filename);
+	float real = 0.0f;
+	float imag = 0.0f;
+	int n = carray.length;
+	out.println(n);
+	for(int i = 0; i < n; i++)
+	{
+	real = carray[i].getReal();
+	imag = carray[i].getImag();
+		out.println(real+" "+imag);
+	}
+}
+catch(IOException e)
+{
+	System.err.println("ComplexNumber IOException: "+e);
+}
+finally
+{
+		if(out != null) out.close();
+}
 }
 
 /**

@@ -273,6 +273,47 @@ System.out.println("where m and n are rows(M) and columsn(M), so");
 System.out.println("M * pM^-1 = I:");
 Matrix.mul(m, pM).print();
 System.out.println();
+System.out.println("Minors:");
+System.out.println("Here, we present a few functionallity with minors.");
+m.load("mcoef.dat");
+System.out.println("A:");
+m.print();
+System.out.println();
+System.out.println("Print all principal minor submatrices:");
+for(int i = 0; i < m.rows(); i++)
+{
+m.firstMinorMatrix(i).print();
+System.out.println();
+}
+System.out.println("Compute inverse matrix using Cramer's method;");
+System.out.println("such a method uses cofactors builded from minors.");
+System.out.println("A:");
+m.print();
+System.out.println();
+pM = m.invertMatrix();
+System.out.println("A^-1");
+pM.print();
+System.out.println();
+System.out.println("A * A^-1 = I");
+m.mul(pM).print();
+System.out.println();
+System.out.println("Compute the determinant using cofactors:");
+System.out.println("A:");
+m.print();
+System.out.println();
+System.out.println("det(A) = " + m.determinant());
+System.out.println();
+
+System.out.println("alternative way to compute the eigen system of a square real matrix.");
+System.out.println("This method uses characteristic polynomial roots computation.");
+System.out.println();
+m.load("mcoef.dat");
+System.out.println("A:");
+m.print();
+System.out.println();
+System.out.println("Eigen system:");
+Eigen.print(EigenFinder.eigenSystemFinder(m));
+
 System.out.println("bye.");
 	}
 }

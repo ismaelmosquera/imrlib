@@ -30,6 +30,7 @@ package imr.util;
 
 import imr.math.ComplexNumber;
 import imr.math.PolarNumber;
+import imr.math.RationalNumber;
 
 /**
 * This class has static methods suitable to do some conversions.
@@ -233,6 +234,70 @@ ComplexNumber[] out = new ComplexNumber[size];
 for(int i = 0; i < size; i++)
 {
 out[i] = new ComplexNumber(p[i], 0.0f);
+}
+return out;
+}
+
+/**
+* Converts a rational number array to a float array.
+* <p>
+* @param q
+* A rational number array.
+* <p>
+* @return A float array builded from the rational passed as parameter.
+*
+/
+*/
+public static float[] toFloatArray(RationalNumber[] q)
+{
+if(q == null || q.length == 0) return null;
+int n = q.length;
+float[] out = new float[n];
+for(int i = 0; i < n; i++)
+{
+out[i] = q[i].value();
+}
+return out;
+}
+
+/**
+* Converts the polar number array passed as parameter to a complex number array.
+* <p>
+* @param p
+* A polar number array.
+* <p>
+* @return a complex number array builded from the polar one passed as parameter.
+*
+*/
+public static ComplexNumber[] toComplexArray(PolarNumber[] p)
+{
+if(p == null || p.length == 0) return null;
+int n = p.length;
+ComplexNumber[] out = new ComplexNumber[n];
+for(int i = 0; i < n; i++)
+{
+	out[i] = p[i].toComplex();
+}
+return out;
+}
+
+/**
+* Converts the complex number array passed as parameter to a polar number array.
+* <p>
+* @param c
+* A complex number array.
+* <p>
+* @return A polar number array builded from the complex one passed as parameter.
+*
+*/
+public static PolarNumber[] toPolarArray(ComplexNumber[] c)
+{
+if(c == null || c.length == 0) return null;
+int n = c.length;
+PolarNumber[] out = new PolarNumber[n];
+for(int i = 0; i < n; i++)
+{
+out[i] = c[i].toPolar();
 }
 return out;
 }

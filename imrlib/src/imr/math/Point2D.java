@@ -192,7 +192,7 @@ _y = in.nextFloat();
 }
 catch(FileNotFoundException e)
 {
-	System.err.printf("ComplexNumber FileNotFoundException: %s file not found.%n",filename);
+	System.err.printf("Point2D FileNotFoundException: %s file not found.%n",filename);
 }
 finally
 {
@@ -227,7 +227,7 @@ try
 }
 catch(IOException e)
 {
-	System.err.println("ComplexNumber IOException: "+e);
+	System.err.println("Point2D IOException: "+e);
 }
 finally
 {
@@ -319,6 +319,101 @@ public static Point2D scale(Point2D p, float factor)
 {
 return new Point2D(p.getX()*factor, p.getY()*factor);
 }
+
+/**
+* Loads a Point2D array from a file.
+* <p>
+* File format:
+* <p>
+* #size ( array size ) <p>
+* n0 d0 <p>
+* n1 d1 <p>
+* .. <p>
+* ni di <p>
+* where i = size-1
+* <p>
+* @param filename
+* A file from to load the Point2D array.
+* <p>
+* @return loaded Point2D array.
+*
+*/
+public static Point2D[] loadPoint2DArray(String filename)
+{
+	Point2D[] out = null;
+Scanner in = null;
+try
+{
+	in = new Scanner(new BufferedReader(new FileReader(filename)));
+	in.useLocale(Locale.US);
+	int n = in.nextInt();
+	out = new Point2D[n];
+	float x = 0.0f;
+	float y = 0.0f;
+	for(int i = 0; i < n; i++)
+	{
+		x = in.nextFloat();
+		y = in.nextFloat();
+		out[i] = new Point2D(x, y);
+	}
+}
+catch(FileNotFoundException e)
+{
+	System.err.printf("Point2D FileNotFoundException: %s file not found.%n",filename);
+}
+finally
+{
+		if(in != null) in.close();
+}
+return out;
+}
+
+/**
+* Stores a Point2D array to a file.
+* <p>
+* File format:
+* <p>
+* #size ( array size ) <p>
+* n0 d0 <p>
+* n1 d1 <p>
+* .. <p>
+* ni di <p>
+* where i = size-1
+* <p>
+* @param parray
+* A Point2D array to be stored.
+* <p>
+* @param filename
+* A file to store the Point2D array.
+*
+*/
+public static void storePoint2DArray(Point2D[] parray, String filename)
+{
+PrintWriter out = null;
+try
+{
+	out = new PrintWriter(filename);
+	float x = 0.0f;
+	float y = 0.0f;
+	int n = parray.length;
+	out.println(n);
+	for(int i = 0; i < n; i++)
+	{
+	x = parray[i].getX();
+	y = parray[i].getY();
+		out.println(x+" "+y);
+	}
+}
+catch(IOException e)
+{
+	System.err.println("Point2D IOException: "+e);
+}
+finally
+{
+		if(out != null) out.close();
+}
+}
+
 
 // Overrided methods from Object.
 

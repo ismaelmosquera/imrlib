@@ -27,6 +27,7 @@
 
 import imr.util.Convert;
 import imr.math.ComplexNumber;
+import imr.math.RationalNumber;
 import imr.math.polynomial.Polynomial;
 
 
@@ -39,13 +40,13 @@ import imr.math.polynomial.Polynomial;
 * - Complex.
 *
 * We coded examples for first and second degree polynomials with integer coefficients,
-* third degree polynomials of real coefficients,
+* third degree polynomials of rational ( included in real ) coefficients,
 * 4th degree polynomials with complex coefficients.
 *
 * Anyway, the Polynomial class has overloaded methods to compute roots for first, second, third and 4th degree
 * for any type of numeric coefficient.
 *
-* @author Ismael Mosquera rivera.
+* Author: Ismael Mosquera rivera.
 *
 */
 public class TestRoots
@@ -98,8 +99,9 @@ System.out.println("root = " + rt + ", result = " + c0.add(c1).add(c2));
 System.out.println();
 
 System.out.println("Cubic:");
-float[] pr = {1.5f, -0.3f, 3.4f, 2.12f}; // 2.12x^3 + 3.4x^2 -0.3x + 1.5 = 0
-System.out.print("Pr = "); Polynomial.print(pr);
+RationalNumber[] q = RationalNumber.loadRationalArray("p3rational.dat");
+float[] pr = Convert.toFloatArray(q); // 2/1x^3 + 3/2x^2 0/1x - 4/3 = 0
+System.out.print("Pr = "); RationalNumber.print(q);
 roots = Polynomial.roots(pr);
 System.out.print("roots = "); Polynomial.print(roots);
 pz = Convert.toComplexArray(pr);
@@ -116,12 +118,7 @@ System.out.println("root = " + rt + ", result = " + c0.add(c1).add(c2).add(c3));
 System.out.println();
 
 System.out.println("Quartic:");
-pz = new ComplexNumber[5]; // c4x^4 + c3x^3 + c2x^2 + c1x + c0 = 0
-pz[0] = new ComplexNumber(2.0f, 1.0f);
-pz[1] = new ComplexNumber(4.5f, -1.3f);
-pz[2] = new ComplexNumber(-3.06f, -2.25f);
-pz[3] = new ComplexNumber(0.7f, 0.9f);
-pz[4] = new ComplexNumber(1.8f, 9.2f);
+pz = ComplexNumber.loadComplexArray("p4complex.dat"); // c4x^4 + c3x^3 + c2x^2 + c1x + c0 = 0
 System.out.print("Pz = "); Polynomial.print(pz);
 roots = Polynomial.roots(pz);
 System.out.print("roots = "); Polynomial.print(roots);
@@ -136,6 +133,8 @@ c3 = pz[3].mul(rt.pow(3));
 c4 = pz[4].mul(rt.pow(4));
 System.out.println("root = " + rt + ", result = " + c0.add(c1).add(c2).add(c3).add(c4));
 }
+ComplexNumber.storeComplexArray(roots, "p4roots.dat");
+System.out.println("Complex roots saved to bin/p4roots.dat");
 
 System.out.println();
 System.out.println("bye.");

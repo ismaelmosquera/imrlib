@@ -371,18 +371,13 @@ return s;
 
 /**
 * Transposes a matrix. A = A^T.
+* <p>
+* @return Transposed matrix.
+*
 */
-public void transpose()
+public Matrix transpose()
 {
-	Matrix m = (Matrix)clone();
-	resize(cols,rows);
-	for(int i=0;i<rows;i++)
-	{
-		for(int j=0;j<cols;j++)
-		{
-			matrix[i][j] = m.get(j,i);
-		}
-	}
+	return transpose(this);
 }
 
 /**
@@ -905,6 +900,329 @@ return Math.sqrt(sum);
 }
 
 
+// Compute minors
+
+/**
+* Gets the kth-qth minor of this matrix.
+* <p>
+* @param k
+* An integer value for the kth index.
+* <p>
+* @param q
+* An integer value for the qth index.
+* <p>
+* @return kth-qth minor or NaN if the operation cannot be done.
+*
+*/
+public double minor(int k, int q)
+{
+	Matrix m = this.minorMatrix(k, q);
+	return (m == null) ? Double.NaN : m.det();
+}
+
+/**
+* Static method to get the kth-qth minor of a square matrix.
+* <p>
+* @param m
+* A square matrix.
+* <p>
+* @param k
+* An integer value for the kth index.
+* <p>
+* @param q
+* An integer value for the qth index.
+* <p>
+* @return kth-qth minor of the matrix passed as parameter or NaN if the operation cannot be done.
+*
+*/
+public static double minor(Matrix m, int k, int q)
+{
+Matrix _m = minorMatrix(m, k, q);
+return (_m == null) ? Double.NaN : _m.det();
+}
+
+/**
+* Gets the kth-qth minor matrix of this matrix ( this matrix must be square ).
+* <p>
+* @param k
+* An integer value for the kth index.
+* <p>
+* @param q
+* An integer value for the qth index.
+* <p>
+* @return kth-qth minor matrix or null if the operation cannot be done.
+*
+*/
+public Matrix minorMatrix(int k, int q)
+{
+return minorMatrix(this, k, q);
+}
+
+/**
+* Static method to get the kth-qth minor matrix of a square matrix.
+* <p>
+* @param m
+* A square matrix.
+* <p>
+* @param k
+* An integer value for the kth index.
+* <p>
+* @param q
+* An integer value for the qth index.
+* <p>
+* @return kth-qth minor matrix of the matrix passed as parameter or null if the operation cannot be done.
+*
+*/
+public static Matrix minorMatrix(Matrix m, int k, int q)
+{
+if(m == null) return null;
+int r = m.rows();
+int c = m.columns();
+if(r != c) return null; // m must be square
+if(k < 0 || k > r-1) return null; // k is out of range
+if(q < 0 || q > r-1) return null; // q is out of range
+int order = r;
+if(order < 2) return null; // order must be >= 2
+Matrix minor = new Matrix(order-1, order-1); // create minor matrix
+int ai, aj, j;
+int n = order;
+for(int t=0;t<n;t++)
+{
+ai=0;
+for(int i=0;i<n;i++)
+{
+aj=0;
+for(j=0;j<n;j++)
+if(i != k && j!= q)
+{
+minor.set(ai,aj,m.get(i,j));
+aj++;
+}
+if(i != k && j != q) ai++;
+}
+}
+return minor;
+}
+
+/**
+* Gets the kth first minor of this matrix ( this matrix must be square ).
+* <p>
+* @param k
+* An integer value for the kth index.
+* <p>
+* @return kth first minor or NaN if the operation cannot be done.
+*
+*/
+public double firstMinor(int k)
+{
+Matrix m = firstMinorMatrix(this, k);
+return (m == null) ? Double.NaN : m.det();
+}
+
+/**
+* Static method to get the kth first minor of a square matrix.
+* <p>
+* @param m
+* A square matrix.
+* <p>
+* @param k
+* An integer value for the kth index.
+* <p>
+* @return kth first minor of the matrix passed as parameter or NaN if the operation cannot be done.
+*
+*/
+public static double firstMinor(Matrix m, int k)
+{
+Matrix _m = firstMinorMatrix(m, k);
+return (_m == null) ? Double.NaN : _m.det();
+}
+
+/**
+* Gets the kth first minor matrix of this matrix ( this matrix must be square ).
+* <p>
+* @param k
+* An integer value for the kth index.
+* <p>
+* @return kth first minor matrix or null if the operation cannot be done.
+*
+*/
+public Matrix firstMinorMatrix(int k)
+{
+return firstMinorMatrix(this, k);
+}
+
+/**
+* Static method to get the kth first minor matrix of a square matrix.
+* <p>
+* @param m
+* A square matrix.
+* <p>
+* @param k
+* An integer value for the kth index.
+* <p>
+* @return kth first minor matrix of the matrix passed as parameter or null if the operation cannot be done.
+*
+*/
+public static Matrix firstMinorMatrix(Matrix m, int k)
+{
+return minorMatrix(m, k, k);
+}
+
+
+// Compute cofactor matrix using minors
+
+/**
+* Method to compute the cofactor matrix for this matrix ( the matrix must be square ).
+* <p>
+* @return cofactor matrix or null if the operation cannot be done.
+*
+*/
+public Matrix cofactorMatrix()
+{
+	return cofactorMatrix(this);
+}
+
+/**
+* Static method to compute the cofactor matrix for the square matrix passed as parameter.
+* <p>
+* @param m
+* A square matrix.
+* <p>
+* @return cofactor matrix or null if the operation cannot be done.
+*
+*/
+public static Matrix cofactorMatrix(Matrix m)
+{
+if(m == null) return null;
+int n = m.rows();
+if(n != m.columns()) return null; // m must be square
+Matrix out = new Matrix(n, n);
+double sign;
+for(int i = 0; i < n; i++)
+{
+for(int j = 0; j < n; j++)
+{
+	sign = (((i+j)%2) == 0) ? 1.0 : -1.0;
+	out.set(i, j, sign*m.minor(i, j));
+}
+}
+return out;
+}
+
+
+// Compute inverse matrix using cofactors
+
+/**
+* Method to invert this matrix using cofactors ( this matrix must be square ).
+* <p>
+* @return inverse matrix or null if the operation cannot be done.
+*
+*/
+public Matrix invertMatrix()
+{
+	return invertMatrix(this);
+}
+
+/**
+* Static method to compute the inverse of a square matrix using cofactors .
+* <p>
+* @param m
+* A square matrix.
+* @return inverse matrix or null if the operation cannot be done.
+*
+*/
+public static Matrix invertMatrix(Matrix m)
+{
+if(m == null) return null;
+if(m.rows() != m.columns()) return null; // m must be square
+double d = m.det();
+if(Math.abs(d) < __THRESHOLD__) return null; // det(m) is too close to zero.
+double t = 1.0/d;
+Matrix _m = m.cofactorMatrix();
+return _m.transpose().scale(t);
+}
+
+/**
+* Computes the determinant of this matrix using cofactors.
+* <p>
+* Since there is already a method named 'det' to compute determinants in another way, <p>
+* we decided call this one 'determinant' <p>
+* @return determinant of this matrix, or NaN if the operation cannot be done.
+*
+*/
+public double determinant()
+{
+return determinant(this);
+}
+
+/**
+* This static method computes the determinant of the matrix passed as parameter using cofactors.
+* <p>
+* Since there is already a method named 'det' to compute determinants in another way, <p>
+* we decided call this one 'determinant' <p>
+* @param m
+* A square matrix.
+* <p>
+* @return determinant of the matrix passed as parameter or NaN if the operation cannot be done.
+*
+*/
+public static double determinant(Matrix m)
+{
+if(m == null) return Double.NaN;
+if(m.rows() != m.columns()) return Double.NaN; // m must be square
+double sign = 1.0;
+double d = 0.0;
+int n = m.rows(); // order of m
+for(int j = 0; j < n; j++)
+{
+	d += sign * m.minor(0, j) * m.get(0, j);
+	sign *= -1.0;
+}
+return d;
+}
+
+/**
+* Evaluates for symmetry.
+* <p>
+* @return true if this matrix is symmetrical or false otherwise.
+*
+*/
+public boolean isSymmetrical()
+{
+return isSymmetrical(this);
+}
+
+/**
+* Evaluates for symmetry.
+* <p>
+* @param m
+* A square matrix.
+* <p>
+* @return true if the matrix passed as parameter is symmetrical or false otherwise.
+*
+*/
+public static boolean isSymmetrical(Matrix m)
+{
+if(m == null) return false;
+int n = m.rows();
+if(n != m.columns()) return false; // m must be square
+boolean retval = true;
+for(int i = 0; i < n; i++)
+{
+for(int j = i+1; j < n; j++)
+{
+	if(m.get(i, j) != m.get(j, i))
+	{
+		retval = false;
+		break;
+	}
+}
+}
+return retval;
+}
+
+
+// Computes the determinant recursively
 private double det(Matrix m,int n)
 {
 double d=0.0,sign=1.0;
@@ -951,7 +1269,10 @@ matrix = null;
 
 private int rows;
 private int cols;
+
 private double[][] matrix;
+
+private static final double __THRESHOLD__ = 1E-6;
 }
 
 // END

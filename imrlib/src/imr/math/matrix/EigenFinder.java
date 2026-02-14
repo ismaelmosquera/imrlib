@@ -28,7 +28,11 @@
 
 package imr.math.matrix;
 
+import imr.util.Convert;
+import imr.math.ComplexNumber;
 import imr.math.RandomNumberGenerator;
+import imr.math.polynomial.Polynomial;
+import imr.math.polynomial.CharacteristicPolynomial;
 
 /**
 * The <code>EigenFinder</code> class implements static methods to find eigenvalues and eigenvectors.
@@ -51,6 +55,7 @@ public final class EigenFinder
 */
 public static Eigen findMaxEigen(Matrix m)
 {
+	if(m == null) return null;
 if(m.rows() != m.columns()) return null; // m must be square
 double value = 0.0;
 double x, ant, lim;
@@ -100,6 +105,7 @@ return new Eigen(value, eigenvector);
 */
 public static Eigen[] findEigenSystem(Matrix m)
 {
+	if(m == null) return null;
 if(m.rows() != m.columns()) return null; // m must be square
 double param;
 int n = m.rows();
@@ -130,6 +136,47 @@ upper = upper_triangular(Matrix.sub(m, aux));
 param = 1.0 / (double)RandomNumberGenerator.generate(1, 10);
 v.set(n-1, param);
 eigensys[i] = new Eigen(lambda.get(i, i), upper_system_solver(upper, v));
+}
+return eigensys;
+}
+
+/**
+* Static method to compute the eigen system of a NxN ( square ) real matrix. <p>
+* This method finds the characteristic polynomial of A. <p>
+* The roots of such a polynomial are the eigen values of A. <p>
+* Once the eigen values are known, you can compute each associated eigen vector by solving N homogenious linear systems of equations. <p>
+* @param m
+* A square real matrix.
+* <p>
+* @return The eigensystem of the matrix passed as parameter.
+*
+*/
+public static Eigen[] eigenSystemFinder(Matrix m)
+{
+if(m == null) return null;
+if(m.rows() != m.columns()) return null; // m must be square
+double param;
+int n = m.rows();
+Matrix upper = null;
+Eigen[] eigensys = new Eigen[n];
+/* Compute eigenvalues */
+float[] p = CharacteristicPolynomial.compute(m);
+ComplexNumber[] roots = Polynomial.roots(p);
+// eigenvalues are listed in the diagonal of lambda
+float[] lambda = Convert.toFloatArray(roots);
+Matrix aux = new Matrix(n, n);
+	Vector v = new Vector(n);
+/* compute eigenvectors and build eigensystem */
+for(int i = 0; i < n; i++)
+{
+	for(int j = 0; j < n; j++)
+	{
+		aux.set(j, j, (double)lambda[i]);
+}
+upper = upper_triangular(Matrix.sub(m, aux));
+param = 1.0 / (double)RandomNumberGenerator.generate(1, 10);
+v.set(n-1, param);
+eigensys[i] = new Eigen((double)lambda[i], upper_system_solver(upper, v));
 }
 return eigensys;
 }
