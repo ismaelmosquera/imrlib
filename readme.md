@@ -39,7 +39,7 @@ The techniques used are as follows:
 >  
   
 Where numerical analysis skills are used to implement the concrete algorithms.  
-You can also find eigen values and its associated eigen-vectors by using the Power method or the QR algorithm.  
+You can also find eigen values and its associated eigen-vectors by using the Power method the QR algorithm or computing roots for the characteristic polynomial.  
 The package has support to perform SVD ( Singular Value Decomposition ), and several applications related to it.  
   
 #### imr.math.polynomial  
@@ -49,6 +49,7 @@ Here you can know how to do polynomial Lagrange interpolation, compute Ruffini's
 > - Arithmetic.  
 > - Derivation and integration.  
 > - Roots finding.  
+> - Compute Characteristic polynomial for square real matrices.  
 >  
 
   
@@ -120,5 +121,5 @@ there are also an API documentation compressed in a doc.zip archive.
 This piece of code is devoted to my loved assistant dog Inuit, he passed away on 12/08/2025 ( day/month/year ).  
 Hope that you enjoy and appreciate this work made for free.  
   
-Latest revision: 10/01/2026 ( day/month/year )  
+Latest revision: 15/02/2026 ( day/month/year )  
   
