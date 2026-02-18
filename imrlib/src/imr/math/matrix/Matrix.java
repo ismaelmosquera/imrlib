@@ -1221,6 +1221,100 @@ for(int j = i+1; j < n; j++)
 return retval;
 }
 
+/**
+* Computes the rank of this matrix. <p>
+* @return rank of this matrix or -1 if the operation cannot be done.
+*
+*/
+public int rank()
+{
+return rank(this);
+}
+
+/**
+* This static method computes the rank of the matrix passed as parameter. <p>
+* @param m
+* A matrix object instance.
+* <p>
+* @return rank of the matrix passed as parameter or -1 if the operation cannot be done.
+*
+*/
+public static int rank(Matrix m)
+{
+if(m == null) return -1;
+Matrix u = (m.rows() > m.columns()) ? m.transpose() : (Matrix)m.clone();
+// gaussian elimination with pivoting
+int row, i, j, k;
+double pivot, elim, tmp;
+i = 0;
+ while(i < u.rows())
+ {
+	 /* find pivot */
+  pivot = Math.abs(u.get(i, i));
+  row = i;
+  for(k = i+1; k < u.rows(); k++)
+   {
+   if(Math.abs(u.get(k, 0)) > pivot)
+   {
+    pivot = Math.abs(u.get(k,0));
+    row = k;
+   }
+}
+   if(i != row) /* swap rows if necessary */
+  {
+    for(j = 0; j < u.columns(); j++)
+    {
+     tmp = u.get(i, j);
+     u.set(i, j, u.get(row, j));
+     u.set(row, j, tmp);
+}
+}
+  for(j = i+1; j < u.rows(); j++)
+  {
+	  /* find zeros */
+   elim = -(u.get(j, i)) / u.get(i, i);
+   for(k = 0; k < u.columns(); k++)
+   {
+    u.set(j,k, u.get(j, k) + elim * u.get(i, k));
+}
+   }
+ i++;
+}
+// Compute rank ( number of pibots different than zero)
+int rank = 0;
+double q = 0.0;
+for(i = 0; i < u.rows(); i++)
+{
+	q = Math.abs(u.get(i, i));
+	if(q >__THRESHOLD__ && q != Double.NaN) rank++;
+}
+return rank;
+}
+
+/**
+* Evaluates if this matrix is fully rank. <p>
+* @return true if fully rank or false otherwise.
+*
+*/
+public boolean isFullyRank()
+{
+return isFullyRank(this);
+}
+
+/**
+* Evaluates if the matrix passed as parameter is fully rank. <p>
+* @param m
+* A matrix object instance.
+* <p>
+* @return true if fully rank or false otherwise.
+*/
+public static boolean isFullyRank(Matrix m)
+{
+	if(m == null) return false;
+	int k = m.rank();
+	return (k == Math.min(m.rows(), m.columns()));
+}
+
 
 // Computes the determinant recursively
 private double det(Matrix m,int n)
