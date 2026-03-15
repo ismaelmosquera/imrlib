@@ -3,5 +3,5 @@
 #
 cls
 cd bin
-java -classpath .:../../../../lib/imr-lib.jar iEnergyPlot 
+java -ea -classpath .:../../../../lib/imr-lib.jar iEnergyPlot 
 cd ..

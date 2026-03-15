@@ -290,7 +290,7 @@ return s;
 }
 
 /**
-* Performs addition a += b
+* Performs addition a + b
 * @param v vector to add.
 * <p>
 * @return this + v
@@ -302,10 +302,10 @@ return add(this, v);
 }
 
 /**
-* Performs substraction a -= b
+* Performs substraction a - b
 * @param v vector to substract.
 * <p>
-* @return this + v
+* @return this - v
 *
 */
 public Vector sub(Vector v)
@@ -452,6 +452,66 @@ for(int i=0;i<out.size();i++)
 return out;
 }
 
+/**
+* Gets a row matrix from this vector. <p>
+* @return A row matrix builded from this vector.
+*
+*/
+public Matrix toRowMatrix()
+{
+return toRowMatrix(this);
+}
+
+/**
+* Statuc method to get a row matrix from the vector passed as parameter. <p>
+* @param v
+* A vector object.
+* <p>
+* @return A row matrix builded from v.
+*
+*/
+public static Matrix toRowMatrix(Vector v)
+{
+	if(v == null) return null;
+	int n = v.size();
+	Matrix m = new Matrix(1, n);
+	for(int j = 0; j < n; j++)
+	{
+	m.set(0, j, v.get(j));
+	}
+	return m;
+}
+
+/**
+* Gets a column matrix from this vector.
+* <p>
+* @return A column matrix builded from this vector.
+*
+*/
+public Matrix toColumnMatrix()
+{
+return toColumnMatrix(this);
+}
+
+/**
+* Static method to get a column matrix from a vector. <p>
+* @param v
+* A vector object.
+* <p>
+* @return A column matrix builded from a vector.
+*
+*/
+public static Matrix toColumnMatrix(Vector v)
+{
+if(v == null) return null;
+int n = v.size();
+Matrix m = new Matrix(n, 1);
+for(int i = 0; i < n; i++)
+{
+	m.set(i, 0, v.get(i));
+}
+return m;
+}
 
 
 {

@@ -314,6 +314,23 @@ System.out.println();
 System.out.println("Eigen system:");
 Eigen.print(EigenFinder.eigenSystemFinder(m));
 
+System.out.println("Matrix Diagonalization:");
+m.load("m3.dat");
+System.out.println("A:");
+m.print();
+System.out.println();
+MatrixDiagonalization diag = new MatrixDiagonalization();
+diag.decompose(m);
+diag.print();
+System.out.println("det(A) = " + diag.det());
+System.out.println();
+System.out.println("P^-1AP = D");
+Matrix.mul(Matrix.mul(diag.getPt(), m), diag.getP()).print();
+System.out.println();
+System.out.println("Thus: A = PDP^-1");
+diag.getP().mul(diag.getD()).mul(diag.getPt()).print();
+System.out.println();
+
 System.out.println("bye.");
 	}
 }

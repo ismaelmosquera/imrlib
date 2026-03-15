@@ -29,12 +29,15 @@
 
 package imr.math.polynomial;
 
+import imr.math.ComplexNumber;
 import imr.math.matrix.Matrix;
+import imr.math.matrix.complex.ComplexMatrix;
 
 /**
-* The <code>CharacteristicPolynomial</code> class finds the characteristic polynomial of a NxN ( square ) real matrix A. <p>
+* The <code>CharacteristicPolynomial</code> class finds the characteristic polynomial for a NxN ( square ) real or complex matrix A. <p>
 * The roots of such a polynomial are the eigen values of A. <p>
 * Once the eigen values are known, you can compute each associated eigen vector solving N homogeneous linear systems of equations.
+* This class uses the Faddeevn-Leverrier algorithm in order to compute the characteristic polynomial coefficients both for real and complex square matrices. <p>
 * @see imr.math.matrix.EigenFinder
 * @author Ismael Mosquera Rivera.
 *
@@ -78,6 +81,42 @@ for(int k = 2; (n-k) > 0; k++)
 return out;
 }
 
+/**
+* Static method to compute the characteristic polynomial of a square complex matrix. <p>
+* @param m
+* A square complex matrix.
+* <p>
+* @return Characteristic polynomial of A as a complex number vector, or null if the operation cannot be done.
+*
+*/
+public static ComplexNumber[] compute(ComplexMatrix m)
+{
+	if(m == null) return null;
+	if(m.rows() != m.columns()) return null; // m must be square
+	int size = m.rows()+1;
+	if(size < 3) return null; // order of m must be at least 2
+	ComplexNumber[] out = new ComplexNumber[size];
+out[0] = m.scale(new ComplexNumber(-1.0f, 0.0f)).det();
+out[size-2] = m.trace().scale(-1.0f);
+out[size-1] = new ComplexNumber(1.0f, 0.0f);
+if(size == 3) return out;
+int n = size-1; // order of the matrix
+int p, q;
+ComplexNumber t = null;
+for(int k = 2; (n-k) > 0; k++)
+{
+	p = n;
+	q = k;
+	t = new ComplexNumber(0.0f, 0.0f);
+	while(q > 0)
+	{
+		t = t.add(out[p--].mul(pow(m, q--).trace()));
+	}
+	out[n-k] = t.scale(-1.0f/(float)k);
+}
+return out;
+}
+
 
 // Helper function to compute matrix powers
 private static Matrix pow(Matrix m, int n)
@@ -90,6 +129,19 @@ _m = _m.mul(m);
 }
 return _m;
 }
+
+// Private helper method to compute complex matrix powers
+private static ComplexMatrix pow(ComplexMatrix m, int n)
+{
+	ComplexMatrix _m = (ComplexMatrix)m.clone();
+if(n == 1) return _m;
+for(int i = 1; i < n; i++)
+{
+_m = _m.mul(m);
+}
+return _m;
+}
+
 
 // Private constructor so that this class cannot be instantiated.
 private CharacteristicPolynomial() {}

@@ -3,5 +3,5 @@
 #
 cls
 cd bin
-java -classpath .:../../../../ext/mp3plugin.jar:../../../../lib/imr-lib.jar iAudioPlot 
+java -ea -classpath .:../../../../ext/mp3plugin.jar:../../../../lib/imr-lib.jar iAudioPlot 
 cd ..

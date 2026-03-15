@@ -29,13 +29,14 @@ import imr.math.matrix.Matrix;
 import imr.math.ComplexNumber;
 import imr.math.polynomial.Polynomial;
 import imr.math.polynomial.CharacteristicPolynomial;
+import imr.math.matrix.complex.ComplexMatrix;
 
 import java.text.NumberFormat;
 import java.util.Locale;
 
 /*
 * This example demonstrates the CharacteristicPolynomial class.
-* Such a class computes the characteristic polynomial of a square real matrix.
+* Such a class computes the characteristic polynomial of a square real or complex matrix.
 * In this example, we compute the characteristic polynomial, then we find its roots.
 * The roots of the characteristic polynomial are, actually, the eigen values of the matrix.
 * Afterwards, we demonstrate that those roots are eigen values of the matrix.
@@ -53,6 +54,7 @@ public static void main(String[] args)
 
 	System.out.println("Characteristic Polynomial");
 	System.out.println();
+System.out.println("Real Matrix:");
 System.out.println("A:");
 	Matrix m = new Matrix("mcoef.dat");
 m.print();
@@ -85,7 +87,48 @@ a = m.sub(lambdaI);
 a.print();
 System.out.println();
 System.out.println("det(A') = " + formatter.format(a.det()));
+}
 System.out.println();
+
+System.out.println("Complex Matrix:");
+System.out.println("A:");
+ComplexMatrix cm = new ComplexMatrix("m.dat");
+cm.print();
+System.out.println();
+
+ComplexNumber[] pz = CharacteristicPolynomial.compute(cm);
+System.out.print("Pz = "); ComplexNumber.print(pz);
+roots = Polynomial.roots(pz);
+System.out.print("roots = "); ComplexNumber.print(roots);
+System.out.println("Evaluate roots:");
+ComplexNumber crt = null;
+ComplexNumber c0 = null;
+ComplexNumber c1 = null;
+ComplexNumber c2 = null;
+ComplexNumber c3 = null;
+for(int i = 0; i < roots.length; i++)
+{
+crt = roots[i];
+c0 = pz[0];
+c1 = pz[1].mul(crt);
+c2 = pz[2].mul(crt.square());
+c3 = pz[3].mul(crt.pow(3));
+System.out.println("root = " + crt + ", result = " + c0.add(c1).add(c2).add(c3));
+}
+System.out.println();
+
+ComplexMatrix clambdaI = null;
+ComplexMatrix ca = null;
+System.out.println("Evaluate eigen values, det(A-lambdaI) = 0");
+for(int i = 0; i < roots.length; i++)
+{
+clambdaI = ComplexMatrix.identity(roots.length).scale(roots[i]);
+System.out.println("lambda = " + roots[i] + " ( ith eigen value ).");
+System.out.println("A' = A-lambdaI:");
+ca = cm.sub(clambdaI);
+ca.print();
+System.out.println();
+System.out.println("det(A') = " + ca.det());
 }
 
 System.out.println();

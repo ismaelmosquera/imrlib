@@ -1,5 +1,5 @@
 @echo off
 cls
 cd bin
-java -cp .;..\..\..\..\lib\imr-lib.jar iEnergyPlot 
+java -ea -cp .;..\..\..\..\lib\imr-lib.jar iEnergyPlot 
 cd..

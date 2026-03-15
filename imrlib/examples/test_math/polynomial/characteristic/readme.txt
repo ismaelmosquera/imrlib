@@ -1,5 +1,5 @@
 Example to use the CharacteristicPolynomial class.
-That class implements the algorithm to compute the characteristic polynomial of a square real matrix.
+That class implements the algorithm to compute the characteristic polynomial of a square real or complex matrix.
 The roots of such a polynomial are the eigen values of the matrix.
 
 Building the example:

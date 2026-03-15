@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021-2022 Ismael Mosquera Rivera
+ * Copyright (c) 2021-2026 Ismael Mosquera Rivera
  *
  *
  * This program is free software; you can redistribute it and/or modify
@@ -1184,12 +1184,12 @@ return d;
 /**
 * Evaluates for symmetry.
 * <p>
-* @return true if this matrix is symmetrical or false otherwise.
+* @return true if this matrix is symmetric or false otherwise.
 *
 */
-public boolean isSymmetrical()
+public boolean isSymmetric()
 {
-return isSymmetrical(this);
+return isSymmetric(this);
 }
 
 /**
@@ -1198,10 +1198,10 @@ return isSymmetrical(this);
 * @param m
 * A square matrix.
 * <p>
-* @return true if the matrix passed as parameter is symmetrical or false otherwise.
+* @return true if the matrix passed as parameter is symmetric or false otherwise.
 *
 */
-public static boolean isSymmetrical(Matrix m)
+public static boolean isSymmetric(Matrix m)
 {
 if(m == null) return false;
 int n = m.rows();
@@ -1315,6 +1315,80 @@ public static boolean isFullyRank(Matrix m)
 	return (k == Math.min(m.rows(), m.columns()));
 }
 
+/**
+* Raises this matrix to the integer power passed as parameter. <p>
+* The power to raise can be negative, positive or zero.
+* @param k
+* An integer value ( power to raise ).
+* <p>
+* @return this matrix raised to the k power or null if the operation cannot be done.
+*
+*/
+public Matrix pow(int k)
+{
+return pow(this, k);
+}
+
+/**
+* Static method to raise a square matrix to an integer power. <p>
+* The power to raise the matrix can be negative, positive or zero. <p>
+* @param m
+* A square matrix object.
+* <p>
+* @param k
+* An integer value ( power to raise ).
+* <p>
+* @return matrix raised to k power or null if the operation cannot be done.
+*
+*/
+public static Matrix pow(Matrix m, int k)
+{
+if(m == null) return null;
+if(m.rows() != m.columns()) return null; // m must be square
+if(k == 0) return Matrix.identity(m.rows());
+Matrix _m = (Matrix)m.clone();
+int q = Math.abs(k);
+for(int j = 1; j < q; j++)
+{
+_m = _m.mul(m);
+}
+return (k < 0) ? _m.inverse() : _m;
+}
+
+/**
+* Divides this matrix by the one passed as parameter. <p>
+* Both matrices must be square and have the same order. <p>
+* @param m
+* A square matrix.
+* <p>
+* @return this / B or null if the operation cannot be done.
+*
+*/
+public Matrix div(Matrix m)
+{
+return div(this, m);
+}
+
+/**
+*Static method to perform square matrix division. <p>
+* Both matrices must have the same order. <p>
+* @param m1
+* A square matrix object.
+* <p>
+* @param m2
+* A square matrix object.
+* <p>
+* @return A / Bor null if the operation cannot be done.
+*
+*/
+public static Matrix div(Matrix m1, Matrix m2)
+{
+if(m1 == null || m2 == null) return null;
+if(m1.rows() != m1.columns() || m2.rows() != m2.columns()) return null;
+if(m1.rows() != m2.rows()) return null;
+if(Math.abs(m2.det()) < __THRESHOLD__) return null; // det m2 is too close to zero.
+return m1.mul(m2.inverse());
+}
 
 // Computes the determinant recursively
 private double det(Matrix m,int n)

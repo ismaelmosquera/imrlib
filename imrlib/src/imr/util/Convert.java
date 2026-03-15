@@ -31,6 +31,10 @@ package imr.util;
 import imr.math.ComplexNumber;
 import imr.math.PolarNumber;
 import imr.math.RationalNumber;
+import imr.math.matrix.Matrix;
+import imr.math.matrix.complex.ComplexMatrix;
+import imr.math.matrix.Vector;
+import imr.math.matrix.complex.ComplexVector;
 
 /**
 * This class has static methods suitable to do some conversions.
@@ -39,6 +43,7 @@ import imr.math.RationalNumber;
 * <li>Array type conversions.</li>
 * <li>Radians to degrees and degrees conversion.</li>
 * <li>Complex to Polar and Polar to complex conversion.</li>
+* <li> ... </li>
 * </ul>
 *
 * We decided to centralize this functions in order to avoid code redundant.
@@ -298,6 +303,96 @@ PolarNumber[] out = new PolarNumber[n];
 for(int i = 0; i < n; i++)
 {
 out[i] = c[i].toPolar();
+}
+return out;
+}
+
+/**
+* Static method to convert a real matrix to a complex matrix. <p>
+* @param m
+* A real matrix object.
+* <p>
+* @return A complex matrix builded from the real matrix passed as parameter.
+*
+*/
+public static ComplexMatrix toComplexMatrix(Matrix m)
+{
+if(m == null) return null;
+int r = m.rows();
+int c = m.columns();
+ComplexMatrix cmat = new ComplexMatrix(r, c);
+for(int i = 0; i < r; i++)
+{
+	for(int j = 0; j < c; j++)
+	{
+		cmat.set(i, j, new ComplexNumber((float)m.get(i, j), 0.0f));
+	}
+}
+return cmat;
+}
+
+/**
+* Static method to convert a complex matrix to a real matrix. <p>
+* Take in account that you can lose information related to imaginary part. <p>
+* @param m
+* A complex matrix object.
+* <p>
+* @return A real matrix builded from the complex matrix passed as parameter.
+*
+*/
+public static Matrix toRealMatrix(ComplexMatrix m)
+{
+if(m == null) return null;
+int r = m.rows();
+int c = m.columns();
+Matrix out = new Matrix(r, c);
+for(int i = 0; i < r; i++)
+{
+	for(int j = 0; j < c; j++)
+	{
+		out.set(i, j, (double)m.get(i, j).getReal());
+	}
+}
+return out;
+}
+
+/**
+* Static method to conver real vectors to complex vectors. <p>
+* @param v
+* A real vector object.
+* <p>
+* @return Converted complex vector or null if the operation cannot be done.
+*
+*/
+public static ComplexVector toComplexVector(Vector v)
+{
+	if(v == null) return null;
+	int n = v.size();
+	ComplexVector out = new ComplexVector(n);
+	for(int i = 0; i < n; i++)
+	{
+	out.set(i, new ComplexNumber((float)v.get(i), 0.0f));
+	}
+	return out;
+}
+
+/**
+* Static method to convert a complex vector to a real vector. <p>
+* @param v
+* A complex vector object.
+* <p>
+* Take in account that using such a conversion, you could lose the information about the imaginary part in the content of the complex vector. <p>
+* @return Converted real vector or null if the operation cannot be done.
+*
+*/
+public static Vector toRealVector(ComplexVector v)
+{
+if(v == null) return null;
+int n = v.size();
+Vector out = new Vector(n);
+for(int i = 0; i < n; i++)
+{
+out.set(i, (double)v.get(i).getReal());
 }
 return out;
 }

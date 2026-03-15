@@ -384,6 +384,35 @@ public ComplexNumber tan()
 }
 
 /**
+* Computes the arctangent of this complex number. <p>
+* @return arctanget of this complex number.
+*
+*/
+public ComplexNumber atan()
+{
+	if(this.magnitude() < __THRESHOLD__) return new ComplexNumber(0.0f, 0.0f);
+ComplexNumber i = new ComplexNumber(0.0f, 1.0f);
+return i.scale(1.0f/2.0f).mul(i.add(this).div(i.sub(this)).log());
+}
+
+/**
+* Static method to compute the arctanget for two parameters. <p>
+* @param z1
+* A complex number object.
+* <p>
+* @param z2
+* A complex number object.
+* <p>
+* @return atan2(z1, z2)
+*
+*/
+public static ComplexNumber atan2(ComplexNumber z1, ComplexNumber z2)
+{
+if(z2.magnitude() < __THRESHOLD__ || z1.magnitude() < __THRESHOLD__) return new ComplexNumber(0.0f, 0.0f);
+return z1.div(z2).atan();
+}
+
+/**
 * Gets the exponential of this complex number.
 *
 * @return exponential complex number
@@ -764,7 +793,7 @@ public String toString()
 NumberFormat formatter = NumberFormat.getNumberInstance(Locale.US);
 	formatter.setMinimumFractionDigits(2);
 	formatter.setMaximumFractionDigits(2);
-String s = "( "+formatter.format(_real)+", "+formatter.format(_imag)+"i )";
+String s = "("+formatter.format(_real)+", "+formatter.format(_imag)+"i)";
 return s;
 }
 
@@ -798,10 +827,22 @@ return out;
 }
 
 
+static
+{
+NaN = new ComplexNumber(Float.NaN, Float.NaN);
+}
+
 
 private float _real;
 private float _imag;
 
+/**
+* ComplexNumber NaN ( Not a Number ) constant.
+*
+*/
+public static final ComplexNumber NaN;
+
+private static final float __THRESHOLD__ = 1E-6f;
 }
 
 // END
