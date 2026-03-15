@@ -6,6 +6,7 @@ This is a Java implementation as a library having the following packages:
 >  
 > - imr.math  
 > - imr.math.matrix  
+> - imr.math.matrix.complex  
 > - imr.math.polynomial  
 > - imr.plot  
 > - imr.sigslot  
@@ -41,6 +42,11 @@ The techniques used are as follows:
 Where numerical analysis skills are used to implement the concrete algorithms.  
 You can also find eigen values and its associated eigen-vectors by using the Power method the QR algorithm or computing roots for the characteristic polynomial.  
 The package has support to perform SVD ( Singular Value Decomposition ), and several applications related to it.  
+  
+#### imr.math.matrix.complex  
+  
+This package has almost the same functionallity offered by the package imr.math.matrix,  
+but this time dealing with complex number coefficient matrices and vectors.  
   
 #### imr.math.polynomial  
   
@@ -103,7 +109,7 @@ This package has functionallity to generate audio waves ( Saw, sine, Square, Tri
 several kind of modulation ( Amplitude, Frequency, Ring ), random noise signals and so on.  
 There is support to spectral synthesis too.  
   
-#### imr.sound.window  
+#### imr.sound.audio.window  
   
 Here you can generate some kind of useful windows to do analysis, synthesis, and filtering.  
   
@@ -121,5 +127,5 @@ there are also an API documentation compressed in a doc.zip archive.
 This piece of code is devoted to my loved assistant dog Inuit, he passed away on 12/08/2025 ( day/month/year ).  
 Hope that you enjoy and appreciate this work made for free.  
   
-Latest revision: 18/02/2026 ( day/month/year )  
+Latest revision: 15/03/2026 ( day/month/year )  
   
