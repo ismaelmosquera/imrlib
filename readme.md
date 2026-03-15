@@ -55,7 +55,7 @@ Here you can know how to do polynomial Lagrange interpolation, compute Ruffini's
 > - Arithmetic.  
 > - Derivation and integration.  
 > - Roots finding.  
-> - Compute Characteristic polynomial for square real matrices.  
+> - Compute Characteristic polynomial for square real and complex matrices.  
 >  
 
   
@@ -123,7 +123,7 @@ This package offers some utility classes like some kind of buffers and a so usef
 1, 2, and 3-dimensional arrays for any atomic type.  
   
 The examples folder has a lot of examples to know how to use the classes offered by this Java code library, we encourage you to run them.  
-there are also an API documentation compressed in a doc.zip archive.  
+there is also an API documentation compressed in a doc.zip archive.  
 This piece of code is devoted to my loved assistant dog Inuit, he passed away on 12/08/2025 ( day/month/year ).  
 Hope that you enjoy and appreciate this work made for free.  
   
