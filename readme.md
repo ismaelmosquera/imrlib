@@ -8,6 +8,7 @@ This is a Java implementation as a library having the following packages:
 > - imr.math.matrix  
 > - imr.math.matrix.complex  
 > - imr.math.polynomial  
+> - imr.math.polynomial.division  
 > - imr.plot  
 > - imr.sigslot  
 > - imr.sound  
@@ -42,6 +43,7 @@ The techniques used are as follows:
 Where numerical analysis skills are used to implement the concrete algorithms.  
 You can also find eigen values and its associated eigen-vectors by using the Power method the QR algorithm or computing roots for the characteristic polynomial.  
 The package has support to perform SVD ( Singular Value Decomposition ), and several applications related to it.  
+There are support to perform matrix diagonalization.  
   
 #### imr.math.matrix.complex  
   
@@ -56,6 +58,7 @@ Here you can know how to do polynomial Lagrange interpolation, compute Ruffini's
 > - Derivation and integration.  
 > - Roots finding.  
 > - Compute Characteristic polynomial for square real and complex matrices.  
+> - Cyclotomic polynomial computation for Pn(X) where n is a natural number, that is: n greater 0.  
 >  
 
   
@@ -65,6 +68,19 @@ All of them are available for any type of numeric coefficient:
 > - Real.  
 > - Complex.  
 >  
+  
+#### imr.math.polynomial.division  
+  
+This subpackage has been created to have all about polynomial division ( except for the Ruffini's rule  )  
+There are classes to perform polynomial division for any numerical type:  
+>  
+> - Integer.  
+> - Rational.  
+> - Real.  
+> - Complex.  
+>  
+  
+Integer polynomial division is computed by converting an integer polynomial into a real one, and then apply float polynomial division.  
   
 #### imr.plot  
   
@@ -122,10 +138,11 @@ This package has support to manage MIDI data structures, MIDI file I/O and MIDI 
 This package offers some utility classes like some kind of buffers and a so useful iArray class to deal with  
 1, 2, and 3-dimensional arrays for any atomic type.  
   
+The programming interface is so intuitive and easy to use.  
 The examples folder has a lot of examples to know how to use the classes offered by this Java code library, we encourage you to run them.  
 there is also an API documentation compressed in a doc.zip archive.  
 This piece of code is devoted to my loved assistant dog Inuit, he passed away on 12/08/2025 ( day/month/year ).  
 Hope that you enjoy and appreciate this work made for free.  
   
-Latest revision: 15/03/2026 ( day/month/year )  
+Latest revision: 19/04/2026 ( day/month/year )  
   
