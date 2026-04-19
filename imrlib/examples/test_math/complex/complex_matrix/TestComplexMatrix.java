@@ -49,6 +49,37 @@ public class TestComplexMatrix
 {
 public static void main(String[] args)
 {
+
+	// begin
+	ComplexMatrix hm = new ComplexMatrix("hm.dat");
+	System.out.println("A:");
+	hm.print();
+	System.out.println();
+	ComplexLU lu5 = new ComplexLU();
+	lu5.decompose(hm);
+	lu5.print();
+	ComplexQR qr5 = new ComplexQR();
+	qr5.decompose(hm);
+	qr5.print();
+	System.out.println("qr det = " + qr5.det());
+	System.out.println("det = " + hm.det());
+	System.out.println();
+System.out.println("A = QR");
+qr5.getQ().mul(qr5.getR()).print();
+ComplexMatrixDiagonalization diag5 = new ComplexMatrixDiagonalization();
+hm.load("cmcoef.dat");
+diag5.decompose(hm);
+diag5.print();
+System.out.println("P^-1AP = D");
+diag5.getPt().mul(hm).mul(diag5.getP()).print();
+System.out.println();
+System.out.println("thus A = PDP^-1");
+diag5.getP().mul(diag5.getD()).mul(diag5.getPt()).print();
+System.out.println();
+System.out.println();
+	// end
+
+
 	ComplexMatrix csys = new ComplexMatrix("cmsystem.dat");
 ComplexMatrix cm = new ComplexMatrix("cmcoef.dat");
 ComplexVector cv = new ComplexVector("cvcoef.dat");

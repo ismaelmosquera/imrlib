@@ -331,6 +331,26 @@ return reduce(this);
 }
 
 /**
+* Gets the absolute value of this rational. <p>
+* @return Absolute value of this rational.
+*
+*/
+public RationalNumber abs()
+{
+return abs(this);
+}
+
+/**
+* Evaluates the sign of this rational. <p>
+* @return true if signed or false otherwise.
+*
+*/
+public boolean signed()
+{
+return signed(this);
+}
+
+/**
 * Gets the floating-point value related to this rational number.
 * <p>
 * @return a/b
@@ -478,10 +498,37 @@ return new RationalNumber(num, den);
 */
 public static RationalNumber reduce(RationalNumber q)
 {
+	if(Math.abs(q.getNumerator()) == 0) return (RationalNumber)q.clone();
 int a = q.getNumerator();
 int b = q.getDenominator();
 int d = GCD.compute(a, b);
 return new RationalNumber(a/d, b/d);
+}
+
+/**
+* Static method to compute the absolute value for the rational passed as parameter. <p>
+* @param q
+* A rational number object.
+* <p>
+* @return Absolute value of hthe rational passed as parameter.
+*
+*/
+public static RationalNumber abs(RationalNumber q)
+{
+return new RationalNumber(Math.abs(q.getNumerator()), Math.abs(q.getDenominator()));
+}
+
+/**
+* Static method to evaluate whether the rational number passed as parameter is signed. <p>
+* @param q
+* A rational number object.
+* <p>
+* @return true if signed or false otherwise.
+*
+*/
+public static boolean signed(RationalNumber q)
+{
+return (sign(q.getNumerator()) != sign(q.getDenominator()));
 }
 
 /**
@@ -510,6 +557,25 @@ return (float)q.getNumerator() / (float)q.getDenominator();
 public static boolean isProper(RationalNumber q)
 {
 	return (q.getNumerator() <= q.getDenominator());
+}
+
+/**
+* Static method to reduce an entire array of rationals. <p>
+* @param qarray
+* An array of rationals.
+* <p>
+* @return Reduced array.
+*
+*/
+public static RationalNumber[] reduce(RationalNumber[] qarray)
+{
+	RationalNumber[] out = new RationalNumber[qarray.length];
+	int i = 0;
+	for(RationalNumber q : qarray)
+	{
+	out[i++] = q.reduce();
+	}
+	return out;
 }
 
 /**
@@ -672,6 +738,14 @@ public String toString()
 String s = "";
 s += _numerator + "/" + _denominator;
 return s;
+}
+
+
+
+// Private method to get the sign of an integer.
+private static int sign(int n)
+{
+return (n < 0) ? -1 : 1;
 }
 
 

@@ -133,6 +133,7 @@ for(int i = 0; i < n; i++)
 	eigensys[i] = new ComplexEigen(values.get(i, i), SysHelper.upperTriangularSystemSolver(SysHelper.setHomogeneousSystem(SysHelper.gaussianElimination(m.sub(lambda), false))));
 
 }
+arrange(eigensys);
 return eigensys;
 }
 
@@ -166,6 +167,7 @@ for(int i = 0; i < n; i++)
 	lambda = ComplexMatrix.identity(n).scale(values[i]);
 eigensys[i] = new ComplexEigen(values[i], SysHelper.upperTriangularSystemSolver(SysHelper.setHomogeneousSystem(SysHelper.gaussianElimination(m.sub(lambda), false))));
 }
+arrange(eigensys);
 return eigensys;
 }
 
@@ -178,6 +180,24 @@ for(int i = 0; i < m.rows(); i++)
 	if(m.get(i, i).magnitude() != 1.0f) return false;
 }
 return true;
+}
+
+// Sort eigens from bigger to smaller ( descending order )
+private static void arrange(ComplexEigen[] eigens)
+{
+	ComplexEigen tmp = null;
+for(int i=0; i < eigens.length-1; i++)
+{
+for(int j=i+1; j < eigens.length; j++)
+{
+if(eigens[i].value().magnitude() < eigens[j].value().magnitude())
+{
+tmp = eigens[i];
+eigens[i] = eigens[j];
+eigens[j] = tmp;
+}
+}
+}
 }
 
 

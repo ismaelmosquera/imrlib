@@ -58,7 +58,7 @@ int d;
 int r;
 int _a = Math.abs(a);
 int _b = Math.abs(b);
-
+if(_a==0 || _b==0) return 1;
 if(_a < _b)
 {
 	int tmp = _a;
@@ -78,7 +78,6 @@ while(true)
 	_b = r;
 }
 return d;
-
 }
 
 

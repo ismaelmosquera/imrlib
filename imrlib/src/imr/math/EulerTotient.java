@@ -29,8 +29,6 @@
 
 package imr.math;
 
-import imr.util.iArray;
-
 /**
 * This class implements the Euler's totient function.
 * <p>
@@ -55,66 +53,39 @@ public class EulerTotient
 /**
 * This static method computes the Euler's totient function.
 * <p>
-* It returns an integer vector with all coprimes respect to the parameter, and its value is the length of that array.
-* <p>
-* That is, if 'a' is an array of integer values then:
-* <p>
-* a = phi(n); a has the coprime values and its value is a.length
-* <p>
 * @param n
 * A positive integer value greater than zero.
 * <p>
-* @return an array with the list of coprimes respect to n.
+* @return Euler's Totient value for the parameter 'n'.
 *
 */
-public static int[] phi(int n)
+public static int phi(int n)
 {
-	if(n == 1)
-	{
-		int[] out = new int[1];
-		out[0] = 1;
-		return out;
-	}
 	assert(n > 0): "EulerTotient.phi: Bad parameter.";
-int[] phin = new int[n];
+	if(n == 1) return 1;
 int counter = 0;
 for(int i = 1; i <= n; i++)
 {
-if(GCD.compute(i, n) == 1) phin[counter++] = i;
+if(GCD.compute(i, n) == 1) counter++;
 }
-phin = (int[])iArray.resize(phin, counter);
-return phin;
+return counter;
 }
 
 /**
 * This static method computes the Euler's cototient function.
 * <p>
-* It returns an integer vector with the values not prime respect to the parameter, and its value is the length of that array.
-* <p>
-* Notice that since phi(1) = 1, and cophi(n) = n - phi(n) then:
-* <p>
-* cophi(1) = 1 - phi(1) = 1 - 1 = 0
-* <p>
-* So, take in account that for cophi(1) this method returns an empty array ( length = 0 ).
+* cophi(n) = n - phi(n)
 * <p>
 * @param n
 * A positive integer greater than zero.
 * <p>
-* @return an integer array with the values not prime respect to 'n'.
+* @return euler's co-Totient value for the parameter 'n'.
 *
 */
-public static int[] cophi(int n)
+public static int cophi(int n)
 {
-	if(n == 1) return new int[0];
-assert(n > 0): "EulerTotient.cophi: Bad parameter.";
-int[] cophin = new int[n];
-int counter = 0;
-for(int i = 1; i <= n; i++)
-{
-if(GCD.compute(i, n) != 1) cophin[counter++] = i;
-}
-cophin = (int[])iArray.resize(cophin, counter);
-return cophin;
+	assert(n > 0): "EulerTotient.cophi: Bad parameter.";
+return n - phi(n);
 }
 
 /**
@@ -138,16 +109,72 @@ return cophin;
 */
 public static boolean isPerfect(int n)
 {
+	assert(n > 0): "EulerTotient.isPerfect: Bad parameter.";
 if(n == 1) return true;
-assert(n > 0): "EulerTotient.isPerfect: Bad parameter.";
-int d = phi(n).length;
+int d = phi(n);
 int sum = d;
 while(d > 1)
 {
-	d = phi(d).length;
+	d = phi(d);
 	sum += d;
 }
 return (sum == n) ? true : false;
+}
+
+/**
+* Static method to compute the coprimes vector for the natural number passed as parameter. <p>
+* Notice that the length of such a vector is, actually, the Totient value of 'n'. <p>
+* @param n
+* An integer number greater than 0.
+* <p>
+* @return coprimes vector respect to the parameter.
+*
+*/
+public static int[] coprimes(int n)
+{
+assert(n > 0): "EulerTotient.coprimes: Bad parameter.";
+	int[] out = null;
+	if(n == 1)
+	{
+	out = new int[1];
+	out[0] = 1;
+	return out;
+	}
+	out = new int[phi(n)];
+int counter = 0;
+for(int i = 1; i <= n; i++)
+{
+if(GCD.compute(i, n) == 1) out[counter++] = i;
+}
+return out;
+}
+
+/**
+* Static method to compute the nocoprimes for the natural number passed as parameter. <p>
+* Notice that the length of such a vector equals the cophi ( co-Totient ) value of the parameter. <p>
+* So, if cophi(n) = 0 ( cophi(1) = n - phi(1) = 1 - 1 = 0 ), this method returns an empty array. <p>
+* @param n
+* An integer value greater than 0.
+* <p>
+* @return vector of divisors for the 'n' parameter.
+*
+*/
+public static int[] nocoprimes(int n)
+{
+assert(n > 0): "EulerTotient.divisors: Bad parameter.";
+	int[] out = null;
+	if(n == 1)
+	{
+	out = new int[0];
+	return out;
+	}
+	out = new int[cophi(n)];
+int counter = 0;
+for(int i = 1; i <= n; i++)
+{
+if(GCD.compute(i, n) != 1) out[counter++] = i;
+}
+return out;
 }
 
 

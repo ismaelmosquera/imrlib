@@ -141,6 +141,7 @@ public class InputReader
    }
   }
 
+// Private constructor so that this class cannot be instantiated.
 private InputReader(){}
 
 }

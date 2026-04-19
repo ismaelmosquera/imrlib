@@ -577,6 +577,16 @@ public ComplexMatrix pow(int n)
 return pow(this, n);
 }
 
+/**
+* Computes the conjugated of this complex matrix. <p>
+* @return comjugated matrix or null if the operation cannot be done.
+*
+*/
+public ComplexMatrix conjugated()
+{
+return conjugated(this);
+}
+
 
 // Static methods
 
@@ -1126,6 +1136,7 @@ public static boolean isHermitian(ComplexMatrix m)
 if(m == null) return false;
 if(m.rows() != m.columns()) return false; // m must be square
 int n = m.rows();
+for(int i = 0; i < n; i++) if(Math.abs(m.get(i, i).getImag()) > SysHelper.THRESHOLD) return false; // values in the main diagonal must be real
 for(int i = 0; i < n; i++)
 {
 	for(int j = i+1; j < n; j++)
@@ -1247,6 +1258,30 @@ for(int j = 1; j < q; j++)
 _m = _m.mul(m);
 }
 return (k < 0) ? _m.inverse() : _m;
+}
+
+/**
+* Static method to compute the conjugated complex matrix of the one passed as parameter. <p>
+* @param m
+* A complex matrix object.
+* <p>
+* @return conjugated complex matrix or null if the operation cannot be done.
+*
+*/
+public static ComplexMatrix conjugated(ComplexMatrix m)
+{
+if(m == null) return null;
+int r = m.rows();
+int c = m.columns();
+ComplexMatrix out = new ComplexMatrix(r, c);
+for(int i = 0; i < r; i++)
+{
+	for(int j = 0; j < c; j++)
+	{
+		out.set(i, j, m.get(i, j).conjugated());
+	}
+}
+return out;
 }
 
 

@@ -281,6 +281,50 @@ public ComplexNumber div(ComplexNumber c)
 }
 
 /**
+* Negates this complex number. <p>
+* @return negated complex number.
+*
+*/
+public ComplexNumber negate()
+{
+return this.scale(-1.0f);
+}
+
+/**
+* Gets the minimum between the two complex numbers passed as parameter. <p>
+* @param z1
+* A complex number object.
+* <p>
+* @param z2
+* A complex number object.
+* <p>
+* @return min z1, z2 or null if the operation cannot be done.
+*
+*/
+public static ComplexNumber min(ComplexNumber z1, ComplexNumber z2)
+{
+if(z1==null || z2==null) return null;
+return (z1.magnitude() <= z2.magnitude()) ? z1 : z2;
+}
+
+/**
+* Gets the maximum between the two complex numbers passed as parameter. <p>
+* @param z1
+* A complex number object.
+* <p>
+* @param z2
+* A complex number object.
+* <p>
+* @return max z1, z2 or null if the operation cannot be done.
+*
+*/
+public static ComplexNumber max(ComplexNumber z1, ComplexNumber z2)
+{
+if(z1==null || z2==null) return null;
+return (z1.magnitude() >= z2.magnitude()) ? z1 : z2;
+}
+
+/**
 * Scales this complex number by a factor.
 * @param factor Value to scale this complex number.
 *
@@ -370,6 +414,32 @@ public ComplexNumber sin()
 public ComplexNumber cos()
 {
 	return new ComplexNumber((float)(Math.cos(_real)*Math.cosh(_imag)), (float)(-Math.sin(_real)*Math.sinh(_imag)));
+}
+
+/**
+* Computes the arcsine of this complex number. <p>
+* @return arcsine of this complex number.
+*
+*/
+public ComplexNumber asin()
+{
+	ComplexNumber i = new ComplexNumber(0.0f, 1.0f);
+	ComplexNumber one = new ComplexNumber(1.0f, 0.0f);
+ComplexNumber z = i.mul(this).add(one.sub(this.square()).sqrt());
+return i.scale(-1.0f).mul(z.log());
+}
+
+/**
+* Computes the arccosine of this complex number. <p>
+* @return arccosine of this complex number.
+*
+*/
+public ComplexNumber acos()
+{
+ComplexNumber i = new ComplexNumber(0.0f, 1.0f); // imaginary unit
+ComplexNumber one = new ComplexNumber(1.0f, 0.0f); // real unit
+ComplexNumber z = this.add(this.square().sub(one).sqrt());
+return i.mul(z.log());
 }
 
 /**

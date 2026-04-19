@@ -137,6 +137,7 @@ param = 1.0 / (double)RandomNumberGenerator.generate(1, 10);
 v.set(n-1, param);
 eigensys[i] = new Eigen(lambda.get(i, i), upper_system_solver(upper, v));
 }
+arrange(eigensys);
 return eigensys;
 }
 
@@ -178,6 +179,7 @@ param = 1.0 / (double)RandomNumberGenerator.generate(1, 10);
 v.set(n-1, param);
 eigensys[i] = new Eigen((double)lambda[i], upper_system_solver(upper, v));
 }
+arrange(eigensys);
 return eigensys;
 }
 
@@ -257,6 +259,25 @@ private static Vector upper_system_solver(Matrix m, Vector v)
 	}
 	return out;
 }
+
+// Sort eigens from bigger to smaller ( descending order )
+private static void arrange(Eigen[] eigens)
+{
+	Eigen tmp = null;
+for(int i=0; i < eigens.length-1; i++)
+{
+for(int j=i+1; j < eigens.length; j++)
+{
+if(Math.abs(eigens[i].value()) < Math.abs(eigens[j].value()))
+{
+tmp = eigens[i];
+eigens[i] = eigens[j];
+eigens[j] = tmp;
+}
+}
+}
+}
+
 
 // private constructor so that this class cannot be instantiated.
 private EigenFinder() {}

@@ -30,7 +30,11 @@ package imr.math.polynomial;
 
 import imr.util.Convert;
 import imr.util.iArray;
+import imr.math.RationalNumber;
 import imr.math.ComplexNumber;
+
+import java.text.NumberFormat;
+import java.util.Locale;
 
 /**
 * The <code>Polynomial</code> class has static methods to operate with polynomials of any degree.
@@ -48,6 +52,7 @@ import imr.math.ComplexNumber;
 * All the operations are available for any type of coefficient.
 * <ul>
 * <li>Integer.</li>
+* <li>Rational.</li>
 * <li>Real.</li>
 * <li>Complex.</li>
 * </ul>
@@ -60,10 +65,11 @@ import imr.math.ComplexNumber;
 * </ul>
 * equations.
 * <p>
+* In addition, this class has static methods to print formatted polynomials for any kind of coefficients. <p>
 * @author Ismael Mosquera Rivera.
 *
 */
-public class Polynomial
+public final class Polynomial
 {
 // integer coefficient implementation
 
@@ -139,6 +145,180 @@ for(int i = 0; i < n; i++)
 return out;
 }
 
+
+// Static methods to print formatted polynomials
+
+/**
+* Static method to print to the console a formatted polynomial of integer coefficients. <p>
+* @param p
+* A polynomial as an integer array.
+*
+*/
+public static void printFormatted(int[] p)
+{
+	if(p == null)
+	{
+		System.out.println("[]");
+		return;
+	}
+	boolean initial = false;
+StringBuilder sb = new StringBuilder();
+sb.append("[");
+for(int i = p.length-1; i >= 0; i--)
+{
+	if(p[i] != 0 && !initial)
+	{
+		initial = true;
+		if(p[i] < 0) sb.append("-");
+		sb.append(getFormattedTerm(p[i], i));
+	}
+	else
+	{
+if(p[i] != 0)
+{
+	if(p[i] < 0)
+	{
+		sb.append(" - ");
+	}
+	else
+	{
+		sb.append(" + ");
+	}
+	sb.append(getFormattedTerm(p[i], i));
+}
+}
+}
+sb.append("]");
+System.out.println(sb.toString());
+}
+
+/**
+* Static method to print to the console a formatted polynomial of rational coefficients. <p>
+* @param q
+* A polynomial as a rational array.
+*
+*/
+public static void printFormatted(RationalNumber[]q)
+{
+if(q == null)
+	{
+		System.out.println("[]");
+		return;
+	}
+	boolean initial = false;
+StringBuilder sb = new StringBuilder();
+sb.append("[");
+for(int i = q.length-1; i >= 0; i--)
+{
+	if(Math.abs(q[i].value()) > THRESHOLD && !initial)
+	{
+		initial = true;
+		if(q[i].signed()) sb.append("-");
+		sb.append(getFormattedTerm(q[i], i));
+	}
+	else
+	{
+if(Math.abs(q[i].value()) > THRESHOLD)
+{
+	if(q[i].signed())
+	{
+		sb.append(" - ");
+	}
+	else
+	{
+		sb.append(" + ");
+	}
+	sb.append(getFormattedTerm(q[i], i));
+}
+}
+}
+sb.append("]");
+System.out.println(sb.toString());
+}
+
+/**
+* Static method to print to the console a formatted polynomial of real coefficients. <p>
+* @param p
+* A polynomial as a real array.
+*
+*/
+public static void printFormatted(float[] p)
+{
+	if(p == null)
+	{
+		System.out.println("[]");
+		return;
+	}
+boolean initial = false;
+StringBuilder sb = new StringBuilder();
+sb.append("[");
+for(int i = p.length-1; i >= 0; i--)
+{
+	if(Math.abs(p[i]) > THRESHOLD && !initial)
+	{
+		initial = true;
+		if(p[i] < 0.0f) sb.append("-");
+		sb.append(getFormattedTerm(p[i], i));
+	}
+	else
+	{
+if(Math.abs(p[i]) > THRESHOLD)
+{
+	if(p[i] < 0.0f)
+	{
+		sb.append(" - ");
+	}
+	else
+	{
+		sb.append(" + ");
+	}
+	sb.append(getFormattedTerm(p[i], i));
+}
+}
+}
+sb.append("]");
+System.out.println(sb.toString());
+}
+
+/**
+* Static method to print to the console a formatted polynomial of complex coefficients. <p>
+* @param p
+* A polynomial as a complex array.
+*
+*/
+public static void printFormatted(ComplexNumber[] p)
+{
+if(p == null)
+{
+System.out.println("[]");
+return;
+}
+boolean initial = false;
+StringBuilder sb = new StringBuilder();
+sb.append("[");
+for(int i = p.length-1; i >= 0; i--)
+{
+	if(p[i].magnitude() > THRESHOLD && !initial)
+	{
+		initial = true;
+		sb.append(getFormattedTerm(p[i], i));
+	}
+	else
+	{
+if(p[i].magnitude() > THRESHOLD)
+{
+		sb.append(" + ");
+	sb.append(getFormattedTerm(p[i], i));
+}
+}
+}
+sb.append("]");
+System.out.println(sb.toString());
+}
+
+// end methods to print formatted polynomials
+
+
 /**
 * Computes the derivative for the polynomial passed as parameter.
 * <p>
@@ -210,6 +390,191 @@ public static ComplexNumber[] roots(int[] p)
 {
 return roots(Convert.toFloatArray(p));
 }
+
+
+// rational number implementation
+
+/**
+* Static method to add two rational number polynomials. <p>
+* @param q1
+* A rational number array having the coefficients for the first parameter.
+* <p>
+* @param q2
+* A rational number array having the coefficients for the second parameter.
+* <p>
+* @return q1 + q2
+*
+*/
+public static RationalNumber[] add(RationalNumber[] q1, RationalNumber[] q2)
+{
+return addsub(q1, q2, "+");
+}
+
+/**
+* Static method to substract two rational number polynomials. <p>
+* @param q1
+* A rational number array having the coefficients for the first parameter.
+* <p>
+* @param q2
+* A rational number array having the coefficients for the second parameter.
+* <p>
+* @return q1 - q2
+*
+*/
+public static RationalNumber[] sub(RationalNumber[] q1, RationalNumber[] q2)
+{
+return addsub(q1, q2, "-");
+}
+
+/**
+* Static method to multiply 2 rational polynomials.
+* <p>
+* @param rp1
+* A 1-dimensional rational number array representing first polynomial.
+* <p>
+* @param rp2
+* A 1-dimensional rational number array representing second polynomial.
+* <p>
+* @return qp1 * qp2
+*
+*/
+public static RationalNumber[] mul(RationalNumber[] rp1, RationalNumber[] rp2)
+{
+if(rp1 == null || rp2 == null) return null;
+int n = rp2.length;
+int m = (rp1.length + n) - 1;
+RationalNumber[][] table = new RationalNumber[n][m];
+for(int i = 0; i < n; i++)
+{
+	for(int j = 0; j < m; j++)
+	{
+		table[i][j] = new RationalNumber(0, 1);
+	}
+}
+// compute products.
+for(int i = 0; i < n; i++)
+{
+for(int j = 0; j < rp1.length; j++)
+{
+	table[i][j+i] = rp2[i].mul(rp1[j]);
+}
+}
+RationalNumber[] rp = new RationalNumber[m];
+for(int i = 0; i < m; i++) rp[i] = new RationalNumber(0, 1);
+// add products in order to get result.
+for(int j = 0; j < m; j++)
+{
+	for(int i = 0; i < n; i++)
+	{
+		rp[j] = rp[j].add(table[i][j]);
+	}
+}
+return rp;
+}
+
+/**
+* Scales the rational polynomial passed as first parameter by the factor passed as second parameter.
+* <p>
+* @param rp
+* A rational polynomial to be scaled.
+* <p>
+* @param factor
+* Factor to be scaled.
+* <p>
+* @return rp scaled by the factor passed as second parameter.
+*
+*/
+public static RationalNumber[] scale(RationalNumber[] rp, RationalNumber factor)
+{
+	int n = rp.length;
+	RationalNumber[] out = new RationalNumber[n];
+	for(int i = 0; i < n; i++)
+	{
+	out[i] = rp[i].mul(factor);
+	}
+	return out;
+}
+
+/**
+* Computes the derivative for the rational polynomial passed as parameter.
+* <p>
+* @param rp
+* rational number 1-dimensional array representing the polynomial to compute its derivative.
+* <p>
+* @return Derivative for the rational polynomial passed as parameter.
+*
+*/
+public static RationalNumber[] derive(RationalNumber[] rp)
+{
+if(rp == null) return null;
+int size = rp.length-1;
+RationalNumber n = new RationalNumber(1, 1);
+RationalNumber[] dp = new RationalNumber[size];
+int k = 0;
+for(int i = 1; i < rp.length; i++)
+{
+dp[k++] = rp[i].mul(n);
+n = n.add(new RationalNumber(1, 1));
+}
+return dp;
+}
+
+/**
+* Computes the integral for the rational polynomial passed as parameter.
+* <p>
+* @param rp
+* rational number 1-dimensional array representing the polynomial to compute its integral.
+* <p>
+* Note that the constant term is always set to 0.
+* <p>
+* @return Integral for the rational polynomial passed as parameter.
+*
+*/
+public static RationalNumber[] integrate(RationalNumber[] rp)
+{
+if(rp == null) return null;
+int size = rp.length + 1;
+RationalNumber n = new RationalNumber(1, 1);
+RationalNumber[] ip = new RationalNumber[size];
+ip[0] = new RationalNumber(0, 1);
+for(int i = 0; i < rp.length; i++)
+{
+ip[i+1] = rp[i].mul(n.pow(-1));
+n = n.add(new RationalNumber(1, 1));
+}
+return ip;
+}
+
+/**
+* Computes the roots of the rational polynomial passed as parameter.
+* <p>
+* @param p
+* A 1-dimensional array rational representing the polynomial.
+* <p>
+* Mind that the result can have complex solutions so, we return a complex number array.
+* <p>
+* @return complex number array with the n roots of the polynomial passed as parameter.
+*
+*/
+public static ComplexNumber[] roots(RationalNumber[] p)
+{
+return roots(Convert.toFloatArray(p));
+}
+
+/**
+* Prints a rational coefficient polynomial to the console.
+* <p>
+* @param q
+* A 1-dimensional rational array representing the polynomial to print.
+*
+*/
+public static void print(RationalNumber[] q)
+{
+RationalNumber.print(q);
+}
+
+// end rational number implementation
+
 
 // Real number implementation
 
@@ -635,6 +1000,36 @@ private static float[] addsub(float[] p1, float[]p2, String s)
 	return p;
 }
 
+// helper function to add and substract 2 rational polynomials.
+private static RationalNumber[] addsub(RationalNumber[] rp1, RationalNumber[] rp2, String s)
+{
+if(rp1 == null || rp2 == null) return null;
+	RationalNumber[] pa = clone(rp1);
+	RationalNumber[] pb = clone(rp2);
+	int length_a = pa.length;
+	int length_b = pb.length;
+	int length_p = rp1.length;
+	if(length_a != length_b)
+	{
+	if(length_a > length_b)
+	{
+	pb = resize(pb, length_a);
+	length_p = length_a;
+	}
+	else
+	{
+	pa = resize(pa, length_b);
+	length_p = length_b;
+	}
+	}
+	RationalNumber[] rp = new RationalNumber[length_p];
+	for(int i = 0; i < length_p; i++)
+	{
+		rp[i] = (s.equals("+"))? pa[i].add(pb[i]) : pa[i].sub(pb[i]);
+	}
+	return rp;
+}
+
 // helper function to add and substract 2 complex polynomials.
 private static ComplexNumber[] addsub(ComplexNumber[] cp1, ComplexNumber[] cp2, String s)
 {
@@ -665,6 +1060,15 @@ if(cp1 == null || cp2 == null) return null;
 	return cp;
 }
 
+// Helper function to clone a rational number array.
+private static RationalNumber[] clone(RationalNumber[] q)
+{
+if(q == null) return null;
+RationalNumber[] out = new RationalNumber[q.length];
+for(int i = 0; i < out.length; i++) out[i] = (RationalNumber)q[i].clone();
+return out;
+}
+
 // Helper function to clone a complex number array.
 private static ComplexNumber[] clone(ComplexNumber[] c)
 {
@@ -685,6 +1089,21 @@ for(int i = 0; i < n; i++) out[i] = (ComplexNumber)c[i].clone();
 if(size > old_size)
 {
 	for(int i = old_size; i < size; i++) out[i] = new ComplexNumber(0.0f, 0.0f);
+}
+return out;
+}
+
+// Helper function to resize a rational number array.
+private static RationalNumber[] resize(RationalNumber[] q, int size)
+{
+if(size < 1 || q == null) return null;
+int old_size = q.length;
+RationalNumber[] out = (size > old_size) ? new RationalNumber[size] : new RationalNumber[old_size];
+int n = (size < old_size) ? size : old_size;
+for(int i = 0; i < n; i++) out[i] = (RationalNumber)q[i].clone();
+if(size > old_size)
+{
+	for(int i = old_size; i < size; i++) out[i] = new RationalNumber(0, 1);
 }
 return out;
 }
@@ -793,10 +1212,98 @@ return out;
 
 }
 
+/*
+* Static method to help printing formatted polynomials of integer coefficients.
+*/
+private static String getFormattedTerm(int coefficient, int exponent)
+{
+String s = "";
+if (exponent == 0)
+{
+s += (int)Math.abs(coefficient);
+}
+else if(exponent == 1)
+{
+	s += ((int)Math.abs(coefficient) == 1)? "x" : (int)Math.abs(coefficient)+"x";
+}
+else if(exponent > 1)
+{
+s += ((int)Math.abs(coefficient) == 1) ? "x^"+exponent : (int)Math.abs(coefficient)+"x^"+exponent;
+}
+return s;
+}
+
+/*
+* Static method to help printing formatted polynomials of rational coefficients.
+*/
+private static String getFormattedTerm(RationalNumber coefficient, int exponent)
+{
+String s = "";
+if (exponent == 0)
+{
+s += coefficient.abs();
+}
+else if(exponent == 1)
+{
+	s += (Math.abs(coefficient.value()) == 1.0f) ? "x" : coefficient.abs()+"x";
+}
+else if(exponent > 1)
+{
+s += (Math.abs(coefficient.value()) == 1.0f) ? "x^"+exponent : coefficient.abs()+"x^"+exponent;
+}
+return s;
+}
+
+/*
+* Static method to help printing formatted polynomials of real coefficients.
+*/
+private static String getFormattedTerm(float coefficient, int exponent)
+{
+	NumberFormat formatter = NumberFormat.getNumberInstance(Locale.US);
+		formatter.setMinimumFractionDigits(2);
+		formatter.setMaximumFractionDigits(2);
+String s = "";
+if (exponent == 0)
+{
+s += formatter.format(Math.abs(coefficient));
+}
+else if(exponent == 1)
+{
+	s += (Math.abs(coefficient-(coefficient-(float)((int)coefficient))) < THRESHOLD)? "x" : formatter.format(Math.abs(coefficient))+"x";
+}
+else if(exponent > 1)
+{
+s += (Math.abs(coefficient-(coefficient-(float)((int)coefficient))) < THRESHOLD) ? "x^"+exponent : formatter.format(Math.abs(coefficient))+"x^"+exponent;
+}
+return s;
+}
+
+/*
+* Static method to help printing formatted polynomials of complex coefficients.
+*/
+private static String getFormattedTerm(ComplexNumber coefficient, int exponent)
+{
+String s = "";
+if (exponent == 0)
+{
+s += coefficient;
+}
+else if(exponent == 1)
+{
+	s += coefficient+"z";
+}
+else if(exponent > 1)
+{
+s += coefficient+"z^"+exponent;
+}
+return s;
+}
+
 
 // private constructor, so that this class cannot be instantiated
 private Polynomial(){}
 
+private static final float THRESHOLD = 1E-3f;
 }
 
 // END

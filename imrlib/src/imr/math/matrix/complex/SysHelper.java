@@ -189,7 +189,7 @@ private SysHelper() {}
 * This constant has package scope.
 *
 */
-static final float THRESHOLD = 1E-6f;
+static final float THRESHOLD = 1E-5f;
 }
 
 // END

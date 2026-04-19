@@ -30,7 +30,6 @@ import imr.math.ComplexNumber;
 import imr.math.RationalNumber;
 import imr.math.polynomial.Polynomial;
 
-
 /*
 * This example shows how to compute polynomial roots.
 * You can find roots for first, second, third and 4th degree polynomials.

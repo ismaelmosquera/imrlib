@@ -75,9 +75,6 @@ _pt = null;
 public boolean decompose(ComplexMatrix m)
 {
 	_hasDiagonalization = false;
-_p = null;
-_d = null;
-_pt = null;
 if(m.rows() != m.columns()) return false; // m must be square
 assert(m.rows() > 1 && m.rows() <= 4): "ComplexMatrixDiagonalization -> decompose(ComplexMatrix): At this moment, complex matrix diagonalization is only available for 4th order matrices as much.";
 ComplexEigen[] eigsys = ComplexEigenFinder.eigenSystemFinder(m);
@@ -105,6 +102,7 @@ _pt = _p.transpose();
 */
 public ComplexMatrix getP()
 {
+	if(!_hasDiagonalization) return null;
 return _p;
 }
 
@@ -115,6 +113,7 @@ return _p;
 */
 public ComplexMatrix getD()
 {
+	if(!_hasDiagonalization) return null;
 return _d;
 }
 
@@ -125,6 +124,7 @@ return _d;
 */
 public ComplexMatrix getPt()
 {
+	if(!_hasDiagonalization) return null;
 return _pt;
 }
 

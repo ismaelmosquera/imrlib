@@ -34,6 +34,7 @@ import imr.math.matrix.complex.ComplexMatrix;
 import java.text.NumberFormat;
 import java.util.Locale;
 
+
 /*
 * This example demonstrates the CharacteristicPolynomial class.
 * Such a class computes the characteristic polynomial of a square real or complex matrix.
