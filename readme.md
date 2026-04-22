@@ -144,5 +144,5 @@ there is also an API documentation compressed in a doc.zip archive.
 This piece of code is devoted to my loved assistant dog Inuit, he passed away on 12/08/2025 ( day/month/year ).  
 Hope that you enjoy and appreciate this work made for free.  
   
-Latest revision: 19/04/2026 ( day/month/year )  
+Latest revision: 22/04/2026 ( day/month/year )  
   
