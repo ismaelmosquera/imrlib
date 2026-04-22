@@ -35,6 +35,12 @@ import imr.math.ComplexNumber;
 
 import java.text.NumberFormat;
 import java.util.Locale;
+import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.PrintWriter;
+import java.io.IOException;
+import java.io.FileNotFoundException;
 
 /**
 * The <code>Polynomial</code> class has static methods to operate with polynomials of any degree.
@@ -1269,11 +1275,11 @@ s += formatter.format(Math.abs(coefficient));
 }
 else if(exponent == 1)
 {
-	s += (Math.abs(coefficient-(coefficient-(float)((int)coefficient))) < THRESHOLD)? "x" : formatter.format(Math.abs(coefficient))+"x";
+	s += (Math.abs(coefficient-(float)((int)coefficient)) < THRESHOLD && (int)Math.abs(coefficient) == 1)? "x" : formatter.format(Math.abs(coefficient))+"x";
 }
 else if(exponent > 1)
 {
-s += (Math.abs(coefficient-(coefficient-(float)((int)coefficient))) < THRESHOLD) ? "x^"+exponent : formatter.format(Math.abs(coefficient))+"x^"+exponent;
+s += (Math.abs(coefficient-(float)((int)coefficient)) < THRESHOLD && (int)Math.abs(coefficient) == 1) ? "x^"+exponent : formatter.format(Math.abs(coefficient))+"x^"+exponent;
 }
 return s;
 }
@@ -1303,6 +1309,211 @@ return s;
 // private constructor, so that this class cannot be instantiated
 private Polynomial(){}
 
+/**
+* Public inner class to manage polynomial storage. <p>
+* @author Ismael Mosquera rivera
+*
+*/
+public static final class Storage
+{
+
+/**
+* Static method to load an integer polynomial. <p>
+* The format for this kind of file is as follows: <p>
+* #n ( an integer which is the polynomial size ( degree+1) ) <p>
+* a0 a1 a2 ... an-1 ( polynomial coefficients ) <p>
+* @param filename
+* File from to load such a polynomial.
+* <p>
+* @return loaded polynomial.
+*/
+public static int[] loadInt(String filename)
+{
+	int[] out = null;
+Scanner in = null;
+try
+{
+	in = new Scanner(new BufferedReader(new FileReader(filename)));
+	in.useLocale(Locale.US);
+	int size = in.nextInt();
+	out = new int[size];
+	for(int i=0;i<out.length;i++) out[i] = in.nextInt();
+}
+catch(FileNotFoundException e)
+{
+	System.err.printf("%s file not found.",filename);
+}
+finally
+{
+	if(in != null) in.close();
+}
+return out;
+}
+
+/**
+* Static method to load a float-point polynomial. <p>
+* The format for this kind of file is as follows: <p>
+* #n ( an integer which is the polynomial size ( degree+1) ) <p>
+* a0 a1 a2 ... an-1 ( polynomial coefficients ) <p>
+* @param filename
+* File from to load such a polynomial.
+* <p>
+* @return loaded polynomial.
+*/
+public static float[] loadFloat(String filename)
+{
+	float[] out = null;
+Scanner in = null;
+try
+{
+	in = new Scanner(new BufferedReader(new FileReader(filename)));
+	in.useLocale(Locale.US);
+	int size = in.nextInt();
+	out = new float[size];
+	for(int i=0;i<out.length;i++) out[i] = in.nextFloat();
+}
+catch(FileNotFoundException e)
+{
+	System.err.printf("%s file not found.",filename);
+}
+finally
+{
+	if(in != null) in.close();
+}
+return out;
+}
+
+/**
+* Static method to load a rational polynomial. <p>
+* The format for this kind of file is as follows: <p>
+* #n ( an integer which is the polynomial size ( degree+1) ) <p>
+* a0 a1 a2 ... an-1 ( polynomial coefficients ) <p>
+* @param filename
+* File from to load such a polynomial.
+* <p>
+* @return loaded polynomial.
+*/
+public static RationalNumber[] loadRational(String filename)
+{
+return RationalNumber.loadRationalArray(filename);
+}
+
+/**
+* Static method to load a complex polynomial. <p>
+* The format for this kind of file is as follows: <p>
+* #n ( an integer which is the polynomial size ( degree+1) ) <p>
+* a0 a1 a2 ... an-1 ( polynomial coefficients ) <p>
+* @param filename
+* File from to load such a polynomial.
+* <p>
+* @return loaded polynomial.
+*/
+public static ComplexNumber[] loadComplex(String filename)
+{
+return ComplexNumber.loadComplexArray(filename);
+}
+
+/**
+* Static method to store an int polynomial. <p>
+* @param p
+* An int array representing the required polynomial.
+* <p>
+* @param filename
+* A name for the file where the polynomial will be stored.
+*
+*/
+public static void store(int[] p, String filename)
+{
+PrintWriter out = null;
+try
+{
+	out = new PrintWriter(filename);
+	out.println(p.length);
+	for(int i=0;i<p.length;i++)
+	{
+		if(i>0) out.print(" ");
+		out.print(p[i]);
+	}
+	out.println();
+}
+catch(IOException e)
+{
+	System.err.println("Polynomial.Storage IOException: "+e);
+}
+finally
+{
+	if(out != null) out.close();
+}
+}
+
+/**
+* Static method to store a float polynomial. <p>
+* @param p
+* A float array representing the required polynomial.
+* <p>
+* @param filename
+* A name for the file where the polynomial will be stored.
+*
+*/
+public static void store(float[] p, String filename)
+{
+PrintWriter out = null;
+try
+{
+	out = new PrintWriter(filename);
+	out.println(p.length);
+	for(int i=0;i<p.length;i++)
+	{
+		if(i>0) out.print(" ");
+		out.print(p[i]);
+	}
+	out.println();
+}
+catch(IOException e)
+{
+	System.err.println("Polynomial.Storage IOException: "+e);
+}
+finally
+{
+	if(out != null) out.close();
+}
+}
+
+/**
+* Static method to store a rational polynomial. <p>
+* @param p
+* A rational number array representing the required polynomial.
+* <p>
+* @param filename
+* A name for the file where the polynomial will be stored.
+*
+*/
+public static void store(RationalNumber[] p, String filename)
+{
+RationalNumber.storeRationalArray(p, filename);
+}
+
+/**
+* Static method to store a complex polynomial. <p>
+* @param p
+* A complex number array representing the required polynomial.
+* <p>
+* @param filename
+* A name for the file where the polynomial will be stored.
+*
+*/
+public static void store(ComplexNumber[] p, String filename)
+{
+ComplexNumber.storeComplexArray(p, filename);
+}
+
+
+// Private constructor so that this class cannot be instantiated.
+public Storage() {}
+
+}
+
+// Symbolic constant declared for convinience.
 private static final float THRESHOLD = 1E-3f;
 }
 
