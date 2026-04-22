@@ -1509,7 +1509,7 @@ ComplexNumber.storeComplexArray(p, filename);
 
 
 // Private constructor so that this class cannot be instantiated.
-public Storage() {}
+private Storage() {}
 
 }
 
