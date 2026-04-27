@@ -36,10 +36,6 @@ import imr.math.polynomial.CharacteristicPolynomial;
 * The <code>ComplexEigenFinder</code> class implements static methods to find eigenvalues and eigenvectors for complex number coefficients.
 * <p>
 * You can get just the maximum Eigen of a complex number coefficient matrix, or its eigensystem. <p>
-* This class uses assertions. To enable them, use the '-ea' modifier when executing. <p>
-* Example: <p>
-* <code>java -ea MyApp</code>
-* <p>
 *
 * @author Ismael Mosquera rivera.
 *

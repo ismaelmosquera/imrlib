@@ -47,7 +47,7 @@ import imr.math.polynomial.Polynomial;
 * for any type of numeric coefficient.
 *
 * Recently, support to compute roots for higher degree polynomials is available.
-* An example to compute roots for a 6th degree polynomial was added to this example.
+* An example to compute roots for a 7th degree polynomial was added to this example.
 *
 * Author: Ismael Mosquera rivera.
 *

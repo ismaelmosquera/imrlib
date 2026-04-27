@@ -40,10 +40,6 @@ import imr.math.ComplexNumber;
 * <p>
 * Take in account that maybe it could not be possible to find such a P and D matrices. <p>
 * In that case, we say that the matrix A is defective. <p>
-* This class uses assertions. To enable them, use the '-ea' modifier when executing. <p>
-* Example: <p>
-* <code>java -ea MyApp</code>
-* <p>
 * @author Ismael Mosquera Rivera.
 *
 */
@@ -76,7 +72,6 @@ public boolean decompose(ComplexMatrix m)
 {
 	_hasDiagonalization = false;
 if(m.rows() != m.columns()) return false; // m must be square
-assert(m.rows() > 1 && m.rows() <= 4): "ComplexMatrixDiagonalization -> decompose(ComplexMatrix): At this moment, complex matrix diagonalization is only available for 4th order matrices as much.";
 ComplexEigen[] eigsys = ComplexEigenFinder.eigenSystemFinder(m);
 if(eigsys == null) return false; // Fat chance.
 int n = eigsys.length;
