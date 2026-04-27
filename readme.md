@@ -56,7 +56,7 @@ Here you can know how to do polynomial Lagrange interpolation, compute Ruffini's
 >  
 > - Arithmetic.  
 > - Derivation and integration.  
-> - Roots finding.  
+> - Roots finding for n-th degree polynomials.  
 > - Compute Characteristic polynomial for square real and complex matrices.  
 > - Cyclotomic polynomial computation for Pn(X) where n is a natural number, that is: n greater 0.  
 >  
