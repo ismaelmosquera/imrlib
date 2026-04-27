@@ -71,12 +71,116 @@ import java.io.FileNotFoundException;
 * </ul>
 * equations.
 * <p>
+* Recently ( 26/04/2026 | day, month, year ) <p>
+* support to find roots for polynomials of any degree was added, using the above computations until quartics combined with Newton's nethod. <p>
 * In addition, this class has static methods to print formatted polynomials for any kind of coefficients. <p>
 * @author Ismael Mosquera Rivera.
 *
 */
 public final class Polynomial
 {
+	// We first declare and implement static methods to clear possible zeros until the leding coefficient is other than nught.
+
+/**
+* Static method to clear possible leading zeros. <p>
+* @param p
+* An integer coefficient polynomial.
+* <p>
+* @return cleared polynomial.
+*
+*/
+	public static int[] clear(int[] p)
+	{
+if(p == null) return null;
+int counter = 0;
+for(int i = p.length-1; i >= 0; i--)
+{
+if(Math.abs(p[i]) != 0) break;
+counter++;
+}
+int[] out = new int[p.length-counter];
+for(int i = 0; i < out.length; i++)
+{
+out[i] = p[i];
+}
+return out;
+	}
+
+/**
+* Static method to clear possible leading zeros. <p>
+* @param p
+* A float coefficient polynomial.
+* <p>
+* @return cleared polynomial.
+*
+*/
+public static float[] clear(float[] p)
+	{
+if(p == null) return null;
+int counter = 0;
+for(int i = p.length-1; i >= 0; i--)
+{
+if(Math.abs(p[i]) > CLEAR_THRESHOLD) break;
+counter++;
+}
+float[] out = new float[p.length-counter];
+for(int i = 0; i < out.length; i++)
+{
+out[i] = p[i];
+}
+return out;
+	}
+
+/**
+* Static method to clear possible leading zeros. <p>
+* @param p
+* A rational coefficient polynomial.
+* <p>
+* @return cleared polynomial.
+*
+*/
+public static RationalNumber[] clear(RationalNumber[] p)
+	{
+if(p == null) return null;
+int counter = 0;
+for(int i = p.length-1; i >= 0; i--)
+{
+if(Math.abs(p[i].getNumerator()) != 0) break;
+counter++;
+}
+RationalNumber[] out = new RationalNumber[p.length-counter];
+for(int i = 0; i < out.length; i++)
+{
+out[i] = (RationalNumber)p[i].clone();
+}
+return out;
+	}
+
+/**
+* Static method to clear possible leading zeros. <p>
+* @param p
+* A complex coefficient polynomial.
+* <p>
+* @return cleared polynomial.
+*
+*/
+public static ComplexNumber[] clear(ComplexNumber[] p)
+	{
+if(p == null) return null;
+int counter = 0;
+for(int i = p.length-1; i >= 0; i--)
+{
+if(p[i].magnitude() > CLEAR_THRESHOLD) break;
+counter++;
+}
+ComplexNumber[] out = new ComplexNumber[p.length-counter];
+for(int i = 0; i < out.length; i++)
+{
+out[i] = (ComplexNumber)p[i].clone();
+}
+return out;
+	}
+
 // integer coefficient implementation
 
 /**
@@ -966,6 +1070,8 @@ public static ComplexNumber[] roots(ComplexNumber[] p)
 {
 if(p == null) return null;
  assert (p.length > 1): "Roots Solver: Bad parameter.";
+p = clear(p);
+if(p.length < 2) return null;
 if(p.length == 2) return linearSolver(p);
 if(p.length == 3) return quadraticSolver(p);
 if(p.length == 4) return cubicSolver(p);
@@ -1118,11 +1224,6 @@ return out;
 private static ComplexNumber[] linearSolver(ComplexNumber[] cp)
 {
 	ComplexNumber[] out = new ComplexNumber[1];
-if(cp[1].magnitude() == 0.0f)
-{
-	out[0] = new ComplexNumber(0.0f, 0.0f);
-	return out;
-}
 out[0] = cp[0].scale(-1.0f).div(cp[1]);
 return out;
 }
@@ -1130,7 +1231,6 @@ return out;
 // Helper function to solve quadratic polynomial roots.
 private static ComplexNumber[] quadraticSolver(ComplexNumber[] cp)
 {
-if(cp[2].magnitude() == 0.0f) return linearSolver(resize(cp, 2));
 ComplexNumber[] out = new ComplexNumber[2];  // roots array to return
 // split into parts to clarify computation
 ComplexNumber num1 = cp[1].scale(-1.0f);
@@ -1154,7 +1254,6 @@ return out;
 // Helper function to solve cubic polynomial roots.
 private static ComplexNumber[] cubicSolver(ComplexNumber[] cp)
 {
-if(cp[3].magnitude() == 0.0f) return quadraticSolver(resize(cp, 3));
 ComplexNumber z = new ComplexNumber(-1.0f, 0.0f); // ausiliary
 // split into parts to clarify computation
 ComplexNumber d0 = cp[2].square().sub(cp[3].scale(3.0f).mul(cp[1]));
@@ -1178,7 +1277,6 @@ return r;
 // Helper method to compute quartic polynomial roots
 private static ComplexNumber[] quarticSolver(ComplexNumber[] cp)
 {
-if(cp[4].magnitude() == 0.0f) return cubicSolver(resize(cp, 4));
 ComplexNumber[] out = new ComplexNumber[4];
 // split into parts in order to clarify computation
 ComplexNumber z = new ComplexNumber(1.0f, 0.0f);
@@ -1200,22 +1298,64 @@ return out;
 // Helper function to compute nth degree polynomial roots.
 private static ComplexNumber[] polyrootsFinder(ComplexNumber[] cp)
 {
-int n = cp.length;
-int k = n;
-while(cp[n-1].magnitude() == 0.0f) n--;
-if(n < 6) return quarticSolver(resize(cp, 5));
-int size = (n == k) ? n-1 : n+1;
-
-return null;
-// TODO
+ComplexNumber[] p = clear(cp);
+ComplexNumber rt = null;
+ComplexNumber[] qrt = null;
+ComplexNumber[] _roots = new ComplexNumber[p.length-1];
+RuffiniRule ruffini = new RuffiniRule();
+int k = 0;
+while(true)
+{
+	if(p.length == 5) // quartic
+	{
+qrt = roots(p);
+break;
+	}
+rt = findRoot(p);
+_roots[k++] = (ComplexNumber)rt.clone();
+ruffini.compute(p, rt);
+p = ruffini.quotient();
+}
+for(int i = 0; i < qrt.length; i++) _roots[k++] = (ComplexNumber)qrt[i].clone();
+return _roots;
+}
 
 /*
-ComplexNumber[] out = new ComplexNumber[size];
-
-
-return out;
+* Helper method to compute a single root of a polynomial
 */
+private static ComplexNumber findRoot(ComplexNumber[] p)
+{
+ComplexNumber[] fx = clear(p);
+ComplexNumber[] dfx = derive(fx);
+ComplexNumber z0 = new ComplexNumber(1.0f, 0.0f); // initial guess
+ComplexNumber z1 = null;
+ComplexNumber y = null;
+ComplexNumber dy = null;
+final float epsilon = 1E-5f;
+final int MAX_ITERATIONS = 5050;
+int k = 0;
+while(k < MAX_ITERATIONS)
+{
+y = f(fx, z0);
+dy = f(dfx, z0);
+if(dy.magnitude() <= epsilon) break;
+z1 = z0.sub(y.div(dy));
+if(z1.sub(z0).magnitude() < 1E-4f) return z1;
+z0 = (ComplexNumber)z1.clone();
+k++;
+}
+return z1;
+}
 
+// Private helper method to compute f(x)
+private static ComplexNumber f(ComplexNumber[] p, ComplexNumber z)
+{
+ComplexNumber out = new ComplexNumber(0.0f, 0.0f);
+for(int i = 0; i < p.length; i++)
+{
+out = out.add(p[i].mul(z.pow(i)));
+}
+return out;
 }
 
 /*
@@ -1513,8 +1653,9 @@ private Storage() {}
 
 }
 
-// Symbolic constant declared for convinience.
+// Symbolic constants declared for convinience.
 private static final float THRESHOLD = 1E-3f;
+private static final float CLEAR_THRESHOLD = 1E-5f;
 }
 
 // END

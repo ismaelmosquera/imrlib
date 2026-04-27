@@ -35,6 +35,7 @@ import imr.math.polynomial.Polynomial;
 * You can find roots for first, second, third and 4th degree polynomials.
 * Roots can be computed for polynomials with any numeric type of coefficient:
 * - Integer.
+* - Rational.
 * - Real.
 * - Complex.
 *
@@ -44,6 +45,9 @@ import imr.math.polynomial.Polynomial;
 *
 * Anyway, the Polynomial class has overloaded methods to compute roots for first, second, third and 4th degree
 * for any type of numeric coefficient.
+*
+* Recently, support to compute roots for higher degree polynomials is available.
+* An example to compute roots for a 6th degree polynomial was added to this example.
 *
 * Author: Ismael Mosquera rivera.
 *
@@ -134,6 +138,25 @@ System.out.println("root = " + rt + ", result = " + c0.add(c1).add(c2).add(c3).a
 }
 ComplexNumber.storeComplexArray(roots, "p4roots.dat");
 System.out.println("Complex roots saved to bin/p4roots.dat");
+System.out.println();
+System.out.println("7th degree polynomial roots finder.");
+	ComplexNumber[] _pz_ = Polynomial.Storage.loadComplex("complex7.dat");
+	ComplexNumber[] _rt_ = Polynomial.roots(_pz_);
+	System.out.print("p = "); Polynomial.print(_pz_);
+	System.out.print("roots = "); Polynomial.print(_rt_);
+	ComplexNumber _r_ = null;
+	ComplexNumber result = null;
+	System.out.println("Evaluate roots:");
+	for(int i = 0; i < _rt_.length; i++)
+	{
+		result = new ComplexNumber(0.0f, 0.0f);
+	_r_ = _rt_[i];
+	for(int j = 0; j < _pz_.length; j++)
+	{
+	result = result.add(_pz_[j].mul(_r_.pow(j)));
+}
+System.out.println("root["+i+"] = "+_rt_[i]+", result = "+result);
+	}
 
 System.out.println();
 System.out.println("bye.");

@@ -21,6 +21,7 @@
 * </ul>
 * equations.
 * <p>
+* Now you can find roots for polynomials of any degree, we still using the above computations, but combined with Newton's method. <p>
 * The <code>RuffiniRule</code> class implements the algorithm to divide a polynomial by a binomial of type (x - z)
 * <p>
 * In case that you want to do it by a binomial (x + z), just do it as follows: (x - (-z)).

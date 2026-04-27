@@ -153,7 +153,6 @@ public static ComplexEigen[] eigenSystemFinder(ComplexMatrix m)
 if(m == null) return null;
 if(m.rows() != m.columns()) return null; // m must be square
 int n = m.rows();
-assert(n > 1 && n <= 4): "EigenFinder -> eigenSystemFinder: At the moment, computing eigens by using characteristic polynomial roots is available for square matrices of 4th order as much.";
 ComplexEigen[] eigensys = new ComplexEigen[n];
 /* Compute eigenvalues */
 ComplexNumber[] p = CharacteristicPolynomial.compute(m);

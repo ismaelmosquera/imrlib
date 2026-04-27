@@ -163,7 +163,9 @@ Eigen[] eigensys = new Eigen[n];
 /* Compute eigenvalues */
 float[] p = CharacteristicPolynomial.compute(m);
 ComplexNumber[] roots = Polynomial.roots(p);
-// eigenvalues are listed in the diagonal of lambda
+// eigen values are listed in the lambda vector.
+// hope that we do not loose data agter comversion
+// if so, use the complex matrix algorithm.
 float[] lambda = Convert.toFloatArray(roots);
 Matrix aux = new Matrix(n, n);
 	Vector v = new Vector(n);
