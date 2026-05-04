@@ -73,8 +73,16 @@ public boolean div(float[] p1, float[] p2)
 {
 if(p1==null || p2==null) return false;
 if(p2.length > p1.length) return false;
+if(p2.length == 1)
+{
+if(Math.abs(p2[0]) < 1E-5) return false;
+_q = Polynomial.scale(p1, 1.0f/p2[0]);
+_r = new float[1];
+_r[0] = 0.0f;
+}
+else
+{
 if(p2.length < 2) return false;
-
 FloatPolynomial r = new FloatPolynomial(p1);
 FloatPolynomial d = new FloatPolynomial(p2);
 FloatPolynomial q = new FloatPolynomial();
@@ -90,7 +98,7 @@ r = new FloatPolynomial(Polynomial.sub(r.raw(), Polynomial.mul(p2, FloatPolynomi
 }
 _q = q.raw();
 _r = r.raw();
-
+}
 return true;
 }
 

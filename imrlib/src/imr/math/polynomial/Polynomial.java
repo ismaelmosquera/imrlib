@@ -985,6 +985,26 @@ public static ComplexNumber[] scale(ComplexNumber[] cp, float factor)
 }
 
 /**
+* Static method to scale a complex polynomial. <p>
+* @param cp
+* An array of complex representing the polynomial.
+* <p>
+* @param z
+* A complex number to scale the polynomial.
+* <p>
+* @return scaled polynomial.
+*
+*/
+public static ComplexNumber[] scale(ComplexNumber[] cp, ComplexNumber z)
+{
+if(cp == null) return null;
+int n = cp.length;
+ComplexNumber[] out = new ComplexNumber[n];
+for(int i = 0; i < n; i++) out[i] = cp[i].mul(z);
+return out;
+}
+
+/**
 * Computes the derivative for the complex polynomial passed as parameter.
 * <p>
 * @param cp

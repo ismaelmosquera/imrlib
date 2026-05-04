@@ -131,7 +131,7 @@ System.out.print("p1 = "); Polynomial.printFormatted(prat1);
 System.out.print("p2 = "); Polynomial.printFormatted(prat2);
 System.out.println("Result:");
 RationalPolynomialDivision ratdiv = new RationalPolynomialDivision();
-if(ratdiv.div(prat1, prat2))
+if(ratdiv.div(RationalNumber.reduce(prat1), RationalNumber.reduce(prat2)))
 {
 	System.out.println("p1 / p2 ( after reduce )");
 System.out.print("quotient = "); Polynomial.print(RationalNumber.reduce(ratdiv.quotient()));
@@ -140,7 +140,7 @@ RationalNumber[] rpo = RationalNumber.reduce(prat1);
 System.out.println("Print divident reduced polynomial:");
 System.out.print("P = "); Polynomial.print(rpo);
 System.out.print("P = "); Polynomial.printFormatted(rpo);
-RationalNumber[] ratresult = Polynomial.add(Polynomial.mul(prat2, ratdiv.quotient()), ratdiv.remainder());
+RationalNumber[] ratresult = Polynomial.add(Polynomial.mul(RationalNumber.reduce(prat2), RationalNumber.reduce(ratdiv.quotient())), RationalNumber.reduce(ratdiv.remainder()));
 System.out.println("p1 = p2 * quotient + remainder");
 System.out.print("Print raw = "); Polynomial.print(RationalNumber.reduce(ratresult));
 System.out.print("Print formatted = "); Polynomial.printFormatted(RationalNumber.reduce(ratresult));

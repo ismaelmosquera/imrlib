@@ -71,8 +71,16 @@ public boolean div(ComplexNumber[] p1, ComplexNumber[] p2)
 {
 if(p1==null || p2==null) return false;
 if(p2.length > p1.length) return false;
+if(p2.length == 1)
+{
+	if(p2[0].magnitude() < 1E-5) return false;
+	_q = Polynomial.scale(p1, p2[0].reciprocal());
+	_r = new ComplexNumber[1];
+	_r[0] = new ComplexNumber(0.0f, 0.0f);
+}
+else
+{
 if(p2.length < 2) return false;
-
 ComplexPolynomial r = new ComplexPolynomial(p1);
 ComplexPolynomial d = new ComplexPolynomial(p2);
 ComplexPolynomial q = new ComplexPolynomial();
@@ -88,7 +96,7 @@ r = new ComplexPolynomial(Polynomial.sub(r.raw(), Polynomial.mul(p2, ComplexPoly
 }
 _q = q.raw();
 _r = r.raw();
-
+}
 return true;
 }
 

@@ -71,8 +71,16 @@ public boolean div(RationalNumber[] p1, RationalNumber[] p2)
 {
 if(p1==null || p2==null) return false;
 if(p2.length > p1.length) return false;
+if(p2.length == 1)
+{
+if(Math.abs(p2[0].value()) < 1E-5) return false;
+_q = Polynomial.scale(p1, p2[0].pow(-1));
+_r = new RationalNumber[1];
+_r[0] = new RationalNumber(0, 1);
+}
+else
+{
 if(p2.length < 2) return false;
-
 RationalPolynomial r = new RationalPolynomial(p1);
 RationalPolynomial d = new RationalPolynomial(p2);
 RationalPolynomial q = new RationalPolynomial();
@@ -88,7 +96,7 @@ r = new RationalPolynomial(Polynomial.sub(r.raw(), Polynomial.mul(p2, RationalPo
 }
 _q = q.raw();
 _r = r.raw();
-
+}
 return true;
 }
 

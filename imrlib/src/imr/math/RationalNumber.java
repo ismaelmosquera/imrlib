@@ -42,6 +42,8 @@ import java.io.FileNotFoundException;
 * <p>
 * A rational number is a number with the form: a/b where a and b are integer numbers.
 * <p>
+* In order to compute as accurate as possible, you'd better reduce before an after each computation.
+* <p>
 * To know more about it, see the API documentation.
 * <p>
 * This class uses assertions; to enable assertions use the '-ea' modifier when executing:
@@ -83,7 +85,7 @@ _denominator = 1;
 */
 public RationalNumber(int numerator, int denominator)
 {
-assert (denominator != 0): "RationalNumber constructor: Bad parameter, denominator must be not zero.";
+	assert(denominator != 0): "RationalNumber -> constructor: Bad parameter, zero denominator.";
 _numerator = numerator;
 _denominator = denominator;
 }
@@ -389,8 +391,8 @@ return isProper(this);
 */
 public static RationalNumber add(RationalNumber q1, RationalNumber q2)
 {
-	int num = q2.getDenominator()*q1.getNumerator() + q1.getDenominator()*q2.getNumerator();
 int den = q1.getDenominator() * q2.getDenominator();
+int num = (den/q1.getDenominator()*q1.getNumerator())+(den/q2.getDenominator()*q2.getNumerator());
 return new RationalNumber(num, den);
 }
 
@@ -408,8 +410,8 @@ return new RationalNumber(num, den);
 */
 public static RationalNumber sub(RationalNumber q1, RationalNumber q2)
 {
-	int num = q2.getDenominator()*q1.getNumerator() - q1.getDenominator()*q2.getNumerator();
 int den = q1.getDenominator() * q2.getDenominator();
+int num = (den/q1.getDenominator()*q1.getNumerator())-(den/q2.getDenominator()*q2.getNumerator());
 return new RationalNumber(num, den);
 }
 
@@ -498,7 +500,7 @@ return new RationalNumber(num, den);
 */
 public static RationalNumber reduce(RationalNumber q)
 {
-	if(Math.abs(q.getNumerator()) == 0) return (RationalNumber)q.clone();
+	if(Math.abs(q.getNumerator()) == 0) return new RationalNumber(0, 1);
 int a = q.getNumerator();
 int b = q.getDenominator();
 int d = GCD.compute(a, b);
