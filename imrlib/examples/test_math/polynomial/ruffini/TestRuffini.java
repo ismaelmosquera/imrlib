@@ -91,19 +91,19 @@ System.out.println();
 
 System.out.println("Complex coefficients:");
 ComplexNumber[] pz = new ComplexNumber[4];
-pz[0] = new ComplexNumber(2.0f, 1.0f);
-pz[1] = new ComplexNumber(1.2f, 3.5f);
-pz[2] = new ComplexNumber(3.6f, 5.1f);
-pz[3] = new ComplexNumber(1.5f, -0.5f);
+pz[0] = new ComplexNumber(2.0, 1.0);
+pz[1] = new ComplexNumber(1.2, 3.5);
+pz[2] = new ComplexNumber(3.6, 5.1);
+pz[3] = new ComplexNumber(1.5, -0.5);
 
 ComplexNumber[] dz = new ComplexNumber[2];
-dz[0] = new ComplexNumber(-4.5f, 3.1f);
-dz[1] = new ComplexNumber(1.0f, 0.0f);
+dz[0] = new ComplexNumber(-4.5, 3.1);
+dz[1] = new ComplexNumber(1.0, 0.0);
 System.out.print("pz = "); Polynomial.print(pz);
 System.out.print("dz = "); Polynomial.print(dz);
 ruf.compute(pz, dz[0]);
 ruf.print();
-dz[0] = dz[0].scale(-1.0f); // adjust for tessting
+dz[0] = dz[0].scale(-1.0); // adjust for tessting
 System.out.println("Pz = quotient * divisor + remainder:");
 Polynomial.print(Polynomial.add(Polynomial.mul(ruf.quotient(), dz), ruf.remainder()));
 

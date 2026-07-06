@@ -74,13 +74,13 @@ public final class ComplexNumber
 * Constructor.
 * Makes a new instance for a <code>ComplexNumber</code> object.
 * Default params:
-* real = 1.0f
-* imag = 1.0f
+* real = 1.0
+* imag = 1.0
 *
 */
 public ComplexNumber()
 {
-this(1.0f, 1.0f);
+this(1.0, 1.0);
 }
 
 /**
@@ -90,7 +90,7 @@ this(1.0f, 1.0f);
 * @param imag imaginary part.
 *
 */
-public ComplexNumber(float real, float imag)
+public ComplexNumber(double real, double imag)
 {
 _real = real;
 _imag = imag;
@@ -116,7 +116,7 @@ _imag = c.getImag();
 * @return real part.
 *
 */
-public float getReal()
+public double getReal()
 {
 return _real;
 }
@@ -127,7 +127,7 @@ return _real;
 * @return imaginary part.
 *
 */
-public float getImag()
+public double getImag()
 {
 return _imag;
 }
@@ -137,7 +137,7 @@ return _imag;
 * @param real Real part.
 *
 */
-public void setReal(float real)
+public void setReal(double real)
 {
 _real = real;
 }
@@ -147,7 +147,7 @@ _real = real;
 * @param imag Imaginary part.
 *
 */
-public void setImag(float imag)
+public void setImag(double imag)
 {
 _imag = imag;
 }
@@ -186,8 +186,8 @@ try
 {
 	in = new Scanner(new BufferedReader(new FileReader(filename)));
 	in.useLocale(Locale.US);
-	_real = in.nextFloat();
-_imag = in.nextFloat();
+	_real = in.nextDouble();
+_imag = in.nextDouble();
 }
 catch(FileNotFoundException e)
 {
@@ -263,8 +263,8 @@ return new ComplexNumber(_real-c.getReal(), _imag-c.getImag());
 */
 public ComplexNumber mul(ComplexNumber c)
 {
-float real = _real*c.getReal()-_imag*c.getImag();
-float imag = _real*c.getImag()+_imag*c.getReal();
+double real = _real*c.getReal()-_imag*c.getImag();
+double imag = _real*c.getImag()+_imag*c.getReal();
 return new ComplexNumber(real, imag);
 }
 
@@ -287,7 +287,7 @@ public ComplexNumber div(ComplexNumber c)
 */
 public ComplexNumber negate()
 {
-return this.scale(-1.0f);
+return this.scale(-1.0);
 }
 
 /**
@@ -331,7 +331,7 @@ return (z1.magnitude() >= z2.magnitude()) ? z1 : z2;
 * @return scaled complex number
 *
 */
-public ComplexNumber scale(float factor)
+public ComplexNumber scale(double factor)
 {
 return new ComplexNumber(_real*factor, _imag*factor);
 }
@@ -342,9 +342,9 @@ return new ComplexNumber(_real*factor, _imag*factor);
 * @return magnitude
 *
 */
-public float magnitude()
+public double magnitude()
 {
-return (float)(Math.hypot(_real, _imag));
+return Math.hypot(_real, _imag);
 }
 
 /**
@@ -353,9 +353,9 @@ return (float)(Math.hypot(_real, _imag));
 * @return argument ( angle of the magnitude vector respect the real axis ).
 *
 */
-public float argument()
+public double argument()
 {
-return (float)(Math.atan2(_imag, _real));
+return Math.atan2(_imag, _real);
 }
 
 /**
@@ -390,7 +390,7 @@ return (_real==c.getReal() && _imag==(-c.getImag()));
 */
 public ComplexNumber reciprocal()
 {
-float sq = _real*_real+_imag*_imag;
+double sq = _real*_real+_imag*_imag;
 return new ComplexNumber(_real/sq, -_imag/sq);
 }
 
@@ -402,7 +402,7 @@ return new ComplexNumber(_real/sq, -_imag/sq);
 */
 public ComplexNumber sin()
 {
-	return new ComplexNumber((float)(Math.sin(_real)*Math.cosh(_imag)), (float)(Math.cos(_real)*Math.sinh(_imag)));
+	return new ComplexNumber(Math.sin(_real)*Math.cosh(_imag), Math.cos(_real)*Math.sinh(_imag));
 }
 
 /**
@@ -413,7 +413,7 @@ public ComplexNumber sin()
 */
 public ComplexNumber cos()
 {
-	return new ComplexNumber((float)(Math.cos(_real)*Math.cosh(_imag)), (float)(-Math.sin(_real)*Math.sinh(_imag)));
+	return new ComplexNumber(Math.cos(_real)*Math.cosh(_imag), -Math.sin(_real)*Math.sinh(_imag));
 }
 
 /**
@@ -423,10 +423,10 @@ public ComplexNumber cos()
 */
 public ComplexNumber asin()
 {
-	ComplexNumber i = new ComplexNumber(0.0f, 1.0f);
-	ComplexNumber one = new ComplexNumber(1.0f, 0.0f);
+	ComplexNumber i = new ComplexNumber(0.0, 1.0);
+	ComplexNumber one = new ComplexNumber(1.0, 0.0);
 ComplexNumber z = i.mul(this).add(one.sub(this.square()).sqrt());
-return i.scale(-1.0f).mul(z.log());
+return i.scale(-1.0).mul(z.log());
 }
 
 /**
@@ -436,8 +436,8 @@ return i.scale(-1.0f).mul(z.log());
 */
 public ComplexNumber acos()
 {
-ComplexNumber i = new ComplexNumber(0.0f, 1.0f); // imaginary unit
-ComplexNumber one = new ComplexNumber(1.0f, 0.0f); // real unit
+ComplexNumber i = new ComplexNumber(0.0, 1.0); // imaginary unit
+ComplexNumber one = new ComplexNumber(1.0, 0.0); // real unit
 ComplexNumber z = this.add(this.square().sub(one).sqrt());
 return i.mul(z.log());
 }
@@ -460,9 +460,9 @@ public ComplexNumber tan()
 */
 public ComplexNumber atan()
 {
-	if(this.magnitude() < __THRESHOLD__) return new ComplexNumber(0.0f, 0.0f);
-ComplexNumber i = new ComplexNumber(0.0f, 1.0f);
-return i.scale(1.0f/2.0f).mul(i.add(this).div(i.sub(this)).log());
+	if(this.magnitude() < __THRESHOLD__) return new ComplexNumber(0.0, 0.0);
+ComplexNumber i = new ComplexNumber(0.0, 1.0);
+return i.scale(1.0/2.0).mul(i.add(this).div(i.sub(this)).log());
 }
 
 /**
@@ -478,7 +478,7 @@ return i.scale(1.0f/2.0f).mul(i.add(this).div(i.sub(this)).log());
 */
 public static ComplexNumber atan2(ComplexNumber z1, ComplexNumber z2)
 {
-if(z2.magnitude() < __THRESHOLD__ || z1.magnitude() < __THRESHOLD__) return new ComplexNumber(0.0f, 0.0f);
+if(z2.magnitude() < __THRESHOLD__ || z1.magnitude() < __THRESHOLD__) return new ComplexNumber(0.0, 0.0);
 return z1.div(z2).atan();
 }
 
@@ -490,7 +490,7 @@ return z1.div(z2).atan();
 */
 public ComplexNumber exp()
 {
-	return new ComplexNumber((float)(Math.exp(_real)*Math.cos(_imag)), (float)(Math.exp(_real)*Math.sin(_imag)));
+	return new ComplexNumber(Math.exp(_real)*Math.cos(_imag), Math.exp(_real)*Math.sin(_imag));
 }
 
 /**
@@ -500,8 +500,8 @@ public ComplexNumber exp()
 */
 public ComplexNumber log()
 {
-	float real = (float)Math.log((double)this.magnitude());
-	float imag = this.argument();
+	double real = Math.log(this.magnitude());
+	double imag = this.argument();
 return  new ComplexNumber(real, imag);
 }
 
@@ -513,7 +513,7 @@ return  new ComplexNumber(real, imag);
 */
 public ComplexNumber log2()
 {
-	ComplexNumber z = new ComplexNumber(2.0f, 0.0f);
+	ComplexNumber z = new ComplexNumber(2.0, 0.0);
 return this.log().div(z.log());
 }
 
@@ -525,7 +525,7 @@ return this.log().div(z.log());
 */
 public ComplexNumber log10()
 {
-	ComplexNumber z = new ComplexNumber(10.0f, 0.0f);
+	ComplexNumber z = new ComplexNumber(10.0, 0.0);
 return this.log().div(z.log());
 }
 
@@ -540,7 +540,7 @@ return this.log().div(z.log());
 */
 public ComplexNumber pow(int radix)
 {
-return this.pow((float)radix);
+return this.pow((double)radix);
 }
 
 /**
@@ -563,10 +563,10 @@ public ComplexNumber square()
 * @return This complex number raised to the power passed as parameter.
 *
 */
-public ComplexNumber pow(float radix)
+public ComplexNumber pow(double radix)
 {
-	if(_real < 0.0f || radix <= 0.0f) return __pow_(this, (int)radix);
-	ComplexNumber z = new ComplexNumber(radix, 0.0f);
+	if(_real < 0.0 || radix <= 0.0) return __pow_(this, (int)radix);
+	ComplexNumber z = new ComplexNumber(radix, 0.0);
 	return this.pow(z);
 }
 
@@ -578,22 +578,22 @@ public ComplexNumber pow(float radix)
 */
 public ComplexNumber sqrt()
 {
-ComplexNumber z = new ComplexNumber(1.0f/2.0f, 0.0f);
+ComplexNumber z = new ComplexNumber(1.0/2.0, 0.0);
 return this.pow(z);
 }
 
 /**
 * Computes the cubic root for this complex number.
 * <p>
-* @return sqrt for this complex number.
+* @return cubic root for this complex number.
 *
 */
 public ComplexNumber curt()
 {
-	float sign = (_real < 0.0f) ? -1.0f : 1.0f;
+	double sign = (_real < 0.0) ? -1.0 : 1.0;
 	ComplexNumber out = (ComplexNumber)this.clone();
-	ComplexNumber z = new ComplexNumber(1.0f/3.0f, 0.0f);
-	if(sign == -1.0f)
+	ComplexNumber z = new ComplexNumber(1.0/3.0, 0.0);
+	if(sign == -1.0)
 	{
 		out = out.scale(sign);
 	}
@@ -614,7 +614,7 @@ public ComplexNumber curt()
 public ComplexNumber ithrt(int ithindex)
 {
 	assert (ithindex > 0): "ComplexNumber -> ithrt: ithindex param must be greater than 0.";
-ComplexNumber z = new ComplexNumber(1.0f/(float)ithindex, 0.0f);
+ComplexNumber z = new ComplexNumber(1.0/(double)ithindex, 0.0);
 return this.pow(z);
 }
 
@@ -630,7 +630,7 @@ return new PolarNumber(this.magnitude(), this.argument());
 }
 
 /**
-* Gets a <code>ComplexNumber</code> array built from a floating number point vector.
+* Gets a <code>ComplexNumber</code> array built from a doubleing number point vector.
 * This method is so useful, mainly, to prepare a signal chunk to compute its FFT.
 * It ensures that the returned array of complex numbers will be a power of 2.
 * It performs zero padding if necessary.
@@ -644,20 +644,20 @@ return new PolarNumber(this.magnitude(), this.argument());
 * @see imr.sound.audio.analysis.Fourier
 *
 */
-public static ComplexNumber[] getComplexNumberArray(float[] v)
+public static ComplexNumber[] getComplexNumberArray(double[] v)
 {
 int old_size = v.length;
 int n = 1 + (int)(Math.log((double)old_size) / Math.log(2.0));
 int new_size = (int)(Math.pow(2.0, (double)n));
 	int zp = new_size - old_size;
-	v = (float[])iArray.resize(v, new_size);
-	for(int i = old_size; i < new_size; i++) v[i] = 0.0f;
+	v = (double[])iArray.resize(v, new_size);
+	for(int i = old_size; i < new_size; i++) v[i] = 0.0;
 ComplexNumber[] out = new ComplexNumber[new_size+1];
 for(int i = 0; i < new_size; i++)
 {
-	out[i] = new ComplexNumber(v[i], 0.0f);
+	out[i] = new ComplexNumber(v[i], 0.0);
 }
-out[new_size] = new ComplexNumber(0.0f, (float)zp);
+out[new_size] = new ComplexNumber(0.0, (double)zp);
 return out;
 }
 
@@ -713,12 +713,12 @@ try
 	in.useLocale(Locale.US);
 	int n = in.nextInt();
 	out = new ComplexNumber[n];
-	float real = 0.0f;
-	float imag = 0.0f;
+	double real = 0.0;
+	double imag = 0.0;
 	for(int i = 0; i < n; i++)
 	{
-		real = in.nextFloat();
-		imag = in.nextFloat();
+		real = in.nextDouble();
+		imag = in.nextDouble();
 		out[i] = new ComplexNumber(real, imag);
 	}
 }
@@ -758,8 +758,8 @@ PrintWriter out = null;
 try
 {
 	out = new PrintWriter(filename);
-	float real = 0.0f;
-	float imag = 0.0f;
+	double real = 0.0;
+	double imag = 0.0;
 	int n = carray.length;
 	out.println(n);
 	for(int i = 0; i < n; i++)
@@ -790,10 +790,10 @@ finally
 * @return e^(iw)
 *
 */
-public static ComplexNumber eulerIdentity(float w)
+public static ComplexNumber eulerIdentity(double w)
 {
-float real = (float)Math.cos((double)w);
-float imag = (float)Math.sin((double)w);
+double real = Math.cos(w);
+double imag = Math.sin(w);
 return new ComplexNumber(real, imag);
 }
 
@@ -816,7 +816,7 @@ double w = 0.0;
 for(int k = 0; k < n; k++)
 {
 	w = 2.0*(double)k*Math.PI/(double)n;
-	out[k] = new ComplexNumber((float)Math.cos(w), (float)Math.sin(w));
+	out[k] = new ComplexNumber(Math.cos(w), Math.sin(w));
 }
 return out;
 }
@@ -871,7 +871,7 @@ return s;
 // private helper method to compute pow
 private ComplexNumber pow(ComplexNumber z)
 {
-	if(this.magnitude() == 0.0f) return new ComplexNumber(0.0f, 0.0f);
+	if(this.magnitude() == 0.0) return new ComplexNumber(0.0, 0.0);
 return this.log().mul(z).exp();
 }
 
@@ -879,16 +879,16 @@ return this.log().mul(z).exp();
 // helper method to compute integer powers
 private ComplexNumber __pow_(ComplexNumber z, int n)
 {
-if(n == 0) return new ComplexNumber(1.0f, 0.0f);
+if(n == 0) return new ComplexNumber(1.0, 0.0);
 if(n == 1) return z;
 if(n < 0)
 {
 	int k = -n;
-ComplexNumber num = new ComplexNumber(1.0f,0.0f);
+ComplexNumber num = new ComplexNumber(1.0,0.0);
 ComplexNumber den = __pow_(z, k);
 return num.div(den);
 }
-ComplexNumber out = new ComplexNumber(1.0f, 0.0f);
+ComplexNumber out = new ComplexNumber(1.0, 0.0);
 for(int i = 0; i < n; i++)
 {
 out = out.mul(z);
@@ -899,12 +899,12 @@ return out;
 
 static
 {
-NaN = new ComplexNumber(Float.NaN, Float.NaN);
+NaN = new ComplexNumber(Double.NaN, Double.NaN);
 }
 
 
-private float _real;
-private float _imag;
+private double _real;
+private double _imag;
 
 /**
 * ComplexNumber NaN ( Not a Number ) constant.
@@ -912,7 +912,7 @@ private float _imag;
 */
 public static final ComplexNumber NaN;
 
-private static final float __THRESHOLD__ = 1E-6f;
+private static final double __THRESHOLD__ = 1E-6;
 }
 
 // END

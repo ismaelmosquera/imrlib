@@ -67,6 +67,7 @@ ComplexNumber c1 = null;
 ComplexNumber c2 = null;
 ComplexNumber c3 = null;
 ComplexNumber c4 = null;
+ComplexNumber c5 = null;
 
 System.out.println("Linear:");
 int[] pn0 = {-1, 2}; // 2x - 1 = 0
@@ -139,6 +140,29 @@ System.out.println("root = " + rt + ", result = " + c0.add(c1).add(c2).add(c3).a
 ComplexNumber.storeComplexArray(roots, "p4roots.dat");
 System.out.println("Complex roots saved to bin/p4roots.dat");
 System.out.println();
+
+System.out.println("Solve 5th order polynomial roots:");
+System.out.println();
+
+double[] dp = Polynomial.Storage.loadDouble("dp5.dat");
+System.out.print("p = "); Polynomial.print(dp);
+roots = Polynomial.roots(dp);
+System.out.print("roots = "); Polynomial.print(roots);
+pz = Convert.toComplexArray(dp);
+System.out.println("Evaluate roots:");
+for(int i = 0; i < roots.length; i++)
+{
+rt = roots[i];
+c0 = pz[0];
+c1 = pz[1].mul(rt);
+c2 = pz[2].mul(rt.square());
+c3 = pz[3].mul(rt.pow(3));
+c4 = pz[4].mul(rt.pow(4));
+c5 = pz[5].mul(rt.pow(5));
+System.out.println("root = " + rt + ", result = " + c0.add(c1).add(c2).add(c3).add(c4).add(c5));
+}
+System.out.println();
+
 System.out.println("7th degree polynomial roots finder.");
 	ComplexNumber[] _pz_ = Polynomial.Storage.loadComplex("complex7.dat");
 	ComplexNumber[] _rt_ = Polynomial.roots(_pz_);
@@ -149,7 +173,7 @@ System.out.println("7th degree polynomial roots finder.");
 	System.out.println("Evaluate roots:");
 	for(int i = 0; i < _rt_.length; i++)
 	{
-		result = new ComplexNumber(0.0f, 0.0f);
+		result = new ComplexNumber(0.0, 0.0);
 	_r_ = _rt_[i];
 	for(int j = 0; j < _pz_.length; j++)
 	{

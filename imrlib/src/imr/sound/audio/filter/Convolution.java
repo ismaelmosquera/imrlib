@@ -28,6 +28,7 @@
 
 package imr.sound.audio.filter;
 
+import imr.util.Convert;
 import imr.math.ComplexNumber;
 import imr.sound.audio.analysis.Fourier;
 
@@ -77,18 +78,18 @@ public float[] convolve(float[] x, float[] h)
 * is their convolution in time domain.
 */
 
-_spec_x = Fourier.fft(x);
+_spec_x = Fourier.fft(Convert.toDoubleArray(x));
 if(_update)
 {
 _z = new ComplexNumber[_spec_x.length];
-_spec_h = Fourier.fft(h);
+_spec_h = Fourier.fft(Convert.toDoubleArray(h));
 _update = false;
 }
 int size = _spec_x.length-1;
 for(int i = 0; i < size; i++) _z[i] = _spec_x[i].mul(_spec_h[i]);
-_z[size] = new ComplexNumber(0.0f, _spec_x[size].getImag());
+_z[size] = new ComplexNumber(0.0, _spec_x[size].getImag());
 
-return Fourier.ifft(_z);
+return Convert.toFloatArray(Fourier.ifft(_z));
 }
 
 /**

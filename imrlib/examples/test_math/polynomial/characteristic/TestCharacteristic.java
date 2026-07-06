@@ -60,19 +60,19 @@ System.out.println("A:");
 	Matrix m = new Matrix("mcoef.dat");
 m.print();
 System.out.println();
-float[] p = CharacteristicPolynomial.compute(m);
+double[] p = CharacteristicPolynomial.compute(m);
 System.out.print("p = "); Polynomial.print(p);
 ComplexNumber[] roots = Polynomial.roots(p);
 System.out.print("roots = "); ComplexNumber.print(roots);
-float[] froots = Convert.toFloatArray(roots);
+double[] froots = Convert.toDoubleArray(roots);
 System.out.print("real roots = "); Polynomial.print(froots);
 System.out.println();
 System.out.println("Evaluate roots:");
-float rt;
+double rt;
 for(int i = 0; i < froots.length; i++)
 {
 rt = froots[i];
-System.out.println("root = " + rt + "result = " + formatter.format(Math.abs(p[0]+(p[1]*rt)+(p[2]*(float)Math.pow(rt, 2))+(p[3]*(float)Math.pow(rt, 3)))));
+System.out.println("root = " + rt + "result = " + formatter.format(Math.abs(p[0]+(p[1]*rt)+(p[2]*Math.pow(rt, 2))+(p[3]*Math.pow(rt, 3)))));
 }
 System.out.println();
 Matrix lambdaI = null;

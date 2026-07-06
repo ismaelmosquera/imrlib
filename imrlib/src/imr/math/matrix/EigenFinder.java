@@ -161,12 +161,12 @@ int n = m.rows();
 Matrix upper = null;
 Eigen[] eigensys = new Eigen[n];
 /* Compute eigenvalues */
-float[] p = CharacteristicPolynomial.compute(m);
+double[] p = CharacteristicPolynomial.compute(m);
 ComplexNumber[] roots = Polynomial.roots(p);
 // eigen values are listed in the lambda vector.
 // hope that we do not loose data agter comversion
 // if so, use the complex matrix algorithm.
-float[] lambda = Convert.toFloatArray(roots);
+double[] lambda = Convert.toDoubleArray(roots);
 Matrix aux = new Matrix(n, n);
 	Vector v = new Vector(n);
 /* compute eigenvectors and build eigensystem */
@@ -174,12 +174,12 @@ for(int i = 0; i < n; i++)
 {
 	for(int j = 0; j < n; j++)
 	{
-		aux.set(j, j, (double)lambda[i]);
+		aux.set(j, j, lambda[i]);
 }
 upper = upper_triangular(Matrix.sub(m, aux));
 param = 1.0 / (double)RandomNumberGenerator.generate(1, 10);
 v.set(n-1, param);
-eigensys[i] = new Eigen((double)lambda[i], upper_system_solver(upper, v));
+eigensys[i] = new Eigen(lambda[i], upper_system_solver(upper, v));
 }
 arrange(eigensys);
 return eigensys;

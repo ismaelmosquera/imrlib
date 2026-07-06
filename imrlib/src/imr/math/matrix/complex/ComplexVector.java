@@ -54,7 +54,7 @@ public ComplexVector(int size)
 assert(size > 0): "ComplexVector -> constructor (int size): Bad parameter.";
 _size = size;
 _cvector = new ComplexNumber[_size];
-for(int i = 0; i < _cvector.length; i++) _cvector[i] = new ComplexNumber(0.0f, 0.0f);
+for(int i = 0; i < _cvector.length; i++) _cvector[i] = new ComplexNumber(0.0, 0.0);
 }
 
 /**
@@ -401,7 +401,7 @@ public static ComplexNumber dot(ComplexVector v1, ComplexVector v2)
 {
 if(v1 == null || v2 == null) return ComplexNumber.NaN;
 if(v1.size() != v2.size()) return ComplexNumber.NaN;
-ComplexNumber z = new ComplexNumber(0.0f, 0.0f);
+ComplexNumber z = new ComplexNumber(0.0, 0.0);
 int n = v1.size();
 for(int i = 0; i < n; i++)
 {
@@ -444,7 +444,7 @@ public static ComplexNumber module(ComplexVector v)
 {
 	if(v == null) return ComplexNumber.NaN;
 int n = v.size();
-ComplexNumber z = new ComplexNumber(0.0f, 0.0f);
+ComplexNumber z = new ComplexNumber(0.0, 0.0);
 for(int i = 0; i < n; i++)
 {
 z = z.add(v.get(i).square());

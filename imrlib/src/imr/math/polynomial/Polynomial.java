@@ -134,6 +134,31 @@ return out;
 /**
 * Static method to clear possible leading zeros. <p>
 * @param p
+* A double coefficient polynomial.
+* <p>
+* @return cleared polynomial.
+*
+*/
+public static double[] clear(double[] p)
+	{
+if(p == null) return null;
+int counter = 0;
+for(int i = p.length-1; i >= 0; i--)
+{
+if(Math.abs(p[i]) > (double)CLEAR_THRESHOLD) break;
+counter++;
+}
+double[] out = new double[p.length-counter];
+for(int i = 0; i < out.length; i++)
+{
+out[i] = p[i];
+}
+return out;
+	}
+
+/**
+* Static method to clear possible leading zeros. <p>
+* @param p
 * A rational coefficient polynomial.
 * <p>
 * @return cleared polynomial.
@@ -170,7 +195,7 @@ if(p == null) return null;
 int counter = 0;
 for(int i = p.length-1; i >= 0; i--)
 {
-if(p[i].magnitude() > CLEAR_THRESHOLD) break;
+if(p[i].magnitude() > (double)CLEAR_THRESHOLD) break;
 counter++;
 }
 ComplexNumber[] out = new ComplexNumber[p.length-counter];
@@ -375,6 +400,50 @@ for(int i = p.length-1; i >= 0; i--)
 if(Math.abs(p[i]) > THRESHOLD)
 {
 	if(p[i] < 0.0f)
+	{
+		sb.append(" - ");
+	}
+	else
+	{
+		sb.append(" + ");
+	}
+	sb.append(getFormattedTerm(p[i], i));
+}
+}
+}
+sb.append("]");
+System.out.println(sb.toString());
+}
+
+/**
+* Static method to print to the console a formatted polynomial of real coefficients. <p>
+* @param p
+* A polynomial as a real array.
+*
+*/
+public static void printFormatted(double[] p)
+{
+	if(p == null)
+	{
+		System.out.println("[]");
+		return;
+	}
+boolean initial = false;
+StringBuilder sb = new StringBuilder();
+sb.append("[");
+for(int i = p.length-1; i >= 0; i--)
+{
+	if(Math.abs(p[i]) > (double)THRESHOLD && !initial)
+	{
+		initial = true;
+		if(p[i] < 0.0) sb.append("-");
+		sb.append(getFormattedTerm(p[i], i));
+	}
+	else
+	{
+if(Math.abs(p[i]) > (double)THRESHOLD)
+{
+	if(p[i] < 0.0)
 	{
 		sb.append(" - ");
 	}
@@ -706,6 +775,23 @@ public static float[] add(float[] p1, float[] p2)
 }
 
 /**
+* Adds 2 double polynomials.
+* <p>
+* @param p1
+* A 1-dimensional double array representing first polynomial.
+* <p>
+* @param p2
+* A 1-dimensional double array representing second polynomial.
+* <p>
+* @return p1 + p2
+*
+*/
+public static double[] add(double[] p1, double[] p2)
+{
+	return addsub(p1, p2, "+");
+}
+
+/**
 * Substracts 2 polynomials.
 * <p>
 * @param p1
@@ -718,6 +804,23 @@ public static float[] add(float[] p1, float[] p2)
 *
 */
 public static float[] sub(float[] p1, float[] p2)
+{
+	return addsub(p1, p2, "-");
+}
+
+/**
+* Substracts 2 double polynomials.
+* <p>
+* @param p1
+* A 1-dimensional double array representing first polynomial.
+* <p>
+* @param p2
+* A 1-dimensional double array representing second polynomial.
+* <p>
+* @return p1 - p2
+*
+*/
+public static double[] sub(double[] p1, double[] p2)
 {
 	return addsub(p1, p2, "-");
 }
@@ -769,6 +872,52 @@ return p;
 }
 
 /**
+* Multiplies 2 double polynomials.
+* <p>
+* @param p1
+* A 1-dimensional double array representing first polynomial.
+* <p>
+* @param p2
+* A 1-dimensional double array representing second polynomial.
+* <p>
+* @return p1 * p2
+*
+*/
+public static double[] mul(double[] p1, double[] p2)
+{
+if(p1 == null || p2 == null) return null;
+int n = p2.length;
+int m = (p1.length + n) - 1;
+double[][] table = new double[n][m];
+for(int i = 0; i < n; i++)
+{
+	for(int j = 0; j < m; j++)
+	{
+		table[i][j] = 0.0;
+	}
+}
+// compute products.
+for(int i = 0; i < n; i++)
+{
+for(int j = 0; j < p1.length; j++)
+{
+	table[i][j+i] = p2[i] * p1[j];
+}
+}
+double[] p = new double[m];
+for(int i = 0; i < m; i++) p[i] = 0.0;
+// add products in order to get result.
+for(int j = 0; j < m; j++)
+{
+	for(int i = 0; i < n; i++)
+	{
+		p[j] += table[i][j];
+	}
+}
+return p;
+}
+
+/**
 * Sccales the polynomial passed as first parameter by the factor passed as second parameter.
 * <p>
 * @param p A float polynomial.
@@ -782,6 +931,27 @@ public static float[] scale(float[] p, float factor)
 {
 	int n = p.length;
 float[] out = new float[n];
+for(int i = 0; i < n; i++)
+{
+	out[i] = p[i] * factor;
+}
+return out;
+}
+
+/**
+* Sccales the double polynomial passed as first parameter by the factor passed as second parameter.
+* <p>
+* @param p A double polynomial.
+* <p>
+* @param factor Scale factor.
+* <p>
+* @return p scaled by factor.
+*
+*/
+public static double[] scale(double[] p, double factor)
+{
+	int n = p.length;
+double[] out = new double[n];
 for(int i = 0; i < n; i++)
 {
 	out[i] = p[i] * factor;
@@ -811,6 +981,56 @@ dp[k++] = n * p[i];
 n += 1.0f;
 }
 return dp;
+}
+
+/**
+* Computes the derivative for the double polynomial passed as parameter.
+* <p>
+* @param p
+* double 1-dimensional array representing the polynomial to compute its derivative.
+* <p>
+* @return Derivative for the polynomial passed as parameter.
+*
+*/
+public static double[] derive(double[] p)
+{
+if(p == null) return null;
+int size = p.length-1;
+double n = 1.0;
+double[] dp = new double[size];
+int k = 0;
+for(int i = 1; i < p.length; i++)
+{
+dp[k++] = n * p[i];
+n += 1.0;
+}
+return dp;
+}
+
+/**
+* Computes the integral for the double polynomial passed as parameter.
+* <p>
+* @param p
+* double 1-dimensional array representing the polynomial to compute its integral.
+* <p>
+* Note that the constant term is always set to 0.
+* <p>
+* @return Integral for the polynomial passed as parameter.
+*
+*/
+public static double[] integrate(double[] p)
+{
+if(p == null) return null;
+int size = p.length + 1;
+double n = 1.0;
+double[] ip = new double[size];
+ip[0] = 0.0;
+for(int i = 0; i < p.length; i++)
+{
+ip[i+1] = p[i] / n;
+n += 1.0;
+}
+return ip;
 }
 
 /**
@@ -863,6 +1083,29 @@ System.out.println("]");
 }
 
 /**
+* Prints a real double polynomial to the console.
+* <p>
+* @param rp
+* A 1-dimensional double array representing the polynomial to print.
+*
+*/
+public static void print(double[] rp)
+{
+if(rp == null)
+{
+System.out.println("[ null ]");
+return;
+}
+System.out.print("[");
+for(int i = 0; i < rp.length; i++)
+{
+	if(i > 0) System.out.print(", ");
+	System.out.print(rp[i]);
+}
+System.out.println("]");
+}
+
+/**
 * Computes the roots of the polynomial passed as parameter.
 * <p>
 * @param p
@@ -878,6 +1121,21 @@ public static ComplexNumber[] roots(float[] p)
 return roots(Convert.toComplexArray(p));
 }
 
+/**
+* Computes the roots of the double polynomial passed as parameter.
+* <p>
+* @param p
+* A 1-dimensional array floating-point ( double ) representing the polynomial.
+* <p>
+* Mind that the result can have complex solutions so, we return a complex number array.
+* <p>
+* @return complex number array with the n roots of the polynomial passed as parameter.
+*
+*/
+public static ComplexNumber[] roots(double[] p)
+{
+return roots(Convert.toComplexArray(p));
+}
 
 // ComplexNumber implementation
 
@@ -937,7 +1195,7 @@ for(int i = 0; i < n; i++)
 {
 	for(int j = 0; j < m; j++)
 	{
-		table[i][j] = new ComplexNumber(0.0f, 0.0f);
+		table[i][j] = new ComplexNumber(0.0, 0.0);
 	}
 }
 // compute products.
@@ -949,7 +1207,7 @@ for(int j = 0; j < cp1.length; j++)
 }
 }
 ComplexNumber[] cp = new ComplexNumber[m];
-for(int i = 0; i < m; i++) cp[i] = new ComplexNumber(0.0f, 0.0f);
+for(int i = 0; i < m; i++) cp[i] = new ComplexNumber(0.0, 0.0);
 // add products in order to get result.
 for(int j = 0; j < m; j++)
 {
@@ -973,7 +1231,7 @@ return cp;
 * @return cp scaled by the factor passed as second parameter.
 *
 */
-public static ComplexNumber[] scale(ComplexNumber[] cp, float factor)
+public static ComplexNumber[] scale(ComplexNumber[] cp, double factor)
 {
 	int n = cp.length;
 	ComplexNumber[] out = new ComplexNumber[n];
@@ -1017,13 +1275,13 @@ public static ComplexNumber[] derive(ComplexNumber[] cp)
 {
 if(cp == null) return null;
 int size = cp.length-1;
-float n = 1.0f;
+double n = 1.0;
 ComplexNumber[] dp = new ComplexNumber[size];
 int k = 0;
 for(int i = 1; i < cp.length; i++)
 {
-dp[k++] = cp[i].scale((float)n);
-n += 1.0f;
+dp[k++] = cp[i].scale(n);
+n += 1.0;
 }
 return dp;
 }
@@ -1043,13 +1301,13 @@ public static ComplexNumber[] integrate(ComplexNumber[] cp)
 {
 if(cp == null) return null;
 int size = cp.length + 1;
-float n = 1.0f;
+double n = 1.0;
 ComplexNumber[] ip = new ComplexNumber[size];
-ip[0] = new ComplexNumber(0.0f, 0.0f);
+ip[0] = new ComplexNumber(0.0, 0.0);
 for(int i = 0; i < cp.length; i++)
 {
-ip[i+1] = cp[i].scale(1.0f/(float)n);
-n += 1.0f;
+ip[i+1] = cp[i].scale(1.0/n);
+n += 1.0;
 }
 return ip;
 }
@@ -1100,6 +1358,103 @@ return polyrootsFinder(p);
 }
 
 
+// Static methods to reverse polynomials for any coefficient type
+/**
+* Static method to reverse an integer polynomial. <p>
+* @param p
+* An integer array representing the polynomial to be reversed.
+* <p>
+* @return reversed polynomial.
+*
+*/
+public static int[] reverse(int[] p)
+{
+if(p == null) return null;
+int n = p.length;
+if(n == 0) return null;
+int[] out = new int[n];
+int k = n-1;
+for(int i = 0; i < n; i++) out[i] = p[k--];
+return out;
+}
+
+/**
+* Static method to reverse a floating-point polynomial. <p>
+* @param p
+* A floating-point array representing the polynomial to be reversed.
+* <p>
+* @return reversed polynomial.
+*
+*/
+public static float[] reverse(float[] p)
+{
+if(p == null) return null;
+int n = p.length;
+if(n == 0) return null;
+float[] out = new float[n];
+int k = n-1;
+for(int i = 0; i < n; i++) out[i] = p[k--];
+return out;
+}
+
+/**
+* Static method to reverse a floating-point polynomial ( double precission ). <p>
+* @param p
+* A floating-point array representing the polynomial to be reversed.
+* <p>
+* @return reversed polynomial.
+*
+*/
+public static double[] reverse(double[] p)
+{
+if(p == null) return null;
+int n = p.length;
+if(n == 0) return null;
+double[] out = new double[n];
+int k = n-1;
+for(int i = 0; i < n; i++) out[i] = p[k--];
+return out;
+}
+
+/**
+* Static method to reverse a rational number polynomial. <p>
+* @param p
+* A rational number array representing the polynomial to be reversed.
+* <p>
+* @return reversed polynomial.
+*
+*/
+public static RationalNumber[] reverse(RationalNumber[] p)
+{
+if(p == null) return null;
+int n = p.length;
+if(n == 0) return null;
+RationalNumber[] out = new RationalNumber[n];
+int k = n-1;
+for(int i = 0; i < n; i++) out[i] = (RationalNumber)p[k--].clone();
+return out;
+}
+
+/**
+* Static method to reverse a complex number polynomial. <p>
+* @param p
+* A complex number array representing the polynomial to be reversed.
+* <p>
+* @return reversed polynomial.
+*
+*/
+public static ComplexNumber[] reverse(ComplexNumber[] p)
+{
+if(p == null) return null;
+int n = p.length;
+if(n == 0) return null;
+ComplexNumber[] out = new ComplexNumber[n];
+int k = n-1;
+for(int i = 0; i < n; i++) out[i] = (ComplexNumber)p[k--].clone();
+return out;
+}
+
+
 /* PRIVATE STUFF */
 
 // Helper function to add and substract 2 polynomials
@@ -1125,6 +1480,36 @@ private static float[] addsub(float[] p1, float[]p2, String s)
 	}
 	}
 	float[] p = new float[length_p];
+	for(int i = 0; i < length_p; i++)
+	{
+		p[i] = (s.equals("+"))? pa[i] + pb[i] : pa[i] - pb[i];
+	}
+	return p;
+}
+
+// Helper method to add and substrat two double polynomials.
+private static double[] addsub(double[] p1, double[]p2, String s)
+{
+	if(p1 == null || p2 == null) return null;
+	double[] pa = (double[])iArray.clone(p1);
+	double[] pb = (double[])iArray.clone(p2);
+	int length_a = pa.length;
+	int length_b = pb.length;
+	int length_p = p1.length;
+	if(length_a != length_b)
+	{
+	if(length_a > length_b)
+	{
+	pb = (double[])iArray.resize(pb, length_a);
+	length_p = length_a;
+	}
+	else
+	{
+	pa = (double[])iArray.resize(pa, length_b);
+	length_p = length_b;
+	}
+	}
+	double[] p = new double[length_p];
 	for(int i = 0; i < length_p; i++)
 	{
 		p[i] = (s.equals("+"))? pa[i] + pb[i] : pa[i] - pb[i];
@@ -1244,7 +1629,7 @@ return out;
 private static ComplexNumber[] linearSolver(ComplexNumber[] cp)
 {
 	ComplexNumber[] out = new ComplexNumber[1];
-out[0] = cp[0].scale(-1.0f).div(cp[1]);
+out[0] = cp[0].scale(-1.0).div(cp[1]);
 return out;
 }
 
@@ -1253,13 +1638,13 @@ private static ComplexNumber[] quadraticSolver(ComplexNumber[] cp)
 {
 ComplexNumber[] out = new ComplexNumber[2];  // roots array to return
 // split into parts to clarify computation
-ComplexNumber num1 = cp[1].scale(-1.0f);
-ComplexNumber num2 = cp[1].square().sub(cp[2].scale(4.0f).mul(cp[0]));
-ComplexNumber den = cp[2].scale(2.0f);
-if(num2.getReal() < 0.0f) // check for negative sqrt
+ComplexNumber num1 = cp[1].scale(-1.0);
+ComplexNumber num2 = cp[1].square().sub(cp[2].scale(4.0).mul(cp[0]));
+ComplexNumber den = cp[2].scale(2.0);
+if(num2.getReal() < 0.0) // check for negative sqrt
 {
 	num2.setReal(-num2.getReal());
-ComplexNumber i = new ComplexNumber(0.0f, 1.0f);
+ComplexNumber i = new ComplexNumber(0.0, 1.0);
 out[0] = num1.add(num2.sqrt().mul(i)).div(den);
 out[1] = num1.sub(num2.sqrt().mul(i)).div(den);
 }
@@ -1274,23 +1659,23 @@ return out;
 // Helper function to solve cubic polynomial roots.
 private static ComplexNumber[] cubicSolver(ComplexNumber[] cp)
 {
-ComplexNumber z = new ComplexNumber(-1.0f, 0.0f); // ausiliary
+ComplexNumber z = new ComplexNumber(-1.0, 0.0); // ausiliary
 // split into parts to clarify computation
-ComplexNumber d0 = cp[2].square().sub(cp[3].scale(3.0f).mul(cp[1]));
-ComplexNumber d1 = cp[2].pow(3.0f).scale(2.0f).sub(cp[3].mul(cp[2]).mul(cp[1]).scale(9.0f)).add(cp[3].square().scale(27.0f).mul(cp[0]));
-ComplexNumber c = d1.add(d1.square().sub(d0.pow(3.0f).scale(4.0f)).sqrt()).scale(1.0f/2.0f).curt();
+ComplexNumber d0 = cp[2].square().sub(cp[3].scale(3.0).mul(cp[1]));
+ComplexNumber d1 = cp[2].pow(3.0).scale(2.0).sub(cp[3].mul(cp[2]).mul(cp[1]).scale(9.0)).add(cp[3].square().scale(27.0).mul(cp[0]));
+ComplexNumber c = d1.add(d1.square().sub(d0.pow(3.0).scale(4.0)).sqrt()).scale(1.0/2.0).curt();
 ComplexNumber[] r = new ComplexNumber[3]; // roots array to return
 // compute first root
-r[0] = z.div(cp[3].scale(3.0f)).mul(cp[2].add(c).add(d0.div(c)));
+r[0] = z.div(cp[3].scale(3.0)).mul(cp[2].add(c).add(d0.div(c)));
 // prepare to compute the other roots
-ComplexNumber i = new ComplexNumber(0.0f, 1.0f); // imaginary unit
-ComplexNumber three = new ComplexNumber(3.0f, 0.0f); // auxiliary
-ComplexNumber q = z.add(three.sqrt().mul(i)).scale(1.0f / 2.0f); // factor to compute remaining roots
+ComplexNumber i = new ComplexNumber(0.0, 1.0); // imaginary unit
+ComplexNumber three = new ComplexNumber(3.0, 0.0); // auxiliary
+ComplexNumber q = z.add(three.sqrt().mul(i)).scale(1.0 / 2.0); // factor to compute remaining roots
 ComplexNumber c1 = q.mul(c);
 ComplexNumber c2 = q.square().mul(c);
 // compute second and third root
-r[1] = z.div(cp[3].scale(3.0f)).mul(cp[2].add(c1).add(d0.div(c1)));
-r[2] = z.div(cp[3].scale(3.0f)).mul(cp[2].add(c2).add(d0.div(c2)));
+r[1] = z.div(cp[3].scale(3.0)).mul(cp[2].add(c1).add(d0.div(c1)));
+r[2] = z.div(cp[3].scale(3.0)).mul(cp[2].add(c2).add(d0.div(c2)));
 return r;
 }
 
@@ -1299,19 +1684,19 @@ private static ComplexNumber[] quarticSolver(ComplexNumber[] cp)
 {
 ComplexNumber[] out = new ComplexNumber[4];
 // split into parts in order to clarify computation
-ComplexNumber z = new ComplexNumber(1.0f, 0.0f);
-ComplexNumber p = cp[4].scale(8.0f).mul(cp[2]).sub(cp[3].square().scale(3.0f)).div(cp[4].square().scale(8.0f));
-ComplexNumber q = cp[3].pow(3.0f).sub(cp[4].mul(cp[3]).mul(cp[2]).scale(4.0f)).add(cp[4].square().scale(8.0f).mul(cp[1])).div(cp[4].pow(3.0f).scale(8.0f));
-ComplexNumber d0 = cp[2].square().sub(cp[3].scale(3.0f).mul(cp[1])).add(cp[4].scale(12.0f).mul(cp[0]));
-ComplexNumber d1 = cp[2].pow(3.0f).scale(2.0f).sub(cp[3].scale(9.0f).mul(cp[2]).mul(cp[1])).add(cp[3].square().scale(27.0f).mul(cp[0])).add(cp[4].scale(27.0f).mul(cp[1].square())).sub(cp[4].scale(72.0f).mul(cp[2]).mul(cp[0]));
-ComplexNumber Q = d1.add(d1.square().sub(d0.pow(3.0f).scale(4.0f)).sqrt()).scale(1.0f/2.0f).curt();
-ComplexNumber S = p.scale(-2.0f/3.0f).add(z.div(cp[4].scale(3.0f)).mul(Q.add(d0.div(Q)))).sqrt().scale(1.0f/2.0f);
+ComplexNumber z = new ComplexNumber(1.0, 0.0);
+ComplexNumber p = cp[4].scale(8.0).mul(cp[2]).sub(cp[3].square().scale(3.0)).div(cp[4].square().scale(8.0));
+ComplexNumber q = cp[3].pow(3.0).sub(cp[4].mul(cp[3]).mul(cp[2]).scale(4.0)).add(cp[4].square().scale(8.0).mul(cp[1])).div(cp[4].pow(3.0).scale(8.0));
+ComplexNumber d0 = cp[2].square().sub(cp[3].scale(3.0).mul(cp[1])).add(cp[4].scale(12.0).mul(cp[0]));
+ComplexNumber d1 = cp[2].pow(3.0).scale(2.0).sub(cp[3].scale(9.0).mul(cp[2]).mul(cp[1])).add(cp[3].square().scale(27.0).mul(cp[0])).add(cp[4].scale(27.0).mul(cp[1].square())).sub(cp[4].scale(72.0).mul(cp[2]).mul(cp[0]));
+ComplexNumber Q = d1.add(d1.square().sub(d0.pow(3.0).scale(4.0)).sqrt()).scale(1.0/2.0).curt();
+ComplexNumber S = p.scale(-2.0/3.0).add(z.div(cp[4].scale(3.0)).mul(Q.add(d0.div(Q)))).sqrt().scale(1.0/2.0);
 // Compute roots
-ComplexNumber num1 = cp[3].div(cp[4].scale(4.0f)).scale(-1.0f);
-out[0] = num1.sub(S).add(S.square().scale(-4.0f).sub(p.scale(2.0f)).add(q.div(S)).sqrt().scale(1.0f/2.0f));
-out[1] = num1.sub(S).sub(S.square().scale(-4.0f).sub(p.scale(2.0f)).add(q.div(S)).sqrt().scale(1.0f/2.0f));
-out[2] = num1.add(S).add(S.square().scale(-4.0f).sub(p.scale(2.0f)).sub(q.div(S)).sqrt().scale(1.0f/2.0f));
-out[3] = num1.add(S).sub(S.square().scale(-4.0f).sub(p.scale(2.0f)).sub(q.div(S)).sqrt().scale(1.0f/2.0f));
+ComplexNumber num1 = cp[3].div(cp[4].scale(4.0)).scale(-1.0);
+out[0] = num1.sub(S).add(S.square().scale(-4.0).sub(p.scale(2.0)).add(q.div(S)).sqrt().scale(1.0/2.0));
+out[1] = num1.sub(S).sub(S.square().scale(-4.0).sub(p.scale(2.0)).add(q.div(S)).sqrt().scale(1.0/2.0));
+out[2] = num1.add(S).add(S.square().scale(-4.0).sub(p.scale(2.0)).sub(q.div(S)).sqrt().scale(1.0/2.0));
+out[3] = num1.add(S).sub(S.square().scale(-4.0).sub(p.scale(2.0)).sub(q.div(S)).sqrt().scale(1.0/2.0));
 return out;
 }
 
@@ -1347,11 +1732,11 @@ private static ComplexNumber findRoot(ComplexNumber[] p)
 {
 ComplexNumber[] fx = clear(p);
 ComplexNumber[] dfx = derive(fx);
-ComplexNumber z0 = new ComplexNumber(1.0f, 0.0f); // initial guess
+ComplexNumber z0 = new ComplexNumber(1.0, 0.0); // initial guess
 ComplexNumber z1 = null;
 ComplexNumber y = null;
 ComplexNumber dy = null;
-final float epsilon = 1E-5f;
+final double epsilon = 1E-5;
 final int MAX_ITERATIONS = 5050;
 int k = 0;
 while(k < MAX_ITERATIONS)
@@ -1360,7 +1745,7 @@ y = f(fx, z0);
 dy = f(dfx, z0);
 if(dy.magnitude() <= epsilon) break;
 z1 = z0.sub(y.div(dy));
-if(z1.sub(z0).magnitude() < 1E-4f) return z1;
+if(z1.sub(z0).magnitude() < 1E-4) return z1;
 z0 = (ComplexNumber)z1.clone();
 k++;
 }
@@ -1370,7 +1755,7 @@ return z1;
 // Private helper method to compute f(x)
 private static ComplexNumber f(ComplexNumber[] p, ComplexNumber z)
 {
-ComplexNumber out = new ComplexNumber(0.0f, 0.0f);
+ComplexNumber out = new ComplexNumber(0.0, 0.0);
 for(int i = 0; i < p.length; i++)
 {
 out = out.add(p[i].mul(z.pow(i)));
@@ -1440,6 +1825,30 @@ else if(exponent == 1)
 else if(exponent > 1)
 {
 s += (Math.abs(coefficient-(float)((int)coefficient)) < THRESHOLD && (int)Math.abs(coefficient) == 1) ? "x^"+exponent : formatter.format(Math.abs(coefficient))+"x^"+exponent;
+}
+return s;
+}
+
+/*
+* Static method to help printing formatted polynomials of real coefficients.
+*/
+private static String getFormattedTerm(double coefficient, int exponent)
+{
+	NumberFormat formatter = NumberFormat.getNumberInstance(Locale.US);
+		formatter.setMinimumFractionDigits(2);
+		formatter.setMaximumFractionDigits(2);
+String s = "";
+if (exponent == 0)
+{
+s += formatter.format(Math.abs(coefficient));
+}
+else if(exponent == 1)
+{
+	s += (Math.abs(coefficient-(double)((int)coefficient)) < (double)THRESHOLD && (int)Math.abs(coefficient) == 1)? "x" : formatter.format(Math.abs(coefficient))+"x";
+}
+else if(exponent > 1)
+{
+s += (Math.abs(coefficient-(double)((int)coefficient)) < (double)THRESHOLD && (int)Math.abs(coefficient) == 1) ? "x^"+exponent : formatter.format(Math.abs(coefficient))+"x^"+exponent;
 }
 return s;
 }
@@ -1544,6 +1953,39 @@ return out;
 }
 
 /**
+* Static method to load a float-point polynomial ( double precission ). <p>
+* The format for this kind of file is as follows: <p>
+* #n ( an integer which is the polynomial size ( degree+1) ) <p>
+* a0 a1 a2 ... an-1 ( polynomial coefficients ) <p>
+* @param filename
+* File from to load such a polynomial.
+* <p>
+* @return loaded polynomial.
+*/
+public static double[] loadDouble(String filename)
+{
+	double[] out = null;
+Scanner in = null;
+try
+{
+	in = new Scanner(new BufferedReader(new FileReader(filename)));
+	in.useLocale(Locale.US);
+	int size = in.nextInt();
+	out = new double[size];
+	for(int i=0;i<out.length;i++) out[i] = in.nextDouble();
+}
+catch(FileNotFoundException e)
+{
+	System.err.printf("%s file not found.",filename);
+}
+finally
+{
+	if(in != null) in.close();
+}
+return out;
+}
+
+/**
 * Static method to load a rational polynomial. <p>
 * The format for this kind of file is as follows: <p>
 * #n ( an integer which is the polynomial size ( degree+1) ) <p>
@@ -1616,6 +2058,39 @@ finally
 *
 */
 public static void store(float[] p, String filename)
+{
+PrintWriter out = null;
+try
+{
+	out = new PrintWriter(filename);
+	out.println(p.length);
+	for(int i=0;i<p.length;i++)
+	{
+		if(i>0) out.print(" ");
+		out.print(p[i]);
+	}
+	out.println();
+}
+catch(IOException e)
+{
+	System.err.println("Polynomial.Storage IOException: "+e);
+}
+finally
+{
+	if(out != null) out.close();
+}
+}
+
+/**
+* Static method to store a double polynomial. <p>
+* @param p
+* A double array representing the required polynomial.
+* <p>
+* @param filename
+* A name for the file where the polynomial will be stored.
+*
+*/
+public static void store(double[] p, String filename)
 {
 PrintWriter out = null;
 try

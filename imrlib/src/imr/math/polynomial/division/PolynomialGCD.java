@@ -106,6 +106,49 @@ return d;
 }
 
 /**
+* Static method to compute gcd for two double polynomials. <p>
+* @param p1
+* A double array representing a polynomial.
+* <p>
+* @param p2
+* A double array representing a polynomial.
+* <p>
+* @return gcd(p1, p2)
+*
+*/
+public static double[] compute(double[] p1, double[] p2)
+{
+double[] d = null;
+double[] r = null;
+double[] _p1 = Polynomial.clear(p1);
+double[] _p2 = Polynomial.clear(p2);
+if(_p2.length > _p1.length)
+{
+_p1 = Polynomial.clear(p2);
+_p2 = Polynomial.clear(p1);
+}
+DoublePolynomialDivision fpd = new DoublePolynomialDivision();
+while(true)
+{
+	if(_p2.length == 1)
+	{
+		if(Math.abs(_p2[0]) < (double)THRESHOLD) _p2[0] = 1.0;
+		return _p2;
+	}
+	if(!fpd.div(_p1, _p2)) return null;
+	if(zeroRemainder(fpd.remainder()))
+	{
+	d = Polynomial.clear(_p2);
+	break;
+	}
+	r = fpd.remainder();
+	_p1 = Polynomial.clear(_p2);
+	_p2 = Polynomial.clear(r);
+}
+return d;
+}
+
+/**
 * Static method to compute gcd for complex polynomials. <p>
 * @param p1
 * A complex array representing a polynomial.
@@ -132,7 +175,7 @@ while(true)
 {
 	if(_p2.length == 1)
 	{
-		if(_p2[0].magnitude() < THRESHOLD) _p2[0] = new ComplexNumber(1.0f, 0.0f);
+		if(_p2[0].magnitude() < (double)THRESHOLD) _p2[0] = new ComplexNumber(1.0, 0.0);
 		return _p2;
 	}
 	if(!cpd.div(_p1, _p2)) return null;
@@ -158,11 +201,18 @@ for(int i = 0; i < r.length; i++) f += r[i];
 return (Math.abs(f) < THRESHOLD) ? true : false;
 }
 
+private static boolean zeroRemainder(double[] r)
+{
+double f = 0.0;
+for(int i = 0; i < r.length; i++) f += r[i];
+return (Math.abs(f) < (double)THRESHOLD) ? true : false;
+}
+
 private static boolean zeroRemainder(ComplexNumber[] zin)
 {
-ComplexNumber z = new ComplexNumber(0.0f, 0.0f);
+ComplexNumber z = new ComplexNumber(0.0, 0.0);
 for(int i = 0; i < zin.length; i++) z = z.add(zin[i]);
-return (z.magnitude() < THRESHOLD) ? true : false;
+return (z.magnitude() < (double)THRESHOLD) ? true : false;
 }
 
 

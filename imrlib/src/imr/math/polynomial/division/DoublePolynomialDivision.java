@@ -19,7 +19,7 @@
  */
 
 /*
-* ComplexPolynomialDivision.java
+* DoublePolynomialDivision.java
 *
 * imr-lib
 *
@@ -29,7 +29,6 @@
 
 package imr.math.polynomial.division;
 
-import imr.math.ComplexNumber;
 import imr.math.polynomial.Polynomial;
 
 import java.util.List;
@@ -38,61 +37,64 @@ import java.util.Collections;
 import java.util.Comparator;
 
 /**
-* The <code>ComplexPolynomialDivision</code> class implements functionallity to perform complex polynomial division. <p>
+* The <code>DoublePolynomialDivision</code> class implements functionallity to perform floating-point ( double precission ) polynomial division. <p>
+* Notice that using this class you are also able to perform integer polynomial division. <p>
+* All you must do is convert integer arrays into a floating-point ( double precission ) ones. <p>
+* @see imr.util.Convert
 * @author Ismael Mosquera Rivera
 *
 */
-public final class ComplexPolynomialDivision
+public final class DoublePolynomialDivision
 {
 
 /**
 * Constructor.
 */
-public ComplexPolynomialDivision()
+public DoublePolynomialDivision()
 {
 _q = null;
 _r = null;
 }
 
 /**
-* This method performs complex polynomial division. <p>
+* This method performs floating-point ( double precission ) polynomial division. <p>
 * @param p1
-* A complex polynomial represented as an array of complex ( divident ).
+* A floating-point ( double precission ) polynomial represented as an array of doubles ( divident ).
 * <p>
 * @param p2
-* A complex polynomial represented as an array of complex ( divisor).
+* A floating-point ( double precission ) polynomial represented as an array of doubles ( divisor).
  * <p>
  * If this method returns success, you can retrieve the quotient and the remainder calling the <code>quotient()</code> and <code>remainder</code> methods.
  * <p>
  * @return true if success or false otherwise.
  *
  */
-public boolean div(ComplexNumber[] p1, ComplexNumber[] p2)
+public boolean div(double[] p1, double[] p2)
 {
 if(p1==null || p2==null) return false;
 if(p2.length > p1.length) return false;
 if(p2.length == 1)
 {
-	if(p2[0].magnitude() < 1E-5) return false;
-	_q = Polynomial.scale(p1, p2[0].reciprocal());
-	_r = new ComplexNumber[1];
-	_r[0] = new ComplexNumber(0.0, 0.0);
+if(Math.abs(p2[0]) < 1E-5) return false;
+_q = Polynomial.scale(p1, 1.0/p2[0]);
+_r = new double[1];
+_r[0] = 0.0;
 }
 else
 {
 if(p2.length < 2) return false;
-ComplexPolynomial r = new ComplexPolynomial(p1);
-ComplexPolynomial d = new ComplexPolynomial(p2);
-ComplexPolynomial q = new ComplexPolynomial();
-ComplexNumber current = null;
-ComplexNumber dcoef = (ComplexNumber)d.leadingCoefficient().clone();
+DoublePolynomial r = new DoublePolynomial(p1);
+DoublePolynomial d = new DoublePolynomial(p2);
+DoublePolynomial q = new DoublePolynomial();
+double current = 0.0;
+double dcoef = d.leadingCoefficient();
 int pd = d.degree();
 while(r.degree() >= d.degree())
 {
-current = r.leadingCoefficient().div(dcoef);
-Term t = new Term((ComplexNumber)current.clone(), r.degree()-pd);
+current = r.leadingCoefficient() / dcoef;
+Term t = new Term(current, r.degree()-pd);
 q.add(t);
-r = new ComplexPolynomial(Polynomial.sub(r.raw(), Polynomial.mul(p2, ComplexPolynomial.raw((ComplexNumber)t.coefficient.clone(), t.exponent))));
+r = new DoublePolynomial(Polynomial.sub(r.raw(), Polynomial.mul(p2, DoublePolynomial.raw(t.coefficient, t.exponent))));
 }
 _q = q.raw();
 _r = r.raw();
@@ -105,49 +107,49 @@ return true;
 * @return resulting quotient.
 *
 */
-public ComplexNumber[] quotient()
+public double[] quotient()
 {
 return _q;
 }
 
 /**
-* Gets the remainder after division. <p>
+* Gets the remainder agter division. <p>
 * @return resulting remainder.
 *
 */
-public ComplexNumber[] remainder()
+public double[] remainder()
 {
 	return _r;
 }
 
 // Class members
-private ComplexNumber[] _q; // quotient
-private ComplexNumber[] _r; // remainder
+private double[] _q; // quotient
+private double[] _r; // remainder
 
-// simbolic constant defined just by convinience
+// Convenient constant
 private static final double THRESHOLD = 1E-5;
 
 // Private helper inner class
-private static final class ComplexPolynomial
+private static final class DoublePolynomial
 {
 /*
 * Default constructor.
 */
-public ComplexPolynomial()
+public DoublePolynomial()
 {
 polynomialTerms = new ArrayList<>();
 }
 
 /*
 * Constructor.
-* Builds a ComplexPolynomial object from a raw ComplexNumber array.
+* Builds a DoublePolynomial object from a raw float array.
 */
-public ComplexPolynomial(ComplexNumber[] p)
+public DoublePolynomial(double[] p)
 {
 	this();
 for(int i = p.length-1; i >= 0; i--)
 {
-	if(p[i].magnitude() > THRESHOLD) polynomialTerms.add(new Term((ComplexNumber)p[i].clone(), i));
+	if(Math.abs(p[i]) > THRESHOLD) polynomialTerms.add(new Term(p[i], i));
 }
 Collections.sort(polynomialTerms, new TermSorter());
 }
@@ -164,9 +166,9 @@ polynomialTerms.add(t);
 * Gets the leading coefficient from this polynomial.
 * The leading coefficient is the one of major exponent.
 */
-public ComplexNumber leadingCoefficient()
+public double leadingCoefficient()
 {
-return (ComplexNumber)polynomialTerms.get(0).coefficient.clone();
+return polynomialTerms.get(0).coefficient;
 }
 
 /*
@@ -178,43 +180,43 @@ public int degree()
 return polynomialTerms.get(0).exponent;
 }
 
-// Build a raw ComplexNumber array having all coefficients.
-public ComplexNumber[] raw()
+// Build a raw double array having all coefficients.
+public double[] raw()
 {
-ComplexNumber[] out = new ComplexNumber[this.degree()+1];
-for(int i = 0; i < out.length; i++) out[i] = (new ComplexNumber(0.0, 0.0));
+double[] out = new double[this.degree()+1];
+for(int i = 0; i < out.length; i++) out[i] = 0.0;
 for(Term t : polynomialTerms)
 {
-	out[t.exponent] = (ComplexNumber)t.coefficient.clone();
+	out[t.exponent] = t.coefficient;
 }
 return out;
 }
 
-// build a raw ComplexNumber array for help polynomial multiplication
-public static ComplexNumber[] raw(ComplexNumber coefficient, int exponent)
+// build a raw double array for help polynomial multiplication
+public static double[] raw(double coefficient, int exponent)
 {
-ComplexNumber[] out = new ComplexNumber[exponent+1];
-for(int i = 0; i < out.length; i++) out[i] = (new ComplexNumber(0.0, 0.0));
-out[exponent] = (ComplexNumber)coefficient.clone();
+double[] out = new double[exponent+1];
+for(int i = 0; i < out.length; i++) out[i] = 0.0;
+out[exponent] = coefficient;
 return out;
 }
 
 
-// choosed structure to store complex polynomial terms.
+// choosed structure to store double polynomial terms.
 private List<Term> polynomialTerms;
 }
 
 private static final class Term
 {
 
-public Term(ComplexNumber coefficient, int exponent)
+public Term(double coefficient, int exponent)
 {
 this.coefficient = coefficient;
 this.exponent = exponent;
 }
 
 
-ComplexNumber coefficient;
+double coefficient;
 int exponent;
 }
 

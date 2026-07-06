@@ -64,7 +64,7 @@ public final class PolarNumber
 */
 public PolarNumber()
 {
-this(1.0f, 1.0f);
+this(1.0, 1.0);
 }
 
 /**
@@ -74,7 +74,7 @@ this(1.0f, 1.0f);
 * @param arg Argument.
 *
 */
-public PolarNumber(float mag, float arg)
+public PolarNumber(double mag, double arg)
 {
 _mag = mag;
 _phase = arg;
@@ -101,7 +101,7 @@ _phase = p.getArgument();
 * @return magnitude.
 *
 */
-public float getMagnitude()
+public double getMagnitude()
 {
 return _mag;
 }
@@ -111,7 +111,7 @@ return _mag;
 * <p>
 * @return argument.
 */
-public float getArgument()
+public double getArgument()
 {
 return _phase;
 }
@@ -122,7 +122,7 @@ return _phase;
 * @param mag Magnitude to set.
 *
 */
-public void setMagnitude(float mag)
+public void setMagnitude(double mag)
 {
 this._mag = mag;
 }
@@ -133,7 +133,7 @@ this._mag = mag;
 * @param arg Argument to set.
 *
 */
-public void setArgument(float arg)
+public void setArgument(double arg)
 {
 this._phase = arg;
 }
@@ -180,8 +180,8 @@ try
 {
 	in = new Scanner(new BufferedReader(new FileReader(filename)));
 	in.useLocale(Locale.US);
-	_mag = in.nextFloat();
-_phase = in.nextFloat();
+	_mag = in.nextDouble();
+_phase = in.nextDouble();
 }
 catch(FileNotFoundException e)
 {
@@ -384,8 +384,8 @@ public static PolarNumber sub(PolarNumber p1, PolarNumber p2)
 */
 public static PolarNumber mul(PolarNumber p1, PolarNumber p2)
 {
-float mag = p1.getMagnitude() * p2.getMagnitude();
-float phase = p1.getArgument() + p2.getArgument();
+double mag = p1.getMagnitude() * p2.getMagnitude();
+double phase = p1.getArgument() + p2.getArgument();
 return new PolarNumber(mag, phase);
 }
 
@@ -401,8 +401,8 @@ return new PolarNumber(mag, phase);
 */
 public static PolarNumber div(PolarNumber p1, PolarNumber p2)
 {
-	float mag = p1.getMagnitude() / p2.getMagnitude();
-	float phase = p1.getArgument() - p2.getArgument();
+	double mag = p1.getMagnitude() / p2.getMagnitude();
+	double phase = p1.getArgument() - p2.getArgument();
 return new PolarNumber(mag, phase);
 }
 
@@ -433,10 +433,10 @@ return p.mul(p);
 */
 public static PolarNumber pow(PolarNumber p, int n)
 {
-double w = (double)n * (double)p.getArgument();
-float r = (float)(Math.pow((double)p.getMagnitude(), (double)n));
-float real = r* (float)Math.cos(w);
-float imag = r * (float)Math.sin(w);
+double w = (double)n * p.getArgument();
+double r = Math.pow(p.getMagnitude(), (double)n);
+double real = r* Math.cos(w);
+double imag = r * Math.sin(w);
 return (new ComplexNumber(real, imag)).toPolar();
 }
 
@@ -480,10 +480,10 @@ return ithrt(p, 3);
 public static PolarNumber ithrt(PolarNumber p, int n)
 {
 assert(n > 0): "PolarNumber.ithrt: Bad parameter.";
-double w = (double)p.getArgument() / (double)n;
-float r = (float)(Math.pow((double)p.getMagnitude(), 1.0/(double)n));
-float real = r* (float)Math.cos(w);
-float imag = r * (float)Math.sin(w);
+double w = p.getArgument() / (double)n;
+double r = Math.pow(p.getMagnitude(), 1.0/(double)n);
+double real = r* Math.cos(w);
+double imag = r * Math.sin(w);
 return (new ComplexNumber(real, imag)).toPolar();
 }
 
@@ -538,12 +538,12 @@ try
 	in.useLocale(Locale.US);
 	int n = in.nextInt();
 	out = new PolarNumber[n];
-	float mag = 0.0f;
-	float phase = 0.0f;
+	double mag = 0.0;
+	double phase = 0.0;
 	for(int i = 0; i < n; i++)
 	{
-		mag = in.nextFloat();
-		phase = in.nextFloat();
+		mag = in.nextDouble();
+		phase = in.nextDouble();
 		out[i] = new PolarNumber(mag, phase);
 	}
 }
@@ -583,8 +583,8 @@ PrintWriter out = null;
 try
 {
 	out = new PrintWriter(filename);
-	float mag = 0.0f;
-	float phase = 0.0f;
+	double mag = 0.0;
+	double phase = 0.0;
 	int n = parray.length;
 	out.println(n);
 	for(int i = 0; i < n; i++)
@@ -612,8 +612,8 @@ finally
 */
 public ComplexNumber toComplex()
 {
-float real = _mag * (float)Math.cos((double)_phase);
-float imag = _mag * (float)Math.sin((double)_phase);
+double real = _mag * Math.cos(_phase);
+double imag = _mag * Math.sin(_phase);
 return new ComplexNumber(real, imag);
 }
 
@@ -671,8 +671,8 @@ return s;
 }
 
 
-private float _mag;
-private float _phase;
+private double _mag;
+private double _phase;
 
 }
 

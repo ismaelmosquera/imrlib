@@ -89,8 +89,8 @@ super(sr, cf, band, size);
 protected float[] getFilter(int size)
 {
 	if(!_mustUpdate) return h;
-	float c_fc0 = 2.0f*(float)Math.PI*(_band.getMin()/_sampleRate);
-	float c_fc1 = 2.0f*(float)Math.PI*(_band.getMax()/_sampleRate);
+	float c_fc0 = 2.0f*(float)Math.PI*((float)_band.getMin()/_sampleRate);
+	float c_fc1 = 2.0f*(float)Math.PI*((float)_band.getMax()/_sampleRate);
 	int h_len = _size;
 	if(h_len % 2 == 0) h_len--;
 	float[] h0 = new float[h_len];

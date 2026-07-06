@@ -55,8 +55,8 @@ public static ComplexEigen findMaxEigen(ComplexMatrix m)
 {
 	if(m == null) return null;
 if(m.rows() != m.columns()) return null; // m must be square
-float lim;
-ComplexNumber value = new ComplexNumber(0.0f, 0.0f);
+double lim;
+ComplexNumber value = new ComplexNumber(0.0, 0.0);
 ComplexNumber x = null;
 ComplexNumber ant = null;
 int i, j, n, major;
@@ -64,7 +64,7 @@ ComplexMatrix b = null;
 ComplexMatrix a = (ComplexMatrix)m.clone();
 n = a.columns();
 ComplexMatrix aux = new ComplexMatrix(n, 1);
-for(i = 0; i < n; i++) aux.set(i, 0, new ComplexNumber(1.0f, 0.0f));
+for(i = 0; i < n; i++) aux.set(i, 0, new ComplexNumber(1.0, 0.0));
 i = 1;
 do
 {
@@ -172,7 +172,7 @@ private static boolean done(ComplexMatrix m)
 {
 for(int i = 0; i < m.rows(); i++)
 {
-	if(m.get(i, i).magnitude() != 1.0f) return false;
+	if(m.get(i, i).magnitude() != 1.0) return false;
 }
 return true;
 }
@@ -199,7 +199,7 @@ eigens[j] = tmp;
 // private constructor so that this class cannot be instantiated.
 private ComplexEigenFinder() {}
 
-private static final float __THRESHOLD__ = 1E-3f;
+private static final double __THRESHOLD__ = 1E-3;
 private static final int MAX_ITERATIONS = 50000;
 }
 

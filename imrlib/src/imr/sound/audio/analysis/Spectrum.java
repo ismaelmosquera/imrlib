@@ -28,6 +28,7 @@
 
 package imr.sound.audio.analysis;
 
+import imr.util.Convert;
 import imr.util.iArray;
 import imr.math.ComplexNumber;
 import imr.sound.audio.FrameFactory;
@@ -81,7 +82,7 @@ _magnitudeSpectrum = null;
 */
 public void compute(float[] v)
 {
-_fft = Fourier.fft(v);
+_fft = Fourier.fft(Convert.toDoubleArray(v));
 update();
 }
 
@@ -119,7 +120,7 @@ public float[] getPhaseSpectrum()
 {
 	float[] phaseSpec = new float[_magnitudeSpectrum.length];
 	int len = phaseSpec.length;
-	for(int i = 0; i < len; i++) phaseSpec[i] = _fft[i].argument();
+	for(int i = 0; i < len; i++) phaseSpec[i] = (float)_fft[i].argument();
 	return phaseSpec;
 }
 
@@ -284,7 +285,7 @@ int size = len - zp;
 _magnitudeSpectrum = new float[size];
 for(int i = 0; i < size; i++)
 {
-	_magnitudeSpectrum[i] = _fft[i].magnitude();
+	_magnitudeSpectrum[i] = (float)_fft[i].magnitude();
 }
 _magnitudeSpectrum = FrameFactory.normalizeFrame(_magnitudeSpectrum);
 }

@@ -65,9 +65,9 @@ public class Convert
 */
 public static ComplexNumber toComplex(PolarNumber p)
 {
-	float mag = p.getMagnitude();
-float arg = p.getArgument();
-	return new ComplexNumber(mag * (float)Math.cos((double)arg), mag * (float)Math.sin((double)arg));
+	double mag = p.getMagnitude();
+double arg = p.getArgument();
+	return new ComplexNumber(mag * Math.cos(arg), mag * Math.sin(arg));
 }
 
 /**
@@ -93,9 +93,9 @@ return new PolarNumber(z.magnitude(), z.argument());
 * @return degrees value result of the conversion.
 *
 */
-public static float toDegrees(float r)
+public static double toDegrees(double r)
 {
-	return r * 180.0f / (float)Math.PI;
+	return r * 180.0 / Math.PI;
 }
 
 /**
@@ -107,9 +107,9 @@ public static float toDegrees(float r)
 * @return radians value result of the conversion.
 *
 */
-public static float toRadians(float g)
+public static double toRadians(double g)
 {
-	return g * (float)Math.PI / 180.0f;
+	return g * Math.PI / 180.0;
 }
 
 
@@ -196,7 +196,26 @@ int n = p.length;
 float[] out = new float[n];
 for(int i = 0; i < n; i++)
 {
-out[i] = p[i].getReal();
+out[i] = (float)p[i].getReal();
+}
+return out;
+}
+
+/**
+* Converts double to float array. <p>
+* @param p
+* A double array.
+* <p>
+* @return Converted array.
+*
+*/
+public static float[] toFloatArray(double[] p)
+{
+if(p == null) return null;
+float[] out = new float[p.length];
+for(int i = 0; i < out.length; i++)
+{
+out[i] = (float)p[i];
 }
 return out;
 }
@@ -217,7 +236,7 @@ int size = p.length;
 ComplexNumber[] out = new ComplexNumber[size];
 for(int i = 0; i < size; i++)
 {
-out[i] = new ComplexNumber((float)p[i], 0.0f);
+out[i] = new ComplexNumber((double)p[i], 0.0);
 }
 return out;
 }
@@ -238,7 +257,7 @@ int size = p.length;
 ComplexNumber[] out = new ComplexNumber[size];
 for(int i = 0; i < size; i++)
 {
-out[i] = new ComplexNumber(p[i], 0.0f);
+out[i] = new ComplexNumber((double)p[i], 0.0);
 }
 return out;
 }
@@ -308,6 +327,82 @@ return out;
 }
 
 /**
+* Converts int to double array. <p>
+* @param p
+* An integer array.
+* <p>
+* @return converted array.
+*
+*/
+public static double[] toDoubleArray(int[] p)
+{
+if(p == null) return null;
+double[] out = new double[p.length];
+for(int i = 0; i < out.length; i++)
+{
+out[i] = (double)p[i];
+}
+return out;
+}
+
+/**
+* Converts float to double array. <p>
+* @param p
+* A float array.
+* <p>
+* @return converted array.
+*
+*/
+public static double[] toDoubleArray(float[] p)
+{
+if(p == null) return null;
+double[] out = new double[p.length];
+for(int i = 0; i < out.length; i++)
+{
+out[i] = (double)p[i];
+}
+return out;
+}
+
+/**
+* Converts complex to double array. <p>
+* @param p
+* A complex array.
+* <p>
+* @return converted array.
+*
+*/
+public static double[] toDoubleArray(ComplexNumber[] p)
+{
+if(p == null) return null;
+double[] out = new double[p.length];
+for(int i = 0; i < out.length; i++)
+{
+	out[i] = p[i].getReal();
+}
+return out;
+}
+
+/**
+* Converts double to complex array. <p>
+* @param p
+* A double array.
+* <p>
+* @return converted array.
+*
+*/
+public static ComplexNumber[] toComplexArray(double[] p)
+{
+if(p == null) return null;
+ComplexNumber[] out = new ComplexNumber[p.length];
+for(int i = 0; i < out.length; i++)
+{
+out[i] = new ComplexNumber(p[i], 0.0);
+}
+return out;
+}
+
+/**
 * Static method to convert a real matrix to a complex matrix. <p>
 * @param m
 * A real matrix object.
@@ -325,7 +420,7 @@ for(int i = 0; i < r; i++)
 {
 	for(int j = 0; j < c; j++)
 	{
-		cmat.set(i, j, new ComplexNumber((float)m.get(i, j), 0.0f));
+		cmat.set(i, j, new ComplexNumber(m.get(i, j), 0.0));
 	}
 }
 return cmat;
@@ -350,7 +445,7 @@ for(int i = 0; i < r; i++)
 {
 	for(int j = 0; j < c; j++)
 	{
-		out.set(i, j, (double)m.get(i, j).getReal());
+		out.set(i, j, m.get(i, j).getReal());
 	}
 }
 return out;
@@ -371,7 +466,7 @@ public static ComplexVector toComplexVector(Vector v)
 	ComplexVector out = new ComplexVector(n);
 	for(int i = 0; i < n; i++)
 	{
-	out.set(i, new ComplexNumber((float)v.get(i), 0.0f));
+	out.set(i, new ComplexNumber(v.get(i), 0.0));
 	}
 	return out;
 }
@@ -392,7 +487,7 @@ int n = v.size();
 Vector out = new Vector(n);
 for(int i = 0; i < n; i++)
 {
-out.set(i, (double)v.get(i).getReal());
+out.set(i, v.get(i).getReal());
 }
 return out;
 }

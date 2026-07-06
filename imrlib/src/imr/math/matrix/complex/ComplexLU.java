@@ -78,7 +78,7 @@ _permutations[i]=i;
 // end init structures
 int row;
 boolean singular=false;
-float pivot;
+double pivot;
 ComplexNumber tmp = null;
 ComplexNumber remove = null;
 ComplexNumber t = null;
@@ -111,8 +111,8 @@ _permutations[row]=i;
 }
 for(int j=i+1;j<n;j++)
 {
-remove = _upper.get(j,i).scale(-1.0f).div(_upper.get(i,i));
-_lower.set(j,i, remove.scale(-1.0f));
+remove = _upper.get(j,i).scale(-1.0).div(_upper.get(i,i));
+_lower.set(j,i, remove.scale(-1.0));
 for(int k=0;k<n;k++)
 {
 t = _upper.get(j,k).add(remove.mul(_upper.get(i,k)));

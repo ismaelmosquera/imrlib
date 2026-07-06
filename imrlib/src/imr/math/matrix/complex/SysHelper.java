@@ -59,7 +59,7 @@ class SysHelper
 static ComplexMatrix gaussianElimination(ComplexMatrix m, boolean undet)
 {
 int row, i, j, k;
-float pivot;
+double pivot;
 ComplexNumber elim = null;
 ComplexNumber tmp = null;
 ComplexMatrix u = (ComplexMatrix)m.clone();
@@ -94,7 +94,7 @@ i = 0;
   for(j = i+1; j < u.rows(); j++)
   {
 	  /* find zeros */
-   elim = u.get(j, i).scale(-1.0f).div(u.get(i, i));
+   elim = u.get(j, i).scale(-1.0).div(u.get(i, i));
    for(k = 0; k < u.columns(); k++)
    {
     u.set(j,k, u.get(j, k).add(elim.mul(u.get(i, k))));
@@ -172,12 +172,12 @@ static ComplexMatrix setHomogeneousSystem(ComplexMatrix m)
 {
 if(m == null) return null;
 if(m.rows() != m.columns()) return null; // m must be square
-float param = 1.0f / (float)RandomNumberGenerator.generate(1, 10); // compute parameter
+double param = 1.0 / (double)RandomNumberGenerator.generate(1, 10); // compute parameter
 int n = m.rows();
 ComplexMatrix a = (ComplexMatrix)m.clone();
-a.set(n-1, n-1, new ComplexNumber(1.0f, 0.0f));
+a.set(n-1, n-1, new ComplexNumber(1.0, 0.0f));
 ComplexVector v = new ComplexVector(n);
-v.set(n-1, new ComplexNumber(param, 0.0f));
+v.set(n-1, new ComplexNumber(param, 0.0));
 return systemMatrix(a, v);
 }
 
@@ -189,7 +189,7 @@ private SysHelper() {}
 * This constant has package scope.
 *
 */
-static final float THRESHOLD = 1E-5f;
+static final double THRESHOLD = 1E-5;
 }
 
 // END

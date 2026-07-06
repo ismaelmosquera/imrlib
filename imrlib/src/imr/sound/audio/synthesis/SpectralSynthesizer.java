@@ -28,6 +28,7 @@
 
 package imr.sound.audio.synthesis;
 
+import imr.util.Convert;
 import imr.sound.audio.analysis.Fourier;
 import imr.sound.audio.analysis.Spectrum;
 import imr.sound.audio.window.Windowing;
@@ -79,7 +80,7 @@ public SpectralSynthesizer()
 */
 public float[] synthesize(Spectrum spec)
 {
-	float[] x = Fourier.ifft(spec.getFFT());
+	float[] x = Convert.toFloatArray(Fourier.ifft(spec.getFFT()));
 	if(_applyWindow) applyWindow(x);
 return x;
 }

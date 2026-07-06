@@ -132,7 +132,7 @@ public ComplexNumber det()
 {
 if(!_hasDiagonalization) return ComplexNumber.NaN;
 int n = _d.rows();
-ComplexNumber d = new ComplexNumber(1.0f, 0.0f);
+ComplexNumber d = new ComplexNumber(1.0, 0.0);
 for(int i = 0; i < n; i++) d = d.mul(_d.get(i, i));
 return d;
 }

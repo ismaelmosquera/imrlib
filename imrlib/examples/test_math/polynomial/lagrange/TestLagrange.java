@@ -46,11 +46,11 @@ System.out.println("Points to pass through:");
 Point2D.print(p);
 
 // array having the 'x' coordinates where we want to interpolate points.
-float[] x = {-2.5f, -1.5f, -1.0f, -0.5f, 0.5f, 1.0f, 1.5f, 2.5f};
+double[] x = {-2.5, -1.5, -1.0, -0.5, 0.5, 1.0, 1.5, 2.5};
 
 // Make an instance for a LagrangeInterpolator object.
 LagrangeInterpolator li = new LagrangeInterpolator(p); // pass the set of points as parameter for the constructor
-float[] y = li.interpolate(x); // pass the 'x' coordinates array as parameter to the interpolation method to get the 'y' coordinates.
+double[] y = li.interpolate(x); // pass the 'x' coordinates array as parameter to the interpolation method to get the 'y' coordinates.
 
 // print the result to the console.
 iArray.print(x, "input x = ");

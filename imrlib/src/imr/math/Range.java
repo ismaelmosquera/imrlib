@@ -29,7 +29,7 @@
 package imr.math;
 
 /**
-* The <code>Range</code> class implements a range between min and ma^^x[min .. max]
+* The <code>Range</code> class implements a range between min and max[min .. max]
 * <p>
 * It is a final class producing immutable objects.
 * <p>
@@ -55,7 +55,7 @@ public final class Range
 * @param max Maximum value for this range object.
 *
 */
-public Range(float min, float max)
+public Range(double min, double max)
 {
 assert (min < max): "Bad parameters for Range class instantiation: min must be less than max";
 _min = min;
@@ -68,7 +68,7 @@ _max = max;
 * @return Maximum range value.
 *
 */
-public float getMax()
+public double getMax()
 {
 return _max;
 }
@@ -79,14 +79,14 @@ return _max;
 * @return Minimum range value.
 *
 */
-public float getMin()
+public double getMin()
 {
 return _min;
 }
 
 
-private final float _min;
-private final float _max;
+private final double _min;
+private final double _max;
 }
 
 // END

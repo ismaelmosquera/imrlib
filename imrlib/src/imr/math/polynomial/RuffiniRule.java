@@ -69,7 +69,7 @@ public RuffiniRule()
 {
 _q = null;
 _r = new ComplexNumber[1];
-_r[0] = new ComplexNumber(0.0f, 0.0f);
+_r[0] = new ComplexNumber(0.0, 0.0);
 }
 
 /**
@@ -111,7 +111,28 @@ public void compute(int[] p, int n)
 */
 public void compute(float[] p, float r)
 {
-compute(Convert.toComplexArray(p), new ComplexNumber(r, 0.0f));
+compute(Convert.toComplexArray(p), new ComplexNumber((double)r, 0.0));
+}
+
+/**
+* Computes the division pn / (x- r).
+* <p>
+* Note that, since in (x - r), the coefficient of x is always 1, we pass just r as parameter.
+* <p>
+* @param p
+* A float 1-dimensional array representing p.
+* <p>
+* @param r
+* The r component.
+* <p>
+* The quotient will be a polynomial of degree n-1, where n is the degree of the polynomial passed as first parameter.
+* <p>
+* You can retrieve the quotient an remainder using the methods below.
+*
+*/
+public void compute(double[] p, double r)
+{
+compute(Convert.toComplexArray(p), new ComplexNumber(r, 0.0));
 }
 
 /**

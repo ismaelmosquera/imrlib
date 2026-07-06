@@ -53,30 +53,30 @@ public class CharacteristicPolynomial
 * @return Characteristic polynomial of A as a floating-point vector, or null if the operation cannot be done.
 *
 */
-public static float[] compute(Matrix m)
+public static double[] compute(Matrix m)
 {
 	if(m == null) return null;
 	if(m.rows() != m.columns()) return null; // m must be square
 	int size = m.rows()+1;
 	if(size < 3) return null; // order of m must be at least 2
-	float[] out = new float[size];
-out[0] = (float)(m.scale(-1.0).det());
-out[size-2] = -((float)m.trace());
-out[size-1] = 1.0f;
+	double[] out = new double[size];
+out[0] = m.scale(-1.0).det();
+out[size-2] = -m.trace();
+out[size-1] = 1.0;
 if(size == 3) return out;
 int n = size-1; // order of the matrix
 int p, q;
-float t;
+double t;
 for(int k = 2; (n-k) > 0; k++)
 {
 	p = n;
 	q = k;
-	t = 0.0f;
+	t = 0.0;
 	while(q > 0)
 	{
-		t += out[p--] * (float)(pow(m, q--).trace());
+		t += out[p--] * pow(m, q--).trace();
 	}
-	out[n-k] = (-1.0f/(float)k) * t;
+	out[n-k] = (-1.0/(double)k) * t;
 }
 return out;
 }
@@ -96,9 +96,9 @@ public static ComplexNumber[] compute(ComplexMatrix m)
 	int size = m.rows()+1;
 	if(size < 3) return null; // order of m must be at least 2
 	ComplexNumber[] out = new ComplexNumber[size];
-out[0] = m.scale(new ComplexNumber(-1.0f, 0.0f)).det();
-out[size-2] = m.trace().scale(-1.0f);
-out[size-1] = new ComplexNumber(1.0f, 0.0f);
+out[0] = m.scale(new ComplexNumber(-1.0, 0.0)).det();
+out[size-2] = m.trace().scale(-1.0);
+out[size-1] = new ComplexNumber(1.0, 0.0);
 if(size == 3) return out;
 int n = size-1; // order of the matrix
 int p, q;
@@ -107,12 +107,12 @@ for(int k = 2; (n-k) > 0; k++)
 {
 	p = n;
 	q = k;
-	t = new ComplexNumber(0.0f, 0.0f);
+	t = new ComplexNumber(0.0, 0.0);
 	while(q > 0)
 	{
 		t = t.add(out[p--].mul(pow(m, q--).trace()));
 	}
-	out[n-k] = t.scale(-1.0f/(float)k);
+	out[n-k] = t.scale(-1.0/(double)k);
 }
 return out;
 }

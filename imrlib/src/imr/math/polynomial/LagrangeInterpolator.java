@@ -85,8 +85,8 @@ _n = points.length;
 _x = null;
 _y = null;
 
-_x = new float[_n];
-_y = new float[_n];
+_x = new double[_n];
+_y = new double[_n];
 
 for(int i = 0; i < _n; i++)
 {
@@ -104,10 +104,10 @@ _y[i] = points[i].getY();
 * @return Interpolated y-values.
 *
 */
-public float[] interpolate(float[] x)
+public double[] interpolate(double[] x)
 {
 	int n = x.length;
-float[] px = new float[n];
+double[] px = new double[n];
 for(int i = 0; i < n; i++)
 {
 px[i] = Pn(_x, _y, x[i]);
@@ -119,9 +119,9 @@ return px;
 /*
 * Gets the Pn(x) value.
 */
-private float Pn(float[] x, float[] y, float xn)
+private double Pn(double[] x, double[] y, double xn)
 {
-float pn = 0.0f;
+double pn = 0.0;
 for(int i = 0; i < _n; i++)
 {
 pn += Li(i, x, xn) * y[i];
@@ -132,9 +132,9 @@ return pn;
 /*
 * Gets the Li(x) value.
 */
-private float Li(int i, float[] x, float xn)
+private double Li(int i, double[] x, double xn)
 {
-float retval = 1.0f;
+double retval = 1.0;
 for(int j = 0; j < _n; j++)
 {
 if(i != j)
@@ -147,8 +147,8 @@ return retval;
 
 
 private int _n; // number of points
-private float[] _x; // x-coordinates
-private float[] _y; // y-coordinates
+private double[] _x; // x-coordinates
+private double[] _y; // y-coordinates
 }
 
 // END

@@ -61,7 +61,7 @@ public final class Point2D
 */
 public Point2D()
 {
-this(0.0f, 0.0f);
+this(0.0, 0.0);
 }
 
 /**
@@ -73,7 +73,7 @@ this(0.0f, 0.0f);
 * y Coordinate.
 *
 */
-public Point2D(float x, float y)
+public Point2D(double x, double y)
 {
 _x = x;
 _y = y;
@@ -85,7 +85,7 @@ _y = y;
 * @return X coordinate.
 *
 */
-public float getX()
+public double getX()
 {
 return _x;
 }
@@ -96,7 +96,7 @@ return _x;
 * @return Y coordinate.
 *
 */
-public float getY()
+public double getY()
 {
 return _y;
 }
@@ -107,7 +107,7 @@ return _y;
 * @param x X coordinate.
 *
 */
-public void setX(float x)
+public void setX(double x)
 {
 _x = x;
 }
@@ -118,7 +118,7 @@ _x = x;
 * @param y Y coordinate.
 *
 */
-public void setY(float y)
+public void setY(double y)
 {
 _y = y;
 }
@@ -187,8 +187,8 @@ try
 {
 	in = new Scanner(new BufferedReader(new FileReader(filename)));
 	in.useLocale(Locale.US);
-	_x = in.nextFloat();
-_y = in.nextFloat();
+	_x = in.nextDouble();
+_y = in.nextDouble();
 }
 catch(FileNotFoundException e)
 {
@@ -266,12 +266,12 @@ return sub(this, p);
 /**
 * Scales this point by the factor passed as parameter.
 * <p>
-* @param factor A float value to scale this point.
+* @param factor A double value to scale this point.
 * <p>
 * @return this point scaled by the factor passed as parameter.
 *
 */
-public Point2D scale(float factor)
+public Point2D scale(double factor)
 {
 return scale(this, factor);
 }
@@ -310,12 +310,12 @@ public static Point2D sub(Point2D p1, Point2D p2)
 * Scales a point to a factor.
 * <p>
 * @param p A <code>Point2D</code> object.
-* @param factor A float value to scale this point.
+* @param factor A double value to scale this point.
 * <p>
 * @return This point scaled by the factor passed as parameter.
 *
 */
-public static Point2D scale(Point2D p, float factor)
+public static Point2D scale(Point2D p, double factor)
 {
 return new Point2D(p.getX()*factor, p.getY()*factor);
 }
@@ -348,12 +348,12 @@ try
 	in.useLocale(Locale.US);
 	int n = in.nextInt();
 	out = new Point2D[n];
-	float x = 0.0f;
-	float y = 0.0f;
+	double x = 0.0;
+	double y = 0.0;
 	for(int i = 0; i < n; i++)
 	{
-		x = in.nextFloat();
-		y = in.nextFloat();
+		x = in.nextDouble();
+		y = in.nextDouble();
 		out[i] = new Point2D(x, y);
 	}
 }
@@ -393,8 +393,8 @@ PrintWriter out = null;
 try
 {
 	out = new PrintWriter(filename);
-	float x = 0.0f;
-	float y = 0.0f;
+	double x = 0.0;
+	double y = 0.0;
 	int n = parray.length;
 	out.println(n);
 	for(int i = 0; i < n; i++)
@@ -464,8 +464,8 @@ return s;
 }
 
 
-private float _x;
-private float _y;
+private double _x;
+private double _y;
 }
 
 // END

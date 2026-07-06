@@ -53,9 +53,9 @@ public class Factorial
 */
 public static double compute(int n)
 {
-if(n < 0) return -1.0f;
-if(n == 0) return 1.0f;
-if(n == 1) return 1.0f;
+if(n < 0) return -1.0;
+if(n == 0) return 1.0;
+if(n == 1) return 1.0;
 return (double)n * compute(n-1);
 }
 

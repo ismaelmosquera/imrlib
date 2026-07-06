@@ -68,7 +68,7 @@ for(int i = 0; i < _rows; i++)
 {
 	for(int j = 0; j < _columns; j++)
 	{
-		_cmatrix[i][j] = new ComplexNumber(0.0f, 0.0f);
+		_cmatrix[i][j] = new ComplexNumber(0.0, 0.0);
 	}
 }
 	}
@@ -120,7 +120,7 @@ System.out.print(_cmatrix[i][j]);
 */
 public void load(String fileName)
 {
-	float real, imag;
+	double real, imag;
 Scanner in = null;
 try
 {
@@ -134,8 +134,8 @@ try
 	{
 		for(int j = 0; j < _columns; j++)
 		{
-			real = in.nextFloat();
-			imag = in.nextFloat();
+			real = in.nextDouble();
+			imag = in.nextDouble();
 			_cmatrix[i][j] = new ComplexNumber(real, imag);
 		}
 	}
@@ -664,7 +664,7 @@ for(int i=0;i<out.rows();i++)
 {
 for(int j=0;j<out.columns();j++)
 {
-	accum = new ComplexNumber(0.0f, 0.0f);
+	accum = new ComplexNumber(0.0, 0.0);
 	for(int k=0;k<m1.columns();k++)
 	{
 		accum = accum.add(m1.get(i,k).mul(m2.get(k,j)));
@@ -716,7 +716,7 @@ assert(n > 0): "ComplexMatrix -> identity(int): Bad parameter.";
 ComplexMatrix out = new ComplexMatrix(n, n);
 for(int i = 0; i < n; i++)
 {
-	out.set(i, i, new ComplexNumber(1.0f, 0.0f));
+	out.set(i, i, new ComplexNumber(1.0, 0.0));
 }
 return out;
 }
@@ -733,7 +733,7 @@ public static ComplexNumber trace(ComplexMatrix m)
 {
 int n = m.rows();
 if(m == null || m.columns() != n) return ComplexNumber.NaN;
-ComplexNumber tr = new ComplexNumber(0.0f, 0.0f);
+ComplexNumber tr = new ComplexNumber(0.0, 0.0);
 for(int i = 0; i < n; i++)
 {
 tr = tr.add(m.get(i, i));
@@ -896,12 +896,12 @@ if(m == null) return null;
 int n = m.rows();
 if(n != m.columns()) return null; // m must be square
 ComplexMatrix out = new ComplexMatrix(n, n);
-float sign;
+double sign;
 for(int i = 0; i < n; i++)
 {
 for(int j = 0; j < n; j++)
 {
-	sign = (((i+j)%2) == 0) ? 1.0f : -1.0f;
+	sign = (((i+j)%2) == 0) ? 1.0 : -1.0;
 	out.set(i, j, m.minor(i, j).scale(sign));
 }
 }
@@ -941,13 +941,13 @@ public static ComplexNumber determinant(ComplexMatrix m)
 {
 if(m == null) return ComplexNumber.NaN;
 if(m.rows() != m.columns()) return ComplexNumber.NaN; // m must be square
-float sign = 1.0f;
-ComplexNumber d = new ComplexNumber(0.0f, 0.0f);
+double sign = 1.0;
+ComplexNumber d = new ComplexNumber(0.0, 0.0);
 int n = m.rows(); // order of m
 for(int j = 0; j < n; j++)
 {
 	d = d.add(m.minor(0, j).scale(sign).mul(m.get(0, j)));
-	sign *= -1.0f;
+	sign *= -1.0;
 }
 return d;
 }
@@ -1095,7 +1095,7 @@ public static boolean isOrthonormal(ComplexMatrix m)
 	int n = m.columns();
 	for(int i = 0; i < n; i++)
 	{
-	if(m.getColumn(i).module().magnitude() != 1.0f) return false;
+	if(m.getColumn(i).module().magnitude() != 1.0) return false;
 	}
 	return true;
 }
@@ -1206,9 +1206,9 @@ ComplexMatrix out = new ComplexMatrix(n, n);
 ComplexVector v = new ComplexVector(n);
 for(int i = 0; i < n; i++)
 {
-	v.set(i, new ComplexNumber(1.0f, 0.0f));
+	v.set(i, new ComplexNumber(1.0, 0.0));
 	out = out.setColumn(i, clu.solve(v));
-	v.set(i, new ComplexNumber(0.0f, 0.0f));
+	v.set(i, new ComplexNumber(0.0, 0.0));
 }
 return out;
 }
@@ -1362,8 +1362,8 @@ return s;
 // Private helper method to compute determinant recursively.
 private static ComplexNumber det(ComplexMatrix m, int n)
 {
-ComplexNumber d=new ComplexNumber(0.0f, 0.0f);
-float sign=1.0f;
+ComplexNumber d=new ComplexNumber(0.0, 0.0);
+double sign=1.0;
 int ai,aj;
 if(n==1)
 {
@@ -1387,7 +1387,7 @@ aj++;
 if(i != k) ai++;
 }
 d = d.add(m.get(k,0).mul(det(adj, n-1)).scale(sign));
-sign*= -1.0f;
+sign*= -1.0;
 }
 }
 return d;
@@ -1404,7 +1404,7 @@ private int _rows;
 private int _columns;
 private ComplexNumber[][] _cmatrix;
 
-private static final float __ORTHOGONAL__ = 1E-3f;
+private static final double __ORTHOGONAL__ = 1E-3;
 }
 
 // END

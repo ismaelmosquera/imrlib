@@ -49,13 +49,13 @@ public final class Fourier
 * @return <code>ComplexNumber</code> array with the FFT information data.
 *
 */
-public static ComplexNumber[] fft(float[] v)
+public static ComplexNumber[] fft(double[] v)
 {
 	ComplexNumber[] c = ComplexNumber.getComplexNumberArray(v);
 	int last_pos = c.length-1;
 	_zp = c[last_pos].getImag();
 ComplexNumber[] z = fft(c);
-z[last_pos] = new ComplexNumber(0.0f, _zp);
+z[last_pos] = new ComplexNumber(0.0, _zp);
 return z;
 }
 
@@ -66,10 +66,10 @@ return z;
 * if we take that array and compute its IFFT, we should get the original signal.
 * @param c Complex number array with FFT information data.
 *
-* @return a floating point vector signal.
+* @return a doubleing point vector signal.
 *
 */
-public static float[] ifft(ComplexNumber[] c)
+public static double[] ifft(ComplexNumber[] c)
 {
 int len = c.length;
 int zp = (int)(c[len-1].getImag());
@@ -78,9 +78,9 @@ ComplexNumber[] complex = new ComplexNumber[len];
 for(int i = 0; i < len; i++) complex[i] = c[i].conjugated();
 complex = fft(complex);
 for(int i = 0; i < complex.length; i++) complex[i] = complex[i].conjugated();
-for(int i = 0; i < len; i++) complex[i] = complex[i].scale(1.0f/(float)len);
+for(int i = 0; i < len; i++) complex[i] = complex[i].scale(1.0/(double)len);
 int size = (c.length-(zp+1));
-float[] out = new float[size];
+double[] out = new double[size];
 for(int i = 0; i < size; i++) out[i] = complex[i].getReal();
 return out;
 }
@@ -110,8 +110,8 @@ ComplexNumber[] out = new ComplexNumber[complex.length];
 for(int i = 0; i < n; i++)
 {
 double ith = -2.0 * (double)i * Math.PI / (double)len;
-z.setReal((float)Math.cos(ith));
-z.setImag((float)Math.sin(ith));
+z.setReal(Math.cos(ith));
+z.setImag(Math.sin(ith));
 out[i] = even[i].add(z.mul(odd[i]));
 out[i+n] = even[i].sub(z.mul(odd[i]));
 }
@@ -124,7 +124,7 @@ return out;
 */
 private Fourier() {}
 
-private static float _zp;
+private static double _zp;
 }
 
 // END

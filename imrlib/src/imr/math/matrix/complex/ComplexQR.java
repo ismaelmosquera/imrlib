@@ -87,9 +87,9 @@ for(int j = n-1; j > i; j--)
 {
 	if(r.get(j, i).magnitude() < SysHelper.THRESHOLD) continue;
 	q1 = ComplexMatrix.identity(n);
-	w = ComplexNumber.atan2(r.get(j, i).scale(-1.0f), r.get(i, i));
+	w = ComplexNumber.atan2(r.get(j, i).scale(-1.0), r.get(i, i));
 	q1.set(i, i, w.cos());
-	q1.set(i, j, w.sin().scale(-1.0f));
+	q1.set(i, j, w.sin().scale(-1.0));
 	q1.set(j, i, w.sin());
 	q1.set(j, j, w.cos());
 	r = ComplexMatrix.mul(q1, r);
@@ -153,7 +153,7 @@ return _r;
 public ComplexNumber det()
 {
 	if(!_hasQR) return ComplexNumber.NaN;
-ComplexNumber d = new ComplexNumber(1.0f, 0.0f);
+ComplexNumber d = new ComplexNumber(1.0, 0.0);
 for(int i = 0; i < _r.columns(); i++)
 {
 d = d.mul(_r.get(i, i));
