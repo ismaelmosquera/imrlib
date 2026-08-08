@@ -36,6 +36,7 @@ package imr.util;
 * @author Ismael Mosquera Rivera
 *
 */
+@SuppressWarnings("unchecked")
 public final class Pair<F,S>
 {
 
@@ -72,6 +73,36 @@ return first;
 public S getSecond()
 {
 return second;
+}
+
+/**
+* this static method prints a Pair's array to the console. <p>
+*@param p
+* A <code>Pair</code> array.
+*
+*/
+public static void print(Pair[] p)
+{
+System.out.print("[");
+for(int i = 0; i < p.length; i++)
+{
+	if(i > 0) System.out.print(", ");
+	System.out.print(p[i]);
+}
+System.out.println("]");
+}
+
+/**
+* Gets a string representation for a <code>Pair</code> object. <p>
+* @return a string representation for this pair.
+*
+*/
+@Override
+public String toString()
+{
+String s = "";
+s += "<"+first+", "+second+">";
+return s;
 }
 
 

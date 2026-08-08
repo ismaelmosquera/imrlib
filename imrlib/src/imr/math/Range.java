@@ -84,6 +84,102 @@ public double getMin()
 return _min;
 }
 
+/**
+* Evaluates if the value passed as parameter is in this range. <p>
+* @param value
+* A value to evaluate.
+* <p>
+* @return true if in range or false otherwise.
+*
+*/
+public boolean inRange(double value)
+{
+return inRange(this, value);
+}
+
+/**
+* Computes the center value for this range object. <p>
+* @return center value of this range object.
+*
+*/
+public double centerValue()
+{
+return centerValue(this);
+}
+/**
+* Computes the width for this range object. <p>
+* @return Width of this range object.
+*
+*/
+public double width()
+{
+return width(this);
+}
+
+
+// Static methods
+
+/**
+* Static method to check if a concrete value is in a concrete range. <p>
+* @param r
+* A <code>Range</code> object.
+* <p>
+* @param value
+* A floating-point value.
+* <p>
+* @return true if the value is in range or false otherwise.
+*
+*/
+public static boolean inRange(Range r, double value)
+{
+	return (value >= r.getMin() && value <= r.getMax());
+}
+
+/**
+* Static method to get the mid value for the <code>Range</code> object passed as parameter. <p>
+* @param r
+* A <code>Range</code> object.
+* <p>
+* @return mid value in the range passed as parameter.
+*
+*/
+public static double centerValue(Range r)
+{
+return (r.getMax()-r.getMin())/2.0 + r.getMin();
+}
+
+/**
+* Static method to compute the with ( spand ) for the <code>Range</code> object passed as parameter. <p>
+* @param r
+* A <code>Range</code> object.
+* <p>
+* @return width of the range passed as parameter.
+*
+*/
+public static double width(Range r)
+{
+return (r.getMax() - r.getMin());
+}
+
+/**
+* Static method to get a concrete range object from its mid and width values. <p>
+* @param centerValue
+* Center of the range object.
+* <p>
+* @param width
+* Spand of the wanted range.
+* <p>
+* @return A range object according to the passed parameters.
+*
+*/
+public static Range getRange(double centerValue, double width)
+{
+double d = width / 2.0;
+double min = centerValue - d;
+double max = centerValue + d;
+return new Range(min, max);
+}
+
 
 private final double _min;
 private final double _max;

@@ -32,6 +32,7 @@ import java.util.Map;
 import java.util.HashMap;
 
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Color;
 import java.awt.Dimension;
 
@@ -63,8 +64,7 @@ public Plot()
 {
 	super();
 	setOpaque(true);
-	setBackground(Color.WHITE);
-	setForeground(Color.BLUE);
+	_backgroundColor = Color.WHITE;
 	setMaximumSize(new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE));
 _renderers = new HashMap<String, Renderer>();
 }
@@ -111,13 +111,31 @@ return _renderers.get(name);
 @Override
 public void paint(Graphics g)
 {
-	if(g != null) g.clearRect(0, 0, getWidth(), getHeight());
+	if(g != null)
+	{
+	g.clearRect(0, 0, getWidth(), getHeight());
+Graphics2D g2D = (Graphics2D)g;
+		g2D.setColor(_backgroundColor);
+	g2D.fillRect(0, 0, getWidth(), getHeight());
+}
 	if(_renderers.isEmpty()) return;
 String[] keys = getRenderers();
 for(int i = 0; i < keys.length; i++)
 {
 	_renderers.get(keys[i]).render(g, getWidth(), getHeight());
 }
+}
+
+/**
+* Sets the background color for this plot. <p>
+* @param color
+* Color to set.
+*
+*/
+public void setBackgroundColor(Color color)
+{
+this._backgroundColor = color;
+refresh();
 }
 
 /**
@@ -154,6 +172,7 @@ return keys;
 
 
 private Map<String, Renderer> _renderers;
+private Color _backgroundColor;
 }
 
 // END

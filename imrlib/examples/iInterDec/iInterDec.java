@@ -931,6 +931,53 @@ _envChanged = true;
 viewMenu.add(viewEnvMenuItem);
 viewMenu.add(viewWindowMenuItem);
 
+// Create background color menu item
+JMenu backgroundMenu = new JMenu("Background");
+backgroundMenu.getAccessibleContext().setAccessibleName("background");
+
+backgroundBlackMenuItem = new JCheckBoxMenuItem("Black",false);
+backgroundBlackMenuItem.getAccessibleContext().setAccessibleName(" set background black ");
+backgroundBlackMenuItem.addActionListener(new ActionListener()
+{
+	public void actionPerformed(ActionEvent event)
+	{
+	boolean state = backgroundBlackMenuItem.getState();
+	if(state)
+	{
+		backgroundWhiteMenuItem.setState(false);
+		setBackgroundBlack();
+	}
+	else
+	{
+backgroundWhiteMenuItem.setState(true);
+setBackgroundWhite();
+	}
+	}
+	});
+
+backgroundWhiteMenuItem = new JCheckBoxMenuItem("White",true);
+backgroundWhiteMenuItem.getAccessibleContext().setAccessibleName(" set background white ");
+backgroundWhiteMenuItem.addActionListener(new ActionListener()
+{
+	public void actionPerformed(ActionEvent event)
+	{
+	boolean state = backgroundWhiteMenuItem.getState();
+	if(state)
+	{
+	backgroundBlackMenuItem.setState(false);
+		setBackgroundWhite();
+	}
+	else
+	{
+		backgroundBlackMenuItem.setState(true);
+setBackgroundBlack();
+	}
+	}
+	});
+
+backgroundMenu.add(backgroundBlackMenuItem);
+backgroundMenu.add(backgroundWhiteMenuItem);
+
 // Create main menu bar and add items
 JMenuBar menuBar = new JMenuBar();
 this.setJMenuBar(menuBar);
@@ -939,6 +986,7 @@ menuBar.add(fileMenu);
 menuBar.add(waveMenu);
 menuBar.add(windowMenu);
 menuBar.add(viewMenu);
+menuBar.add(backgroundMenu);
 
 this.pack();
 }
@@ -1034,6 +1082,28 @@ private void applyWindow(float[] x)
 for(int i = 0; i < x.length; i++) x[i] *= _window[i];
 }
 
+private void setBackgroundBlack()
+{
+_envPlot.getRenderer("Signal").setColor(Color.GREEN);
+	_envPlot.setBackgroundColor(Color.BLACK);
+	_wavePlot.getRenderer("Axis").setColor(Color.GREEN);
+	_wavePlot.getRenderer("Signal").setColor(Color.GREEN);
+_wavePlot.setBackgroundColor(Color.BLACK);
+_envPlot.refresh();
+_wavePlot.refresh();
+}
+
+private void setBackgroundWhite()
+{
+_envPlot.getRenderer("Signal").setColor(Color.BLUE);
+	_envPlot.setBackgroundColor(Color.WHITE);
+	_wavePlot.getRenderer("Axis").setColor(Color.BLUE);
+	_wavePlot.getRenderer("Signal").setColor(Color.BLUE);
+_wavePlot.setBackgroundColor(Color.WHITE);
+_envPlot.refresh();
+_wavePlot.refresh();
+}
+
 
 private int _decimationValue;
 private int _interpolationValue;
@@ -1095,6 +1165,10 @@ private JCheckBoxMenuItem triangularWindowMenuItem;
 
 private JCheckBoxMenuItem viewEnvMenuItem;
 private JCheckBoxMenuItem viewWindowMenuItem;
+
+private JCheckBoxMenuItem backgroundBlackMenuItem;
+private JCheckBoxMenuItem backgroundWhiteMenuItem;
+
 
 private static final int[] st0 = {2, 1, 2, 2, 1, 2, 2, 2, 2, 1, 2, 2, 1, 2};
 private static final int[] st1 = {2, 2, 1, 2, 2, 2, 1, 1, 2, 2, 2, 1, 2, 2};

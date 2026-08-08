@@ -95,6 +95,9 @@ energyPlot.getRenderer("Signal").setVBounds(0.0f, 1.0f);
 energyPlot.getRenderer("Signal").setColor(Color.RED);
 ((DataRenderer)energyPlot.getRenderer("Signal")).setHugeMode(true);
 
+audioPlot.setBackgroundColor(Color.YELLOW);
+energyPlot.setBackgroundColor(Color.YELLOW);
+
 this.getContentPane().add(audioPlot, BorderLayout.PAGE_START);
 this.getContentPane().add(energyPlot, BorderLayout.PAGE_END);
 
