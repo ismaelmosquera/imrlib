@@ -57,7 +57,7 @@ import imr.math.Point2D;
 * @author Ismael Mosquera Rivera.
 *
 */
-public final class LagrangeInterpolator
+public final class LagrangeInterpolator implements PolynomialInterpolator
 {
 
 /**

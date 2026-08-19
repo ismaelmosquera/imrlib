@@ -34,7 +34,9 @@
 * <p>
 * The <code>LagrangeInterpolator</code> class implements the Lagrange algorithm to do polynomial interpolation.
 * <p>
-* All methods work with any type of coefficient.
+* The <code>TrigonometricInterpolator</code> class implements trigonometric polynomial interpolation. <p>
+*
+* Almost all methods work with any type of coefficient.
 * <ul>
 * <li>Integer.</li>
 * <li>Real.</li>

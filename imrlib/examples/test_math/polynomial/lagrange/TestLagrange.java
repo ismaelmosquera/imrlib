@@ -27,6 +27,7 @@
 import imr.util.iArray;
 import imr.math.Point2D;
 import imr.math.polynomial.LagrangeInterpolator;
+import imr.math.polynomial.PolynomialInterpolator;
 
 /*
 * This example demonstrates Lagrange polynomial interpolation.
@@ -49,7 +50,7 @@ Point2D.print(p);
 double[] x = {-2.5, -1.5, -1.0, -0.5, 0.5, 1.0, 1.5, 2.5};
 
 // Make an instance for a LagrangeInterpolator object.
-LagrangeInterpolator li = new LagrangeInterpolator(p); // pass the set of points as parameter for the constructor
+PolynomialInterpolator li = new LagrangeInterpolator(p); // pass the set of points as parameter for the constructor
 double[] y = li.interpolate(x); // pass the 'x' coordinates array as parameter to the interpolation method to get the 'y' coordinates.
 
 // print the result to the console.

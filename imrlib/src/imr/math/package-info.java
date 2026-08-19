@@ -6,6 +6,8 @@
 * <li>matrix</li>
 * <li>matrix.complex</li>
 * <li>polynomial</li>
+* <li>polynomial.division</li>
+* <li>stat ( just a few features by now )</li>
 * </ul>
 * And several classes:
 * <ul>
@@ -13,6 +15,7 @@
 * <li>EulerTotient</li>
 * <li>MobiusFunc</li>
 * <li>Factorial</li>
+* <li>Factorization</li>
 * <li>Fibonacci</li>
 * <li>GCD ( Greatests Common Divisor )</li>
 * <li>Point2D</li>
@@ -20,6 +23,7 @@
 * <li>RandomNumberGenerator</li>
 * <li>Range</li>
 * <li>RationalNumber</li>
+* <li>RationalFunction</li>
 * </ul>
 * All of them are self explanatory.
 * <p>
