@@ -59,7 +59,7 @@ public static Pair<Integer, Integer>[] compute(int n)
 	// n must be greater than 1
 	assert(n > 1): "Factorization -> compute(...): Bad parameter, n must be greater than 1";
 	if(n < 2) return null; // maybe assertions are not enabled
-if(isPrime(n)) return new Pair[]{new Pair<Integer, Integer>(n, 1)};
+if(PrimeNumber.isPrime(n)) return new Pair[]{new Pair<Integer, Integer>(n, 1)};
 int k = 0;
 int p = 0;
 int d = n;
@@ -87,21 +87,6 @@ p = 0;
 while(it.hasNext())
 {
 	out[p++] = it.next();
-}
-// arrange pairs by prime divisor in ascending order
-// for this task the bubble sort algorithm will be fine
-Pair<Integer, Integer> tmp = null;
-for(int i = 0; i < k-1; i++)
-{
-	for(int j = i+1; j < k; j++)
-	{
-		if(out[i].getFirst() > out[j].getFirst())
-		{
-			tmp = out[i];
-			out[i] = out[j];
-			out[j] = tmp;
-		}
-	}
 }
 // Return factorization in a pair array structure
 return out;
@@ -137,33 +122,10 @@ private static int nextPrimeDivisor(int n)
 int p = 1;
 while(p < n)
 {
-p = nextPrime(p);
+p = PrimeNumber.nextPrime(p);
 if((n % p) == 0) break;
 }
 return p;
-}
-
-/*
-* Gets the next prime according to the integer value passed as parameter.
-*/
-private static int nextPrime(int n)
-{
-int k = n+1;
-while(!isPrime(k)) k++;
-return k;
-}
-
-/*
-* Evaluates if the integer value passed as parameter is prime or not.
-*/
-private static boolean isPrime(int n)
-{
-if(n < 2) return false;
-for(int i = 2; i < n; i++)
-{
-	if(i*i <= n && n%i == 0) return false;
-}
-return true;
 }
 
 
