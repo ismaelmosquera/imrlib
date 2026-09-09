@@ -867,9 +867,15 @@ String s = "("+formatter.format(_real)+", "+formatter.format(_imag)+"i)";
 return s;
 }
 
-
-// private helper method to compute pow
-private ComplexNumber pow(ComplexNumber z)
+/**
+* Raises this complex number to the power passed as parameter. <p>
+* @param z
+* A complex number.
+* <p>
+* @return this^z
+*
+*/
+public ComplexNumber pow(ComplexNumber z)
 {
 	if(this.magnitude() == 0.0) return new ComplexNumber(0.0, 0.0);
 return this.log().mul(z).exp();

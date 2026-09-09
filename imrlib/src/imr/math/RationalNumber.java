@@ -375,6 +375,20 @@ return isProper(this);
 }
 
 
+/**
+* Interpolates a rational number between this and the one passed as parameter. <p>
+* @param q
+* A rational number.
+* <p>
+* @return Interpolated rational number or null if both are equal.
+*
+*/
+public RationalNumber interpolate(RationalNumber q)
+{
+return interpolate(this, q);
+}
+
+
 // Static methods
 
 /**
@@ -559,6 +573,30 @@ return (float)q.getNumerator() / (float)q.getDenominator();
 public static boolean isProper(RationalNumber q)
 {
 	return (q.getNumerator() <= q.getDenominator());
+}
+
+/**
+* Static method to interpolate a rational number between the ones passed as parameter. <p>
+* @param q1
+* A rational number.
+* <p>
+* @param q2
+* A rational number.
+* <p>
+* @return Interpolated rational number or null if q1 and q2 are equal.
+*
+*/
+public static RationalNumber interpolate(RationalNumber q1, RationalNumber q2)
+{
+if(q1.equals(q2)) return null;
+RationalNumber p1 = (RationalNumber)q1.clone();
+	RationalNumber p2 = (RationalNumber)q2.clone();
+if(q1.value() > q2.value())
+{
+	p1 = (RationalNumber)q2.clone();
+	p2 = (RationalNumber)q1.clone();
+}
+return new RationalNumber(add(p1, div(sub(p2, p1), new RationalNumber(2, 1))));
 }
 
 /**
@@ -747,6 +785,7 @@ return s;
 // Private method to get the sign of an integer.
 private static int sign(int n)
 {
+	if(n == 0) return 0;
 return (n < 0) ? -1 : 1;
 }
 
