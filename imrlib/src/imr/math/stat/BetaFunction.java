@@ -82,6 +82,67 @@ ComplexNumber zj = (Math.abs(z2.getImag()) < 1E-6) ? new ComplexNumber(z2.getRea
 return GammaFunction.compute(zi).mul(GammaFunction.compute(zj)).div(GammaFunction.compute(zi.add(zj)));
 }
 
+// Multivariate
+/**
+* Static method to compute the Euler's beta function for multivariate real values. <p>
+* You can call this method as: <p>
+* <code>BetaFunction.compute(x1, x2, x3, ... xn)</code>
+* <p>
+* or in array mode: <p>
+* <code>double[] x = {x1, x2, x3, ... xn}</code>
+* <p>
+* <code>BetaFunction.compute(x)</code>
+* <p>
+* @param values
+* An array of double or double values separated by commas.
+* <p>
+* @return Computed value.
+*
+*/
+public static double compute(double ... values)
+{
+assert(values.length > 1): "BetaFunction -> compute(...): Bad parameter; this method must have more than one parameter values.";
+double x1 = 1.0;
+
+double x2 = 0.0;
+for(int i = 0; i < values.length; i++)
+{
+	x1 *= GammaFunction.compute(values[i]);
+	x2 += values[i];
+}
+return x1 / GammaFunction.compute(x2);
+}
+
+/**
+* Static method to compute the Euler's beta function for multivariate complex values. <p>
+* You can call this method as: <p>
+* <code>BetaFunction.compute(z1, z2, z3, ... zn)</code>
+* <p>
+* or in array mode: <p>
+* <code>ComplexNumber[] z = {z1, z2, z3, ... zn}</code>
+* <p>
+* <code>BetaFunction.compute(z)</code>
+* <p>
+* @param values
+* An array of complex or complex values separated by commas.
+* <p>
+* @return Computed value.
+*
+*/
+public static ComplexNumber compute(ComplexNumber ... values)
+{
+	assert(values.length > 1): "BetaFunction -> compute(...): Bad parameter; this method must have more than one parameter values.";
+ComplexNumber z1 = new ComplexNumber(1.0, 0.0);
+ComplexNumber z2 = new ComplexNumber(0.0, 0.0);
+for(int i = 0; i < values.length; i++)
+{
+z1 = z1.mul(GammaFunction.compute(values[i]));
+z2 = z2.add(values[i]);
+}
+return z1.div(GammaFunction.compute(z2));
+}
+
+
 
 // Private constructor so that this class cannot be instantiated
 private BetaFunction() {}
