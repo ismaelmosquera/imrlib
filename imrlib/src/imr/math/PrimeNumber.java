@@ -109,6 +109,22 @@ for(int i = 2; i < n; i++)
 return true;
 }
 
+/**
+* Static method to evaluate whether the two integers passed as parameters are coprimes. <p>
+* @param a
+* An integer value.
+* <p>
+* @param b
+* An integer value.
+* <p>
+* @return true if coprimes or false otherwise.
+*
+*/
+public static boolean coprime(int a, int b)
+{
+return (GCD.compute(a, b) == 1);
+}
+
 
 // Private constructor so that this class cannot be instantiated
 private PrimeNumber() {}

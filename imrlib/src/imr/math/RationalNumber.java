@@ -406,8 +406,8 @@ return interpolate(this, q);
 public static RationalNumber add(RationalNumber q1, RationalNumber q2)
 {
 int den = q1.getDenominator() * q2.getDenominator();
-int num = (den/q1.getDenominator()*q1.getNumerator())+(den/q2.getDenominator()*q2.getNumerator());
-return new RationalNumber(num, den);
+int num = (q1.getNumerator()*q2.getDenominator())+(q2.getNumerator()*q1.getDenominator());
+return (new RationalNumber(num, den)).reduce();
 }
 
 /**
@@ -425,8 +425,8 @@ return new RationalNumber(num, den);
 public static RationalNumber sub(RationalNumber q1, RationalNumber q2)
 {
 int den = q1.getDenominator() * q2.getDenominator();
-int num = (den/q1.getDenominator()*q1.getNumerator())-(den/q2.getDenominator()*q2.getNumerator());
-return new RationalNumber(num, den);
+int num = (q1.getNumerator()*q2.getDenominator())-(q2.getNumerator()*q1.getDenominator());
+return (new RationalNumber(num, den)).reduce();
 }
 
 /**
@@ -445,7 +445,7 @@ public static RationalNumber mul(RationalNumber q1, RationalNumber q2)
 {
 	int num = q1.getNumerator() * q2.getNumerator();
 	int den = q1.getDenominator() * q2.getDenominator();
-	return new RationalNumber(num, den);
+	return (new RationalNumber(num, den)).reduce();
 }
 
 /**
@@ -464,7 +464,7 @@ public static RationalNumber div(RationalNumber q1, RationalNumber q2)
 {
 	int num = q1.getNumerator() * q2.getDenominator();
 	int den = q1.getDenominator() * q2.getNumerator();
-	return new RationalNumber(num, den);
+	return (new RationalNumber(num, den)).reduce();
 }
 
 /**
@@ -500,7 +500,7 @@ den = (int)(Math.pow((double)q.getNumerator(), (double)Math.abs((double)p)));
 num = (int)(Math.pow((double)q.getNumerator(), (double)p));
 den = (int)(Math.pow((double)q.getDenominator(), (double)p));
 }
-return new RationalNumber(num, den);
+return (new RationalNumber(num, den)).reduce();
 }
 
 /**
@@ -531,7 +531,7 @@ return new RationalNumber(a/d, b/d);
 */
 public static RationalNumber abs(RationalNumber q)
 {
-return new RationalNumber(Math.abs(q.getNumerator()), Math.abs(q.getDenominator()));
+return (new RationalNumber(Math.abs(q.getNumerator()), Math.abs(q.getDenominator()))).reduce();
 }
 
 /**

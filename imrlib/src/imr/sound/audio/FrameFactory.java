@@ -105,7 +105,7 @@ public static float[] getFrame(byte[] frame)
 }
 
 /**
-* Gets the max value from a byte vector as a floating point value.
+* Gets the max absolute value from a byte vector as a floating point value.
 * <p>
 * @param frame Byte vector.
 * <p>
@@ -123,7 +123,7 @@ return max;
 }
 
 /**
-* Gets the max value from a float vector as a floating point value.
+* Gets the max absolute value from a float vector as a floating point value.
 * <p>
 * @param frame Float vector.
 * <p>
@@ -136,6 +136,24 @@ float max = 0.0f;
 for(int i = 0; i < frame.length; i++)
 {
 if((float)Math.abs((double)frame[i]) > max) max = (float)Math.abs((double)frame[i]);
+}
+return max;
+}
+
+/**
+* Gets the max absolute value from a double vector as a floating point value.
+* <p>
+* @param frame double vector.
+* <p>
+* @return max value as a double.
+*
+*/
+public static double getMax(double[] frame)
+{
+double max = 0.0;
+for(int i = 0; i < frame.length; i++)
+{
+if(Math.abs(frame[i]) > max) max = Math.abs(frame[i]);
 }
 return max;
 }
@@ -180,6 +198,28 @@ if(max == 0.0f)
 	return zeros;
 }
 float[] out = new float[frame.length];
+for(int i = 0; i < frame.length; i++) out[i] = frame[i] / max;
+return out;
+}
+
+/**
+* Gets a normalized floating point vector from a double array.
+* <p>
+* @param frame double array.
+* <p>
+* @return normalized floating point vector.
+*
+*/
+public static double[] normalizeFrame(double[] frame)
+{
+double max = getMax(frame);
+if(max == 0.0)
+{
+	double[] zeros = new double[frame.length];
+	for(int i = 0; i < zeros.length; i++) zeros[i] = 0.0;
+	return zeros;
+}
+double[] out = new double[frame.length];
 for(int i = 0; i < frame.length; i++) out[i] = frame[i] / max;
 return out;
 }

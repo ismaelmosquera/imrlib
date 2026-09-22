@@ -29,15 +29,19 @@
 
 package imr.math;
 
+import java.math.BigInteger;
+
 /**
 * This class has only a static method implementing the GCD algorithm.
 * <p>
 * The implementation is an iterative version of the Euclides algorithm.
 * <p>
+* There is also a gcd method for large integer values.
+* <p>
 * @author Ismael Mosquera rivera.
 *
 */
-public class GCD
+public final class GCD
 {
 
 /**
@@ -78,6 +82,22 @@ while(true)
 	_b = r;
 }
 return d;
+}
+
+/**
+* Static method to compute the gcd for large integer numbers. <p>
+* @param a
+* A BigInteger.
+* <p>
+* @param b
+* A BigInteger.
+* <p>
+* @return Greatests common divisor (a, b).
+*
+*/
+public static BigInteger compute(BigInteger a, BigInteger b)
+{
+return a.gcd(b);
 }
 
 

@@ -93,39 +93,22 @@ public void set(ComplexNumber[] pnum, ComplexNumber[] pden)
 
 /**
 * Evaluates according to the complex number passed as parameter. <p>
-* This method evaluates for positive powers of z. <p>
 * @param z
 * A complex number from to evaluate the rational function.
 * <p>
 * @return result of the evaluation.
 *
 */
-public ComplexNumber evaluatePositive(ComplexNumber z)
+public ComplexNumber evaluate(ComplexNumber z)
 {
-ComplexNumber b = evaluatePositive(_numerator, z);
-ComplexNumber a = evaluatePositive(_denominator, z);
+ComplexNumber b = evaluate(_numerator, z);
+ComplexNumber a = evaluate(_denominator, z);
 return b.div(a);
 }
 
-/**
-* Evaluates according to the complex number passed as parameter. <p>
-* This method evaluates for negative powers of z. <p>
-* @param z
-* A complex number from to evaluate the rational function.
-* <p>
-* @return result of the evaluation.
-*
-*/
-public ComplexNumber evaluateNegative(ComplexNumber z)
-{
-ComplexNumber b = evaluateNegative(_numerator, z);
-ComplexNumber a = evaluateNegative(_denominator, z);
-return b.div(a);
-}
 
 /**
 * Evaluates for a single polynomial according to the complex number passed as second parameter. <p>
-* This method evaluates for positive powerrs of z. <p>
 * @param p
 * A complex number array representing the polynomial.
 * <p>
@@ -135,7 +118,7 @@ return b.div(a);
 * @return result of the evaluation as a complex number.
 *
 */
-public static ComplexNumber evaluatePositive(ComplexNumber[] p, ComplexNumber z)
+public static ComplexNumber evaluate(ComplexNumber[] p, ComplexNumber z)
 {
 	if(p == null) return ComplexNumber.NaN;
 int n = p.length;
@@ -145,32 +128,11 @@ for(int i = 1; i < n; i++) result = result.add(z.pow(i).mul(p[i]));
 return result;
 }
 
-/**
-* Evaluates for a single polynomial according to the complex number passed as second parameter. <p>
-* This method evaluates for negative powerrs of z. <p>
-* @param p
-* A complex number array representing the polynomial.
-* <p>
-* @param z
-* A complex number from evaluate.
-* <p>
-* @return result of the evaluation as a complex number.
-*
-*/
-public static ComplexNumber evaluateNegative(ComplexNumber[] p, ComplexNumber z)
-{
-	if(p == null) return ComplexNumber.NaN;
-int n = p.length;
-if(n == 0) return ComplexNumber.NaN;
-ComplexNumber result = (ComplexNumber)p[0].clone();
-for(int i = 1; i < n; i++) result = result.add(z.pow(-i).mul(p[i]));
-return result;
-}
-
 
 // numerator and denominator polynomials to compose a rational function.
 private ComplexNumber[] _numerator;
 private ComplexNumber[] _denominator;
+
 }
 
 // END
