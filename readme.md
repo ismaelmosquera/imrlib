@@ -138,10 +138,11 @@ This package has support to manage MIDI data structures, MIDI file I/O and MIDI 
 This package offers some utility classes like some kind of buffers and a so useful iArray class to deal with  
 1, 2, and 3-dimensional arrays for any atomic type.  
   
+This software has been developed under JDK 8 32-bits, but runs smoothly in 64-bit platforms.  
 The programming interface is so intuitive and easy to use.  
 The examples folder has a lot of examples to know how to use the classes offered by this Java code library, we encourage you to run them.  
 there is also an API documentation compressed in a doc.zip archive.  
 This piece of code is devoted to my loved assistant dog Inuit, he passed away on 12/08/2025 ( day/month/year ).  
 Hope that you enjoy and appreciate this work made for free.  
   
-Latest revision: 22/09/2026 ( day/month/year )  
+Latest revision: 23/09/2026 ( day/month/year )  
