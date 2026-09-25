@@ -860,10 +860,14 @@ return (_real == c.getReal() && _imag == c.getImag());
 */
 public String toString()
 {
+	double real = _real;
+	double imag = _imag;
+if(Math.abs(real) < 1E-3) real = 0.0;
+if(Math.abs(imag) < 1E-3) imag = 0.0;
 NumberFormat formatter = NumberFormat.getNumberInstance(Locale.US);
 	formatter.setMinimumFractionDigits(2);
 	formatter.setMaximumFractionDigits(2);
-String s = "("+formatter.format(_real)+", "+formatter.format(_imag)+"i)";
+String s = "("+formatter.format(real)+", "+formatter.format(imag)+"i)";
 return s;
 }
 

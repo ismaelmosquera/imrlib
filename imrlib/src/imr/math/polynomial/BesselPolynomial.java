@@ -45,6 +45,32 @@ public final class BesselPolynomial
 {
 
 /**
+* Static method to compute the coefficients for Bessel polynomials. <p>
+* @param n
+* An integer value for the order of the polynomial.
+* <p>
+* @return Coefficients for the Bessel polynomial of order 'n'.
+*
+*/
+	public static double[] compute(int n)
+	{
+	return compute(n, 1.0);
+	}
+
+/**
+* Static method to compute the reverse Bessel polynomial coefficients of order 'n' <p>
+* @param n
+* An integer value of the wanted order for the polynomial.
+* <p>
+* @return Computed coefficients in reverse order.
+*
+*/
+	public static double[] computeReverse(int n)
+	{
+		return Polynomial.reverse(compute(n, 1.0));
+	}
+
+/**
 * Static method to compute Bessel polynomials for real values. <p>
 * If you only wish to get the coefficients, just set x = 1 <p>
 * @param n
