@@ -28,7 +28,7 @@ Following, a brief explanation about the functionallity offered for each package
 #### imr.math  
 This package has useful classes to do some math computation, like complex number, random number generation and so on.  
   
-#### imr.matrix  
+#### imr.math.matrix  
 This package has to do with linear algebra.  
 Here, you can find classes to perform the most common operations applied to matrices and vectors,  
 and solve NxN linear equations systems.  
