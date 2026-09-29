@@ -1354,6 +1354,7 @@ if(p.length == 2) return linearSolver(p);
 if(p.length == 3) return quadraticSolver(p);
 if(p.length == 4) return cubicSolver(p);
 if(p.length == 5) return quarticSolver(p);
+if(p.length == 6) return quinticSolver(p);
 return polyrootsFinder(p);
 }
 
@@ -1700,8 +1701,8 @@ out[3] = num1.add(S).sub(S.square().scale(-4.0).sub(p.scale(2.0)).sub(q.div(S)).
 return out;
 }
 
-// Helper function to compute nth degree polynomial roots.
-private static ComplexNumber[] polyrootsFinder(ComplexNumber[] cp)
+// Helper function to compute quintic degree polynomial roots.
+private static ComplexNumber[] quinticSolver(ComplexNumber[] cp)
 {
 ComplexNumber[] p = clear(cp);
 ComplexNumber rt = null;
@@ -1709,18 +1710,13 @@ ComplexNumber[] qrt = null;
 ComplexNumber[] _roots = new ComplexNumber[p.length-1];
 RuffiniRule ruffini = new RuffiniRule();
 int k = 0;
-while(true)
-{
-	if(p.length == 5) // quartic
-	{
-qrt = roots(p);
-break;
-	}
+	// compute quintic
 rt = findRoot(p);
 _roots[k++] = (ComplexNumber)rt.clone();
 ruffini.compute(p, rt);
 p = ruffini.quotient();
-}
+qrt = roots(p);
+// add quartic roots
 for(int i = 0; i < qrt.length; i++) _roots[k++] = (ComplexNumber)qrt[i].clone();
 return _roots;
 }
@@ -1761,6 +1757,13 @@ for(int i = 0; i < p.length; i++)
 out = out.add(p[i].mul(z.pow(i)));
 }
 return out;
+}
+
+// Helper method to compute roots for n-th  order polynomials.
+private static ComplexNumber[] polyrootsFinder(ComplexNumber[] cp)
+{
+ComplexNumber[] p = clear(cp);
+return PolyrootsFinder.find(reverse(p));
 }
 
 /*
@@ -2151,6 +2154,115 @@ private Storage() {}
 // Symbolic constants declared for convinience.
 private static final float THRESHOLD = 1E-3f;
 private static final float CLEAR_THRESHOLD = 1E-5f;
+}
+
+/*
+* Helper class to find roots for polynomials of greater degree than quintic using Laguerre's method.
+*/
+class PolyrootsFinder
+{
+
+// polyroots finder method
+public static ComplexNumber[] find(ComplexNumber[] coeffs)
+{
+	int n = coeffs.length-1;
+   ComplexNumber[] roots = new ComplexNumber[n];
+   ComplexNumber[] a = coeffs;
+   for(int i = 0; i < n; i++)
+   {
+      ComplexNumber zero = null;
+      int ctr = 0;
+      while (true)
+      {
+         ComplexNumber startX = (ctr == 0) ? new ComplexNumber(0.0, 0.0) : randomStart();
+         zero = laguer(a, startX);
+         if(zero != null) break;
+         if(ctr++ > 1000) throw new RuntimeException("Root finding aborted in random loop.");
+         }
+      roots[i] = zero;
+      a = deflate(a, zero, 0);
+      }
+   for (int i = 0; i < n; i++)
+   {
+      roots[i] = laguer(coeffs, roots[i]);
+      if(roots[i] == null) throw new RuntimeException("Failed.");
+            }
+  return roots;
+  }
+
+private static ComplexNumber laguer(ComplexNumber[] a, ComplexNumber startX)
+{
+	int n = a.length-1;
+	ComplexNumber cn = new ComplexNumber((double)n, (double)n);
+	ComplexNumber x = startX;
+	for(int iter = 0; iter < 80; iter++)
+	{
+		ComplexNumber b = a[0];
+		double err = b.magnitude();
+		ComplexNumber d = new ComplexNumber(0.0, 0.0);
+		ComplexNumber f = new ComplexNumber(0.0, 0.0);
+		double absX = x.magnitude();
+		for(int i = 1; i <= n; i++)
+		{
+			f = x.mul(f).add(d);
+			d = x.mul(d).add(b);
+			b = x.mul(b).add(a[i]);
+			err = b.magnitude() + absX * err;
+			}
+			err *= EPSS;
+			if(b.magnitude() <= err)
+			{
+				return x;
+				}
+				ComplexNumber g = d.div(b);
+				ComplexNumber g2 = g.mul(g);
+				ComplexNumber h = g2.sub((new ComplexNumber(2.0, 0.0)).mul(f.div(b)));
+				ComplexNumber sq = cn.sub(new ComplexNumber(1.0, 0.0)).mul(cn.mul(h).sub(g2)).sqrt();
+				ComplexNumber gp = g.add(sq);
+				ComplexNumber gm = g.sub(sq);
+				double abp = gp.magnitude();
+				double abm = gm.magnitude();
+				if(abp < abm)
+				{
+					gp = gm;
+					}
+					ComplexNumber dx;
+					if(abp > 0.0 || abm > 0.0)
+					{
+						dx = cn.div(gp);
+						}
+						else
+						{
+							dx = (new ComplexNumber(Math.log(1.0 + absX), (double)iter + 1.0)).exp();
+							}
+							x = x.sub(dx);
+							}
+							return null;
+}
+
+private static ComplexNumber[] deflate(ComplexNumber[] a, ComplexNumber z, double eps)
+{
+	int n = a.length-1;
+	ComplexNumber[] a2 = new ComplexNumber[n];
+	a2[0] = a[0];
+	for(int i = 1; i < n; i++)
+	{
+		a2[i] = z.mul(a2[i-1]).add(a[i]);
+		}
+		ComplexNumber remainder = z.mul(a2[n-1]).add(a[n]);
+		if(eps > 0 && (Math.abs(remainder.getReal()) > eps || Math.abs(remainder.getImag()) > eps)) throw new RuntimeException("Polynom deflatation failed, remainder = " + remainder + ".");
+		return a2;
+   }
+
+private static ComplexNumber randomStart()
+{
+	return new ComplexNumber(Math.random()*2.0-1.0, Math.random()*2.0-1.0);
+   }
+
+// private constructor so that this class cannot be instantiated
+private PolyrootsFinder() {}
+
+private static final double EPSS = 1E-14;
 }
 
 // END

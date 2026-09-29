@@ -29,10 +29,13 @@
 
 package imr.math;
 
+import java.math.BigInteger;
+
 /**
-* This class has only a static method to compute the factorial for an integer n.
+* This class has only two static method to compute the factorial for an integer n.
 * <p>
-* Our static method returns a floating-point value in order to compute factorials for bigger values of n.
+* One static method returns a floating-point value in order to compute factorials for bigger values of n. <p>
+* The other one computes factorial for big integers. <p>
 *
 * @author Ismael Mosquera rivera.
 *
@@ -59,6 +62,29 @@ if(n == 1) return 1.0;
 return (double)n * compute(n-1);
 }
 
+/**
+* static method to compute factorial for big integers. <p>
+* @param n
+* An integer value.
+* <p>
+* @return n!
+*
+*/
+public static BigInteger bigFactorial(Integer n)
+{
+assert(n >= 0): "Factorial -> bigFactorial(...): Bad parameter; 'n' must be equal or greater than zero.";
+return computeBigFactorial(new BigInteger(n.toString()));
+}
+
+/*
+* Helper private static method to compute big factorial.
+*/
+private static BigInteger computeBigFactorial(BigInteger n)
+{
+if(n.intValue() == 0) return new BigInteger("1");
+if(n.intValue() == 1) return new BigInteger("1");
+return n.multiply(computeBigFactorial(n.subtract(new BigInteger("1"))));
+}
 
 // Private constructor, so that this class cannot be instantiated.
 private Factorial() {}

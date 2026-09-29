@@ -105,8 +105,8 @@ System.out.println("Print formatted:");
 PolynomialFactorization.printFormatted(bi);
 p = PolynomialFactorization.binomialProduct(bi);
 System.out.println("Result after binomial product");
-System.out.print("Print raw: "); Polynomial.print(p);
-System.out.print("Print formatted: "); Polynomial.printFormatted(p);
+System.out.print("Print raw: "); Polynomial.print(Convert.toDoubleArray(p));
+System.out.print("Print formatted: "); Polynomial.printFormatted(Convert.toDoubleArray(p));
 
 System.out.println();
 System.out.println("bye.");
