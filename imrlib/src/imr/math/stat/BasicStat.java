@@ -77,7 +77,7 @@ return v - square(mean(x));
 }
 
 /**
-* This static method computes the deviation for the values in the array passed as parameter. <p>
+* This static method computes the standard deviation for the values in the array passed as parameter. <p>
 * @param x
 * A double floating-point aray.
 * <p>
@@ -89,12 +89,25 @@ public static double dev(double[] x)
 return Math.sqrt(var(x));
 }
 
+/**
+* Static method to compute the variation quotient for the data in the array passed as parameter. <p>
+* @param x
+* A double floating-point array.
+* <p>
+* @return Variation quotient expressed in percent.
+*
+*/
+public static double vq(double[] x)
+{
+return dev(x)/mean(x) * 100.0;
+}
+
+
 // Helper static method.
 static double square(double x)
 {
 return x*x;
 }
-
 
 // Private constructor so that this class cannot be instantiated
 private BasicStat() {}

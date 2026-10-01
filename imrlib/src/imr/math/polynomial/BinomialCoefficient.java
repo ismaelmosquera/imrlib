@@ -52,7 +52,7 @@ public final class BinomialCoefficient
 * An integer equal or greater than zero to set the order of the expansion ( here we don't need to compute the expansion, just the required entry ).
 * <p>
 * @param k
-* An integer value to set the required entry we wish.
+* An integer value to set the required entry we wish; 'k' must be in the range [0 .. n]
 * <p>
 * @return Integer value for the wanted entry in the required expansion.
 *
@@ -69,8 +69,9 @@ public static BigInteger compute(Integer n, Integer k)
 /**
 * Static method to compute the expansion into a binomial coefficients. <p>
 * Notice that the resulting expansion will be a palindrome. <p>
+* The order 'n' must be equal or greater than zero, and it expands to n+1 <p>
 * @param n
-* An integer value for the order of the required expansion.
+* An integer equal or greater than zero value for the order of the required expansion.
 * <p>
 * @return Expansion into binomial coefficients for the required order.
 *

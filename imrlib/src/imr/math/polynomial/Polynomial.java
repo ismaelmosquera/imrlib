@@ -1350,12 +1350,23 @@ if(p == null) return null;
  assert (p.length > 1): "Roots Solver: Bad parameter.";
 p = clear(p);
 if(p.length < 2) return null;
-if(p.length == 2) return linearSolver(p);
-if(p.length == 3) return quadraticSolver(p);
-if(p.length == 4) return cubicSolver(p);
-if(p.length == 5) return quarticSolver(p);
-if(p.length == 6) return quinticSolver(p);
+int n = p.length-1;  // polynomial order
+// using several methods just for fun.
+switch(n)
+{
+	case 1:
+	return linearSolver(p);
+	case 2:
+	return quadraticSolver(p);
+	case 3:
+	return cubicSolver(p);
+	case 4:
+	return quarticSolver(p);
+	case 5:
+	return quinticSolver(p);
+	default:
 return polyrootsFinder(p);
+}
 }
 
 
@@ -1660,6 +1671,7 @@ return out;
 // Helper function to solve cubic polynomial roots.
 private static ComplexNumber[] cubicSolver(ComplexNumber[] cp)
 {
+	if(cp[0].equals(cp[3]) && cp[1].equals(cp[2])) return PolyrootsFinder.find(cp);
 ComplexNumber z = new ComplexNumber(-1.0, 0.0); // ausiliary
 // split into parts to clarify computation
 ComplexNumber d0 = cp[2].square().sub(cp[3].scale(3.0).mul(cp[1]));
@@ -1762,8 +1774,7 @@ return out;
 // Helper method to compute roots for n-th  order polynomials.
 private static ComplexNumber[] polyrootsFinder(ComplexNumber[] cp)
 {
-ComplexNumber[] p = clear(cp);
-return PolyrootsFinder.find(reverse(p));
+return PolyrootsFinder.find(reverse(cp));
 }
 
 /*
@@ -2158,6 +2169,7 @@ private static final float CLEAR_THRESHOLD = 1E-5f;
 
 /*
 * Helper class to find roots for polynomials of greater degree than quintic using Laguerre's method.
+* This code was borrowed from Christian d'Heureuse.
 */
 class PolyrootsFinder
 {
