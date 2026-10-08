@@ -30,6 +30,7 @@
 package imr.math.stat;
 
 import imr.util.Pair;
+import imr.math.matrix.Vector;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -203,6 +204,151 @@ for(int i = 1; i < _cdf.length; i++)
 	}
 }
 return retval;
+}
+
+/**
+* Gets the pdf as a <code>Vector</code> object with its values ( probabilities [0 .. 1] ) arranged in increased order according event keys. <p>
+* @return Probability density function values.
+*
+*/
+public Vector pdfValues()
+{
+	assert(_size > 0): "DensityFunction -> pdfValues(): No distribution computed yet.";
+	int n = _pdf.length;
+	Vector p = new Vector(n);
+	for(int i = 0; i < n; i++) p.set(i, _pdf[i].getSecond());
+	return p;
+}
+
+/**
+* Gets the cdf as a <code>Vector</code> object with its values ( probabilities [0 .. 1] ) arranged in increased order according event keys. <p>
+* @return Cumulative density function values.
+*
+*/
+public Vector cdfValues()
+{
+assert(_size > 0): "DensityFunction -> cdfValues(): No distribution computed yet.";
+		int n = _cdf.length;
+		Vector v = new Vector(n);
+		for(int i = 0; i < n; i++)
+		{
+		v.set(i, _cdf[i].getSecond());
+		}
+		return v;
+}
+
+/**
+* This method finds the statistic median for this experiment. <p>
+* Such a value is the mid point in the distribution, that is, half of the classes are equal or less and the other half are equal or greater than it according the number of occurrences.
+* <p>
+* @return Found median as a double value.
+*
+*/
+public double median()
+{
+	assert(_size > 0): "DensityFunction -> median(): No distribution computed yet.";
+assert(_abs.length > 1): "DensityFunction -> median(): Bad length for the absolute distribution; it must be greater than 1";
+double retval = 0.0;
+Pair<Integer, Integer>[] abs = sortAbs();
+int n = abs.length;
+if(n % 2 == 0) // even
+{
+	int i = (int)(n/2);
+	int j = i-1;
+	retval = (double)(abs[i].getSecond() + abs[j].getSecond()) / 2.0;
+}
+else // odd
+{
+retval = (double)abs[(int)(n/2)].getSecond();
+}
+return retval;
+}
+
+/**
+* Computes the mode, that is, the event having major number of occurrences for this experiment.
+* <p>
+* @return Identifier ( key ) for the event having more occurrences than the other ones.
+*
+*/
+public int mode()
+{
+	assert(_size > 0): "DensityFunction -> mode(): No distribution computed yet.";
+	int n = _abs.length;
+	Pair<Integer, Integer> max = _abs[0];
+	for(int i = 1; i < n; i++)
+	{
+	if(max.getSecond() < _abs[i].getSecond()) max = _abs[i];
+	}
+	return max.getFirst();
+}
+
+/**
+* Gets the number of samples for this experiment.
+* <p>
+* @return number of samples ( size ) for this experiment.
+*
+*/
+public int samples()
+{
+return _size;
+}
+
+/**
+* Method to print to the console the absolute density function. <p>
+* Notice that the values in a <code>Pair</code> object are stored in its first and second values.
+*
+*/
+public void printAbs()
+{
+Pair.print(_abs);
+}
+
+/**
+* Method to print to the console the probability density function. <p>
+* Notice that the values in a <code>Pair</code> object are stored in its first and second values.
+*
+*/
+public void printPdf()
+{
+Pair.print(_pdf);
+}
+
+/**
+* Method to print to the console the cumulative density function. <p>
+* Notice that the values in a <code>Pair</code> object are stored in its first and second values.
+*
+*/
+public void printCdf()
+{
+Pair.print(_cdf);
+}
+
+
+/*
+* Private method to sort the vector of absolute frequencies.
+* to do this task, the bubble sort algorithm will be fine.
+*/
+private Pair<Integer, Integer>[] sortAbs()
+{
+assert(_size > 0): "DensityFunction -> private sortAbs(): No distribution computed yet.";
+int n = _abs.length;
+Pair<Integer, Integer>[] abs = new Pair[n];
+for(int i = 0; i < n; i++) abs[i] = new Pair<Integer, Integer>(_abs[i].getFirst(), _abs[i].getSecond());
+Pair<Integer, Integer> tmp = null;
+for(int i = 0; i < n-1; i++)
+{
+for(int j = i+1; j < n; j++)
+{
+	if(abs[i].getSecond() > abs[j].getSecond())
+	{
+		// swap
+		tmp = abs[i];
+		abs[i] = abs[j];
+		abs[j] = tmp;
+	}
+}
+}
+return abs;
 }
 
 

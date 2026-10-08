@@ -35,6 +35,7 @@ package imr.math.stat;
 * <li>Mean</li>
 * <li>Deviation</li>
 * <li>Variance</li>
+* <li>Variation quotient</li>
 * </ul>
 *
 * @author Ismael Mosquera Rivera.
