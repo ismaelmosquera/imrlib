@@ -29,6 +29,7 @@
 
 package imr.math.stat;
 
+import imr.util.Pair;
 import imr.math.RandomNumberGenerator;
 import imr.math.matrix.Vector;
 import imr.math.polynomial.BinomialCoefficient;
@@ -50,6 +51,20 @@ public final class BinomialDistribution
 {
 
 /**
+* Static method to randomly choose an integer value in the set {0, 1, 2 .. n} <p>
+* Afterwards, you can easily retrieve its associated probability from the pmf or using the pr(k, n , p) method. <p>
+* @param n
+* An integer value greater or equal than zero.
+* <p>
+* @return Randomly choosed integer from the set {0, 1, 2 .. n}
+*
+*/
+public static int kValue(int n)
+{
+return RandomNumberGenerator.generate(0, n);
+}
+
+/**
  * Static method to get the outcome for a single trial. <p>
 * @param n
 * An integer greater or equal to zero.
@@ -57,13 +72,13 @@ public final class BinomialDistribution
 * @param p
 * A double floating-point value to set the wished probability (0 .. 1)
 * <p>
-* @return Outcome for a random trial.
+* @return Outcome for a random trial, stored in a <code>imr.util.Pair</code> object having the randomly choosed k value as first and the computed probability as second.
 *
 */
-public static double outcomeTrial(Integer n, double p)
+public static Pair<Integer, Double> outcomeTrial(Integer n, double p)
 {
 int k = RandomNumberGenerator.generate(0, n);
-return pr(k, n, p);
+return new Pair<Integer, Double>(k, pr(k, n, p));
 }
 
 /**

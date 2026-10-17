@@ -41,7 +41,7 @@ package imr.math.stat;
 * @author Ismael Mosquera Rivera.
 *
 */
-public class BasicStat
+public final class BasicStat
 {
 
 /**

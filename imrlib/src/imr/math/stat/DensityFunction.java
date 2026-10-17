@@ -238,6 +238,46 @@ assert(_size > 0): "DensityFunction -> cdfValues(): No distribution computed yet
 }
 
 /**
+* This method gets the identifier of the class having the median of this distribution.
+* <p>
+* @return Class identifier having the median value for this distribution.
+*
+*/
+public int medianID()
+{
+	assert(_size > 0): "DensityFunction -> cdf(...): No data set yet.";
+Pair<Integer, Integer>[] abs = sortAbs();
+int n = abs.length;
+if(n%2 == 0) // even
+{
+	double m = median();
+	// find median identifier
+	for(int k = 0; k < abs.length; k++)
+	{
+	if(abs[k].getSecond() == m)
+	{
+		n = k;
+		break;
+	}
+	else if(abs[k].getSecond() > m)
+	{
+		int p1 = k;
+		int p0 = k-1;
+		double d0 = m-abs[p0].getSecond();
+		double d1 = abs[p1].getSecond() - m;
+		n = (d0 < d1) ? p0 : p1;
+		break;
+	}
+	}
+}
+else // odd
+{
+	n /= 2;
+}
+return abs[n].getFirst();
+}
+
+/**
 * This method finds the statistic median for this experiment. <p>
 * Such a value is the mid point in the distribution, that is, half of the classes are equal or less and the other half are equal or greater than it according the number of occurrences.
 * <p>

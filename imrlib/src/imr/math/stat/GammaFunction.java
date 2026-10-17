@@ -109,11 +109,12 @@ w = w.add((new ComplexNumber(p[k], 0.0)).div(c.add(new ComplexNumber((double)k, 
 return twoPI.sqrt().mul(t.pow(c.add(new ComplexNumber(0.5, 0.0)))).mul(t.negate().exp()).mul(w);
 }
 
+
 /*
 * Table of pre-computed values needed to do the wanted aproximation.
 * Notice that a few of ones is sufficient.
 */
-private static double[] p =
+private static final double[] p =
 {
     0.99999999999980993,
     676.5203681218851,
@@ -125,7 +126,6 @@ private static double[] p =
     9.9843695780195716e-6,
     1.5056327351493116e-7
 };
-
 
 // Private constructor so that this class cannot be instantiated
 private GammaFunction() {}

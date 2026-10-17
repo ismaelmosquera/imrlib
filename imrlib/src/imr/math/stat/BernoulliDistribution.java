@@ -29,6 +29,7 @@
 
 package imr.math.stat;
 
+import imr.util.Pair;
 import imr.math.RandomNumberGenerator;
 import imr.math.matrix.Vector;
 
@@ -47,17 +48,30 @@ public final class BernoulliDistribution
 {
 
 /**
+* Static method to randomly choose an integer value in the set {0, 1}. <p>
+* Maybe you want to know how many 0s and 1s are in a concrete experiment. <p>
+* Afterwards, you can easily get its probability from the pmf by index.
+* <p>
+* @return Randomly choosed value from the set {0, 1}
+*
+*/
+public static int kValue()
+{
+return RandomNumberGenerator.generate(0, 1);
+}
+
+/**
 * Static method to compute a single trial. <p>
 * @param p
 * A double floating-point value in the range (0 .. 1)
 * <p>
-* @return Probability in the range (0 .. 1) for this trial.
+* @return A <code>imr.util.Pair</code> object, having the 0 or 1 ( failure or success ) as first, and the probability of failure or success in it second.
 *
 */
-public static double outcomeTrial(double p)
+public static Pair<Integer, Double> outcomeTrial(double p)
 {
 int k = RandomNumberGenerator.generate(0, 1);
-return BinomialDistribution.pr(k, 1, p);
+return new Pair<Integer, Double>(k, BinomialDistribution.pr(k, 1, p));
 }
 
 /**
