@@ -9,6 +9,7 @@ This is a Java implementation as a library having the following packages:
 > - imr.math.matrix.complex  
 > - imr.math.polynomial  
 > - imr.math.polynomial.division  
+> - imr.math.stat  
 > - imr.plot  
 > - imr.sigslot  
 > - imr.sound  
@@ -82,6 +83,10 @@ There are classes to perform polynomial division for any numerical type:
   
 Integer polynomial division is computed by converting an integer polynomial into a real one, and then apply float polynomial division.  
   
+#### imr.math.stat  
+  
+This package offers a few functionallity related to probability computation.  
+  
 #### imr.plot  
   
 This package offers a basic visualization system from you can easily code your own plots.  
@@ -145,4 +150,4 @@ there is also an API documentation compressed in a doc.zip archive.
 This piece of code is devoted to my loved assistant dog Inuit, he passed away on 12/08/2025 ( day/month/year ).  
 Hope that you enjoy and appreciate this work made for free.  
   
-Latest revision: 17/10/2026 ( day/month/year )  
+Latest revision: 24/10/2026 ( day/month/year )  
