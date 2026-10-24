@@ -41,6 +41,9 @@ import imr.math.matrix.Vector;
 * if k = 0, outcome = 1-P <p>
 * if k = 1, outcome = P
 * <p>
+* This class uses assertions; to enable them you can use the '-ea' modifier. <p>
+* <code>java -ea MyApp</code>
+* <p>
 * @author Ismael Mosquera rivera.
 *
 */
@@ -131,6 +134,35 @@ public static Vector cdfVector(double p)
 {
 return BinomialDistribution.cdfVector(1, p);
 }
+
+/**
+* Static method to get the mean of a Bernoulli distribution according to the probability parameter. <p>
+* @param p
+* A double floating-point value in the range [0 .. 1]
+* <p>
+* @return Mean value.
+*
+*/
+public static double mean(double p)
+{
+assert(p >= 0.0 && p <= 1.0): "BernoulliDistribution -> mean(...): Bad parameter; 'p' must be in the range [0 .. 1]";
+return p;
+}
+
+/**
+* Static method to get the variance of a Bernoulli distribution according to the probability parameter. <p>
+* @param p
+* A double floating-point value in the range [0 .. 1]
+* <p>
+* @return Variance value.
+*
+*/
+public static double var(double p)
+{
+assert(p >= 0.0 && p <= 1.0): "BernoulliDistribution -> var(...): Bad parameter; 'p' must be in the range [0 .. 1]";
+return p*(1.0-p);
+}
+
 
 // Private constructor so that this class cannot be instantiated.
 private BernoulliDistribution() {}

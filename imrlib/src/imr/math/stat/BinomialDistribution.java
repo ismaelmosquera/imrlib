@@ -198,6 +198,44 @@ v.set(i, _cdf[i]);
 return v;
 }
 
+/**
+* Static method to get the mean value for a binomial distribution according the parameters 'n' and 'p', <p>
+* where 'n' is the number of trials and 'p' is the probability of success. <p>
+* @param n
+ * An integer greater or equal to zero.
+ * <p>
+ * @param p
+ * A double floating-point value to set the wished probability (0 .. 1)
+* <p>
+* @return Mean value.
+*
+*/
+public static double mean(int n, double p)
+{
+assert(n >= 0): "BinomialDistribution -> mean(...): Bad parameter; 'n' must be equal or greater than zero.";
+assert(p >= 0.0 && p <= 1.0): "BinomialDistribution -> mean(...): Bad parameter; 'p' must be in the range [0 .. 1]";
+return (double)n*p;
+}
+
+/**
+* Static method to get the variance value for a binomial distribution according the parameters 'n' and 'p', <p>
+* where 'n' is the number of trials and 'p' is the probability of success. <p>
+* @param n
+ * An integer greater or equal to zero.
+ * <p>
+ * @param p
+ * A double floating-point value to set the wished probability (0 .. 1)
+* <p>
+* @return Variance value.
+*
+*/
+public static double var(int n, double p)
+{
+assert(n >= 0): "BinomialDistribution -> var(...): Bad parameter; 'n' must be equal or greater than zero.";
+assert(p >= 0.0 && p <= 1.0): "BinomialDistribution -> var(...): Bad parameter; 'p' must be in the range [0 .. 1]";
+return (double)n*p*(1.0-p);
+}
+
 
 // Private constructor so that this class cannot be instantiated.
 private BinomialDistribution() {}
