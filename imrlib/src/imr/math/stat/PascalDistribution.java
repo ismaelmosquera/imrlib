@@ -245,7 +245,7 @@ return ((double)r*(1.0-p))/(p*p);
 private PascalDistribution() {}
 
 // Symbolic constant declared as package scope just for convinience
-static final int MAX_ITERATIONS = 5000;
+static final int MAX_ITERATIONS = 10000;
 }
 
 // END
