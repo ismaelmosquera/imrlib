@@ -29,21 +29,28 @@
 package imr.math;
 
 /**
-* The <code>RandomNumberGenerator</code> class generates random numbers in a [min..max] range.
-* It has public static overloaded methods to do the task.
-*
-* @author: Ismael Mosquera Rivera
+* The <code>RandomNumberGenerator</code> class generates uniform distributed random numbers in a [min..max] range. <p>
+* It has public static overloaded methods to do the task. <p>
+* There is also a non uniform distributed method that generates Poisson random numbers.
+* <p>
+* This class uses assertions; to enable them at execution time you can use the '-ea' modifier: <p>
+* <code>java -ea MyApp</code>
+* <p>
+* @author Ismael Mosquera Rivera.
 *
 */
 public final class RandomNumberGenerator
 {
 
 /**
-* This method generates a random integer number in the [min..max] range.
-* @param min Minimum integer value in the range
-* @param max Maximum integer value in the range
-*
-* @return A random integer value in the [min..max] range
+* This method generates a uniform distributed random integer number in the [min..max] range. <p>
+* @param min
+* Minimum integer value in the range.
+* <p>
+* @param max
+* Maximum integer value in the range.
+* <p>
+* @return A random integer value in the [min..max] range.
 *
 */
 public static int generate(int min, int max)
@@ -55,11 +62,14 @@ return retval + min;
 }
 
 /**
-* This method generates a random floating point number in the [min..max] range.
-* @param min Minimum double value in the range
-* @param max Maximum double value in the range
-*
-* @return A random double value in the [min..max] range
+* This method generates a uniform distributed random floating point number in the [min..max] range. <p>
+* @param min
+* Minimum double value in the range.
+* <p>
+* @param max
+* Maximum double value in the range.
+* <p>
+* @return A random double value in the [min..max] range.
 *
 */
 public static double generate(double min, double max)
@@ -68,6 +78,29 @@ public static double generate(double min, double max)
 double range = (max - min);
 double retval = (Math.random() * range);
 return retval + min;
+}
+
+/**
+* Static method to generate a Poisson distributed random number. <p>
+* This method uses the Knuth algorithm to do the task. <p>
+* @param lambda
+* A double floating-point value greater than zero.
+* <p>
+* @return An integer Poisson distributed random number.
+*
+*/
+public static int generate(double lambda)
+{
+assert(lambda > 0.0): "PoissonRandomNumber -> generate(...): Bad parameter; 'lambda' must be equal or greater than zero.";
+double t = Math.exp(- lambda);
+double p = 1.0;
+int k = 0;
+do
+{
+k++;
+p *= Math.random();
+}while(p > t);
+return k - 1;
 }
 
 

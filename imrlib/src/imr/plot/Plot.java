@@ -70,6 +70,59 @@ _renderers = new HashMap<String, Renderer>();
 }
 
 /**
+* Clears the visualizer and keeps the current background color.
+*
+*/
+public void clear()
+{
+if(_renderers.isEmpty()) return;
+String[] keys = getRenderers();
+for(int i = 0; i < keys.length; i++)
+{
+	_renderers.get(keys[i]).clear();
+}
+refresh();
+}
+
+/**
+* Sets the logical bounds for the X axis. <p>
+* @param xmin
+* A floating-point value to set the minimum value for the X axis.
+* <p>
+* @param xmax
+* A floating-point value to set the maximum value for the X axis.
+*
+*/
+public void setHBounds(float xmin, float xmax)
+{
+if(_renderers.isEmpty()) return;
+String[] keys = getRenderers();
+for(int i = 0; i < keys.length; i++)
+{
+	_renderers.get(keys[i]).setHBounds(xmin, xmax);
+}
+}
+
+/**
+* Sets the logical bounds for the Y axis. <p>
+* @param ymin
+* A floating-point value to set the minimum value for the Y axis.
+* <p>
+* @param ymax
+* A floating-point value to set the maximum value for the Y axis.
+*
+*/
+public void setVBounds(float ymin, float ymax)
+{
+if(_renderers.isEmpty()) return;
+String[] keys = getRenderers();
+for(int i = 0; i < keys.length; i++)
+{
+	_renderers.get(keys[i]).setVBounds(ymin, ymax);
+}
+}
+
+/**
 * Adds a new <code>Renderer</code> object to this plot.
 * <p>
 * @param name A name for the renderer.

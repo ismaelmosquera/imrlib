@@ -57,6 +57,16 @@ _xmax = 1.0f;
 _ymin = 0.0f;
 _ymax = 1.0f;
 _color = Color.BLUE;
+_hasData = false;
+}
+
+/**
+* Clears this renderer, that is, it won't draw anymore until we set new data.
+*
+*/
+public void clear()
+{
+_hasData = false;
 }
 
 /**
@@ -99,6 +109,50 @@ _ymax = ymax;
 }
 
 /**
+* Gets the minimum horizontal bound of this renderer.
+* <p>
+* @return Minimum horizontal ( X ) bound of this renderer.
+*
+*/
+public float xMin()
+{
+return _xmin;
+}
+
+/**
+* Gets the maximum horizontal bound of this renderer.
+* <p>
+* @return Maximum horizontal ( X ) bound of this renderer.
+*
+*/
+public float xMax()
+{
+return _xmax;
+}
+
+/**
+* Gets the minimum vertical bound of this renderer.
+* <p>
+* @return Minimum Vertical ( Y ) bound of this renderer.
+*
+*/
+public float yMin()
+{
+	return _ymin;
+}
+
+/**
+* Gets the maximum vertical bound of this renderer.
+* <p>
+* @return Maximum Vertical ( Y ) bound of this renderer.
+*
+*/
+public float yMax()
+{
+return _ymax;
+}
+
+/**
 * This abstract method must be implemented for any subclass.
 * <p>
 * Determines the content for the renderer to draw.
@@ -113,12 +167,61 @@ _ymax = ymax;
 public abstract void render(Graphics g, int width, int height);
 
 
+/**
+* Maps the x coordinate from logical to phisical.
+* <p>
+* @param x the x coordinate to be mapped.
+* @param width the width value for the area to map.
+* <p>
+* @return the mapped coordinate.
+*
+*/
+protected float getX(float x, int width)
+{
+return (x - _xmin) / (_xmax - _xmin) * (float)width;
+}
+
+/**
+* Maps the y coordinate from logical to phisical.
+* <p>
+* @param y the y coordinate to be mapped.
+* @param height the height value for the area to map.
+* <p>
+* @return the mapped coordinate.
+*
+*/
+protected float getY(float y, int height)
+{
+return (1.0f - (y - _ymin) / (_ymax - _ymin)) * (float)height;
+}
+
+protected boolean _hasData;
+
+/**
+* Minimum value for logical X axis.
+*/
 protected float _xmin;
+
+/**
+* Maximum value for logical X axis.
+*/
 protected float _xmax;
+
+/**
+* Minimum value for logical Y axis.
+*/
 protected float _ymin;
+
+/**
+* Maximum value for logical Y axis.
+*/
 protected float _ymax;
 
+/**
+* Wanted color to draw.
+*/
 protected Color _color;
+
 }
 
 // END

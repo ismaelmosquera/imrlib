@@ -80,6 +80,7 @@ public void setData(float[] data)
 	_data = (float[])iArray.clone(data);
 	_newData = true;
 	if(!_hugeMode) setHBounds(0.0f, (float)_data.length-1);
+	_hasData = true;
 }
 
 /**
@@ -94,6 +95,7 @@ public void setData(float[] data)
 */
 public void render(Graphics g, int width, int height)
 {
+	if(!_hasData) return;
 	if(g == null) return;
 	if(_data == null) return;
 	Graphics2D g2D = (Graphics2D)g;
@@ -144,33 +146,7 @@ public void setHugeMode(boolean hm)
 _hugeMode = hm;
 }
 
-/*
-* Maps the x coordinate from logical to phisical.
-* <p>
-* @param x the x coordinate to be mapped.
-* @param width the width value for the area to map.
-* <p>
-* @return the mapped coordinate.
-*
-*/
-private float getX(float x, int width)
-{
-return (x - _xmin) / (_xmax - _xmin) * (float)width;
-}
 
-/*
-* Maps the y coordinate from logical to phisical.
-* <p>
-* @param y the y coordinate to be mapped.
-* @param height the height value for the area to map.
-* <p>
-* @return the mapped coordinate.
-*
-*/
-private float getY(float y, int height)
-{
-return (1.0f - (y - _ymin) / (_ymax - _ymin)) * (float)height;
-}
 
 private float[] getMinMax(float[] v)
 {

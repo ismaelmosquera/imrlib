@@ -73,7 +73,7 @@ return 1.0/Math.sqrt(2.0*Math.PI*v) * Math.exp(-Math.pow(x-m, 2)/(2.0*v));
 /**
 * Static method to compute the entire pdf for a given interval. <p>
 * The width of the interval will be set around the mean value, for instance: <p>
-* if mean = 2 and span = 4, interval = [0 .. 4]. <p>
+* if mean = 0 and span = 4, interval = [-4 .. 4]. <p>
 * The 'step' parameter is just to get more resolution, to have a plot with a smooth curve; the increment will be 1/step so, for step = 1 there is no change. <p>
 * Take in account that incrementing resolution will result in a sum greater than 1 for the pdf; to avoid it, we apply a normalization. <p>
 * Anyway, you are free to rescale the pdf in order to get a plot with a taller peak in the resulting bell curve. <p>
@@ -84,7 +84,7 @@ return 1.0/Math.sqrt(2.0*Math.PI*v) * Math.exp(-Math.pow(x-m, 2)/(2.0*v));
 * A double floating-point value to set the variance.
 * <p>
 * @param span
-* A double floating-point value to set the width of the interval.
+* An integer value greater than 0 to set the width of the interval.
 * <p>
 * @param step
 * An integer value greater than 0 ( set it to 1 for default behaviour ).
@@ -92,11 +92,11 @@ return 1.0/Math.sqrt(2.0*Math.PI*v) * Math.exp(-Math.pow(x-m, 2)/(2.0*v));
 * @return Computed pdf as a double floating-point array.
 *
 */
-public static double[] pdf(double m, double v, double span, int step)
+public static double[] pdf(double m, double v, int span, int step)
 {
+	assert(span > 0): "NormalDistribution -> pdf(...): Bad parameter; 'span' must be greater than 0";
 	assert(step > 0): "NormalDistribution -> pdf(...): Bad parameter; 'step' must be greater than 0";
-double h = span/2.0;
-Range r = new Range(m-h, m+h);
+Range r = new Range(m-(double)span, m+(double)span);
 double std = 1.0/Math.sqrt(v);
 LinkedList<Double> list = new LinkedList<>();
 double sum = 0.0;
@@ -126,7 +126,7 @@ return _pdf;
 * A double floating-point value to set the variance.
 * <p>
 * @param span
-* A double floating-point value to set the width of the interval.
+* An integer value greater than 0 to set the width of the interval.
 * <p>
 * @param step
 * An integer value greater than 0 ( set it to 1 for default behaviour ).
@@ -134,8 +134,7 @@ return _pdf;
 * @return Computed pdf as a <code>Vector</code> object.
 *
 */
-
-public static Vector pdfVector(double m, double v, double span, int step)
+public static Vector pdfVector(double m, double v, int span, int step)
 {
 double[] _pdf = pdf(m, v, span, step);
 int n = _pdf.length;
@@ -153,7 +152,7 @@ return a;
 * A double floating-point value to set the variance.
 * <p>
 * @param span
-* A double floating-point value to set the width of the interval.
+* An integer value greater than 0 to set the width of the interval.
 * <p>
 * @param step
 * An integer value greater than 0 ( set it to 1 for default behaviour ).
@@ -161,7 +160,7 @@ return a;
 * @return Computed cdf as a double floating-point array.
 *
 */
-public static double[] cdf(double m, double v, double span, int step)
+public static double[] cdf(double m, double v, int span, int step)
 {
 	assert(step > 0): "NormalDistribution -> cdf(...): Bad parameter; 'step' must be greater than 0";
 double[] _pdf = pdf(m, v, span, step);
@@ -184,7 +183,7 @@ return _cdf;
 * A double floating-point value to set the variance.
 * <p>
 * @param span
-* A double floating-point value to set the width of the interval.
+* An integer value greater than 0 to set the width of the interval.
 * <p>
 * @param step
 * An integer value greater than 0 ( set it to 1 for default behaviour ).
@@ -192,8 +191,7 @@ return _cdf;
 * @return Computed cdf as a <code>Vector</code> object.
 *
 */
-
-public static Vector cdfVector(double m, double v, double span, int step)
+public static Vector cdfVector(double m, double v, int span, int step)
 {
 double[] _cdf = cdf(m, v, span, step);
 int n = _cdf.length;

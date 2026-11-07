@@ -216,7 +216,7 @@ assert(lambda > 0.0): "PoissonDistribution -> var(...): Bad parameter; lambda mu
 private PoissonDistribution() {}
 
 // Symbolic constant declared as package scope just for convinience
-static final double EPSILON = 1E-9;
+static final double EPSILON = 1E-10;
 }
 
 // END

@@ -36,6 +36,7 @@ import java.lang.NumberFormatException;
 /**
 * The <code>InputReader</code> class defines static methods to get strings and any kind of
 * atomic numeric data from the command line.
+* <p>
 * @author Ismael Mosquera Rivera
 */
 public class InputReader
@@ -43,6 +44,7 @@ public class InputReader
 
 /**
 * Reads a string from the command line.
+* <p>
 * @return the read string.
 */
   public static String readString()
@@ -63,6 +65,7 @@ public class InputReader
 
 /**
 * gets a short value from the command line.
+* <p>
 * @return the read short.
 */
   public static short readShort()
@@ -79,6 +82,7 @@ public class InputReader
 
 /**
 * Reads an int value from the command line.
+* <p>
 * @return the read int.
 */
   public static int readInt()
@@ -95,6 +99,7 @@ public class InputReader
 
 /**
 * Reads a long value from the command line.
+* <p>
 * @return the read long.
 */
   public static long readLong()
@@ -111,6 +116,7 @@ public class InputReader
 
 /**
 * Reads a float value from the command line.
+* <p>
 * @return the read float.
 */
   public static float readFloat()
@@ -127,6 +133,7 @@ public class InputReader
 
 /**
 * Reads a double value from the command line.
+* <p>
 * @return the read double.
 */
   public static double readDouble()
