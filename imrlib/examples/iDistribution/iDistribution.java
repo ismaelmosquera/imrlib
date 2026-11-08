@@ -370,7 +370,7 @@ c.gridwidth = 1;
 c.gridheight = 1;
 pane.add(_cdfValue, c);
 
-_yAxisRange = new JLabel("PMF Y-Axis [0.0 .. 1.0]", SwingConstants.CENTER);
+_yAxisRange = new JLabel("PMF Y-Axis [0.0 .. 1.00]", SwingConstants.CENTER);
 _yAxisRange.setFont(smallFont);
 _yAxisRange.setToolTipText(" Current Y-Axis Range ");
 _yAxisRange.setFocusable(true);
@@ -824,8 +824,8 @@ _currentVar = BinomialDistribution.var(n, p);
 _yMaxValue = max(_pmfArray);
 if(n > 1)
 {
-checkPmfPlotVBounds();
-_yAxisMax = (double)yMax((float)_yMaxValue);
+checkPmfPlotVBounds(_yMaxValue);
+_yAxisMax = yMax(_yMaxValue);
 }
 else
 {
@@ -860,8 +860,8 @@ _cdf = getDistributionLabels(_cdfArray);
 _currentMean = GeometricDistribution.mean(p);
 _currentVar = GeometricDistribution.var(p);
 _yMaxValue = max(_pmfArray);
-_yAxisMax = yMax((float)_yMaxValue);
-checkPmfPlotVBounds();
+_yAxisMax = yMax(_yMaxValue);
+checkPmfPlotVBounds(_yMaxValue);
 updateSpinners();
 setLabelValues();
 ((SignalPlot)_pmfPlot).setData(Convert.toFloatArray(_pmfArray));
@@ -892,8 +892,8 @@ _cdf = getDistributionLabels(_cdfArray);
 _currentMean = NegativeBinomialDistribution.mean(r, p);
 _currentVar = NegativeBinomialDistribution.var(r, p);
 _yMaxValue = max(_pmfArray);
-_yAxisMax = yMax((float)_yMaxValue);
-checkPmfPlotVBounds();
+_yAxisMax = yMax(_yMaxValue);
+checkPmfPlotVBounds(_yMaxValue);
 updateSpinners();
 setLabelValues();
 ((SignalPlot)_pmfPlot).setData(Convert.toFloatArray(_pmfArray));
@@ -922,10 +922,10 @@ _hasCdf = true;
 _currentMean = m;
 _currentVar = v;
 _yMaxValue = max(_pmfArray);
-_yAxisMax = yMax((float)_yMaxValue);
+_yAxisMax = yMax(_yMaxValue);
 _pmf = getPdfLabels(_pmfArray);
 _cdf = getPdfLabels(_cdfArray);
-checkPmfPlotVBounds();
+checkPmfPlotVBounds(_yMaxValue);
 updateSpinners();
 setLabelValues();
 _pmfPlot.getRenderer("ZMean").setHBounds((float)(m-((double)SPAN)), (float)(m+((double)SPAN)));
@@ -939,12 +939,10 @@ float x2 = (float)(m+v/2.0);
 if(m == 0.0 && v == 1.0)
 {
 	((SignalPlot)_pmfPlot).setData(Convert.toFloatArray(normalPdf(_currentMean, _currentVar, SPAN, 2)));
-
 }
 else
 {
 	((SignalPlot)_pmfPlot).setData(Convert.toFloatArray(_pmfArray));
-
 }
 ((SignalPlot)_cdfPlot).setData(Convert.toFloatArray(_cdfArray));
 refresh();
@@ -973,8 +971,8 @@ _cdf = getDistributionLabels(_cdfArray);
 _currentMean = PascalDistribution.mean(r, p);
 _currentVar = PascalDistribution.var(r, p);
 _yMaxValue = max(_pmfArray);
-_yAxisMax = yMax((float)_yMaxValue);
-checkPmfPlotVBounds();
+_yAxisMax = yMax(_yMaxValue);
+checkPmfPlotVBounds(_yMaxValue);
 updateSpinners();
 setLabelValues();
 ((SignalPlot)_pmfPlot).setData(Convert.toFloatArray(_pmfArray));
@@ -1004,8 +1002,8 @@ private boolean applyPoisson()
 	_currentMean = lambda;
 	_currentVar = lambda;
 	_yMaxValue = max(_pmfArray);
-	_yAxisMax = yMax((float)_yMaxValue);
-	checkPmfPlotVBounds();
+	_yAxisMax = yMax(_yMaxValue);
+	checkPmfPlotVBounds(_yMaxValue);
 	updateSpinners();
 	setLabelValues();
 	((SignalPlot)_pmfPlot).setData(Convert.toFloatArray(_pmfArray));
@@ -1040,8 +1038,8 @@ _cdf = getUniformLabels(u.cdf());
 _currentMean = u.mean();
 _currentVar = u.var();
 _yMaxValue = max(_pmfArray);
-_yAxisMax = yMax((float)_yMaxValue);
-checkPmfPlotVBounds();
+_yAxisMax = yMax(_yMaxValue);
+checkPmfPlotVBounds(_yMaxValue);
 updateSpinners();
 setLabelValues();
 ((SignalPlot)_pmfPlot).setData(Convert.toFloatArray(_pmfArray));
@@ -1197,11 +1195,11 @@ return a;
 }
 
 // Method to adjust pmf plot verticqal bound if necessary
-private void checkPmfPlotVBounds()
+private void checkPmfPlotVBounds(double ymax)
 {
-float y = yMax((float)max(_pmfArray));
-_pmfPlot.getRenderer("YAxis").setVBounds(0.0f, y);
-((LineRenderer)_pmfPlot.getRenderer("YAxis")).setPoints(new Point2D(0.0, 0.0), new Point2D(0.0, (double)y));
+	double y = yMax(ymax);
+_pmfPlot.getRenderer("YAxis").setVBounds(0.0f, (float)y);
+((LineRenderer)_pmfPlot.getRenderer("YAxis")).setPoints(new Point2D(0.0, 0.0), new Point2D(0.0, y));
 }
 
 // Method to reset axis points
@@ -1232,14 +1230,14 @@ return _max;
 }
 
 // Helper method to compute max vertical bound if necessary
-private float yMax(float y)
+private double yMax(double y)
 {
-if(y+0.2f >= 1.0f) return 1.0f;
-float newY = y+0.2f;
-float frac = newY*10.0f;
-frac -= (int)frac;
-frac /= 10.0f;
-return newY-frac;
+if(y+0.2 >= 1.0) return 1.0;
+double newY = y+0.2;
+newY *= 10.0;
+newY = (double)((int)newY);
+newY /= 10.0;
+return newY;
 }
 
 // Helper method to format a floating-point value
