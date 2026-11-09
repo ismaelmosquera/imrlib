@@ -921,6 +921,7 @@ _hasPmf = true;
 _hasCdf = true;
 _currentMean = m;
 _currentVar = v;
+double scaleFactor = 1.0/Math.sqrt(_currentVar);
 _yMaxValue = max(_pmfArray);
 _yAxisMax = yMax(_yMaxValue);
 _pmf = getPdfLabels(_pmfArray);
@@ -930,21 +931,13 @@ updateSpinners();
 setLabelValues();
 _pmfPlot.getRenderer("ZMean").setHBounds((float)(m-((double)SPAN)), (float)(m+((double)SPAN)));
 _pmfPlot.getRenderer("ZVar").setHBounds((float)(m-((double)SPAN)), (float)(m+((double)SPAN)));
-float ymean = (float)NormalDistribution.pr(m, m, v);
-float yvar = (float)NormalDistribution.pr(m+v/2.0, m, v);
-float x1 = (float)(m-v/2.0);
-float x2 = (float)(m+v/2.0);
+double ymean = NormalDistribution.pr(m, m, v) * scaleFactor;
+double yvar = NormalDistribution.pr(m+v/2.0, m, v) * scaleFactor; double x1 = m-v/2.0;
+double x2 = m+v/2.0;
 ((LineRenderer)_pmfPlot.getRenderer("ZMean")).setPoints(new Point2D(m, 0.0), new Point2D(m, ymean));
 ((LineRenderer)_pmfPlot.getRenderer("ZVar")).setPoints(new Point2D(x1, yvar), new Point2D(x2, yvar));
-if(m == 0.0 && v == 1.0)
-{
 	((SignalPlot)_pmfPlot).setData(Convert.toFloatArray(normalPdf(_currentMean, _currentVar, SPAN, 2)));
-}
-else
-{
-	((SignalPlot)_pmfPlot).setData(Convert.toFloatArray(_pmfArray));
-}
-((SignalPlot)_cdfPlot).setData(Convert.toFloatArray(_cdfArray));
+((SignalPlot)_cdfPlot).setData(Convert.toFloatArray(NormalDistribution.cdf(_currentMean, _currentVar, SPAN, 2)));
 refresh();
    }
    catch(NumberFormatException e)
