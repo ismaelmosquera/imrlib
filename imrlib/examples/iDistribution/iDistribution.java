@@ -26,7 +26,6 @@
 */
 
 import imr.util.Convert;
-import imr.util.Pair;
 import imr.math.Range;
 import imr.math.Point2D;
 import imr.plot.*;
@@ -153,14 +152,21 @@ c.gridy = 0;
 c.gridwidth = 1;
 c.gridheight = 1;
 pane.add(pmfGroupLabel, c);
-
+// Parameters label
+JLabel parametersLabel = new JLabel("Parameters:", SwingConstants.CENTER);
+parametersLabel.setFont(appLabelFont);
+c.gridx = 1;
+c.gridy = 0;
+c.gridwidth = 1;
+c.gridheight = 1;
+pane.add(parametersLabel, c);
 
 // parameters
 _param1 = new JTextField();
 _param1.setText("");
 _param1.getAccessibleContext().setAccessibleName("param1");
 _param1.setFocusable(true);
-c.gridx = 1;
+c.gridx = 2;
 c.gridy = 0;
 c.gridwidth = 1;
 c.gridheight = 1;
@@ -170,21 +176,11 @@ _param2 = new JTextField();
 _param2.setText("");
 _param2.getAccessibleContext().setAccessibleName("param2");
 _param2.setFocusable(true);
-c.gridx = 2;
-c.gridy = 0;
-c.gridwidth = 1;
-c.gridheight = 1;
-pane.add(_param2, c);
-
-_param3 = new JTextField();
-_param3.setText("");
-_param3.getAccessibleContext().setAccessibleName("param3");
-_param3.setFocusable(true);
 c.gridx = 3;
 c.gridy = 0;
 c.gridwidth = 1;
 c.gridheight = 1;
-pane.add(_param3, c);
+pane.add(_param2, c);
 
 JLabel pmfIndexLabel = new JLabel("Index", SwingConstants.CENTER);
 pmfIndexLabel.setFont(smallFont);
@@ -241,7 +237,7 @@ c.gridheight = 1;
 pane.add(applyDistribution, c);
 
 // Distribution list
-String[] distributions = {"Bernoulli", "Binomial", "Geometric", "Neg Binomial", "Normal", "Pascal", "Poisson", "Uniform"};
+String[] distributions = {"Bernoulli", "Binomial", "Geometric", "Neg Binomial", "Normal", "Pascal", "Poisson"};
 JComboBox distributionTypeSelector = new JComboBox(distributions);
 distributionTypeSelector.setFont(appLabelFont);
 distributionTypeSelector.getAccessibleContext().setAccessibleName("select distribution type");
@@ -630,9 +626,6 @@ switch(w)
 	case Workspace.POISSON:
 	poisson();
 	break;
-	case Workspace.UNIFORM:
-	uniform();
-	break;
 	default:
 	// do nothing
 }
@@ -657,8 +650,6 @@ switch(workspace)
 	return applyPascal();
 	case Workspace.POISSON:
 	return applyPoisson();
-	case Workspace.UNIFORM:
-	return applyUniform();
 	default:
 	return false;
 }
@@ -670,9 +661,7 @@ private void bernoulli()
 	_param1.setText("");
 _param1.setToolTipText(" Probability of success [0 .. 1] ");
 _param2.setToolTipText("");
-_param3.setToolTipText("");
 _param2.setEnabled(false);
-_param3.setEnabled(false);
 _pmfIndex.setEnabled(false);
 _cdfIndex.setEnabled(false);
 _pmfPlot.clear();
@@ -696,9 +685,7 @@ private void binomial()
 _param1.setToolTipText(" Number of trials -> k = 0, 1, 2 ... N ");
 _param2.setText("");
 _param2.setToolTipText(" Probability of success [0 .. 1] ");
-_param3.setToolTipText("");
 _param2.setEnabled(true);
-_param3.setEnabled(false);
 _pmfIndex.setEnabled(false);
 _cdfIndex.setEnabled(false);
 _pmfPlot.clear();
@@ -759,19 +746,6 @@ bernoulli();
 // adjust
 _param1.setToolTipText(" double value > 0.0 -> average or rate for an occurrence ");
 _currentWorkspace = Workspace.POISSON;
-}
-
-private void uniform()
-{
-// first set binomial
-binomial();
-// adjust
-_param1.setToolTipText(" Integer value> 0 -> number of samples ");
-_param2.setToolTipText(" Integer [0 .. n] min value for uniform random selection ");
-_param3.setEnabled(true);
-_param3.setText("");
-_param3.setToolTipText(" Integer [1 .. n] -> max value for uniform random selection ");
-_currentWorkspace = Workspace.UNIFORM;
 }
 
 // Methods to apply distribution settings
@@ -921,7 +895,6 @@ _hasPmf = true;
 _hasCdf = true;
 _currentMean = m;
 _currentVar = v;
-double scaleFactor = 1.0/Math.sqrt(_currentVar);
 _yMaxValue = max(_pmfArray);
 _yAxisMax = yMax(_yMaxValue);
 _pmf = getPdfLabels(_pmfArray);
@@ -931,13 +904,13 @@ updateSpinners();
 setLabelValues();
 _pmfPlot.getRenderer("ZMean").setHBounds((float)(m-((double)SPAN)), (float)(m+((double)SPAN)));
 _pmfPlot.getRenderer("ZVar").setHBounds((float)(m-((double)SPAN)), (float)(m+((double)SPAN)));
-double ymean = NormalDistribution.pr(m, m, v) * scaleFactor;
-double yvar = NormalDistribution.pr(m+v/2.0, m, v) * scaleFactor; double x1 = m-v/2.0;
+double ymean = NormalDistribution.pr(m, m, v);
+double yvar = NormalDistribution.pr(m+v/2.0, m, v); double x1 = m-v/2.0;
 double x2 = m+v/2.0;
 ((LineRenderer)_pmfPlot.getRenderer("ZMean")).setPoints(new Point2D(m, 0.0), new Point2D(m, ymean));
 ((LineRenderer)_pmfPlot.getRenderer("ZVar")).setPoints(new Point2D(x1, yvar), new Point2D(x2, yvar));
-	((SignalPlot)_pmfPlot).setData(Convert.toFloatArray(normalPdf(_currentMean, _currentVar, SPAN, 2)));
-((SignalPlot)_cdfPlot).setData(Convert.toFloatArray(NormalDistribution.cdf(_currentMean, _currentVar, SPAN, 2)));
+	((SignalPlot)_pmfPlot).setData(Convert.toFloatArray(normalPdf(_currentMean, _currentVar, SPAN, 4)));
+((SignalPlot)_cdfPlot).setData(Convert.toFloatArray(NormalDistribution.cdf(_currentMean, _currentVar, SPAN, 4)));
 refresh();
    }
    catch(NumberFormatException e)
@@ -1010,42 +983,6 @@ private boolean applyPoisson()
 	   return true;
 }
 
-private boolean applyUniform()
-{
-try
-   {
-	   int samples = Integer.parseInt(_param1.getText());
-     int min = Integer.parseInt(_param2.getText());
-     int max = Integer.parseInt(_param3.getText());
-if(samples < 2 || min < 0 || min >= max) return false;
-// apply settings
-int[] nSamples = UniformDistribution.samples(samples, min, max);
-UniformDistribution u = new UniformDistribution();
-u.compute(nSamples);
-_pmfArray = getUniformDistributionArray(u.pdf());
-_cdfArray = getUniformDistributionArray(u.cdf());
-_hasPmf = true;
-_hasCdf = true;
-_pmf = getUniformLabels(u.pdf());
-_cdf = getUniformLabels(u.cdf());
-_currentMean = u.mean();
-_currentVar = u.var();
-_yMaxValue = max(_pmfArray);
-_yAxisMax = yMax(_yMaxValue);
-checkPmfPlotVBounds(_yMaxValue);
-updateSpinners();
-setLabelValues();
-((SignalPlot)_pmfPlot).setData(Convert.toFloatArray(_pmfArray));
-((SignalPlot)_cdfPlot).setData(Convert.toFloatArray(_cdfArray));
-refresh();
-   }
-   catch(NumberFormatException e)
-   {
-     return false;
-   }
-   return true;
-}
-
 // Methods to set several background colors
 private void setBackgroundBlack()
 {
@@ -1107,12 +1044,11 @@ private double[] normalPdf(double m, double v, int span, int step)
 	assert(span > 0): "NormalDistribution -> pdf(...): Bad parameter; 'span' must be greater than 0";
 	assert(step > 0): "NormalDistribution -> pdf(...): Bad parameter; 'step' must be greater than 0";
 Range r = new Range(m-(double)span, m+(double)span);
-double std = 1.0/Math.sqrt(v);
 LinkedList<Double> list = new LinkedList<>();
 double p = 0.0;
 for(double x = r.getMin(); x <= r.getMax(); x += 1.0/(double)step)
 {
-p = NormalDistribution.pr(x, m, v)*std;
+p = NormalDistribution.pr(x, m, v);
 list.add(p);
 }
 int k = 0;
@@ -1124,8 +1060,6 @@ _pdf[k++] = it.next();
 }
 return _pdf;
 }
-
-
 
 // Helper method to get normal pdf formatted values
 private String[] getPdfLabels(double[] x)
@@ -1151,40 +1085,6 @@ for(int i = 0; i < n; i++)
 	s[i] = format(x[i]);
 }
 	return s;
-}
-
-// Method to get labels for the uniform distribution
-private String format(Pair<Integer, Double> p)
-{
-String s = "[";
-s += p.getFirst();
-s += ", ";
-s += format(p.getSecond());
-return s+"]";
-}
-
-// Method to build uniform distribution labels
-private String[] getUniformLabels(Pair[] p)
-{
-	int n = p.length;
-String[] s = new String[n];
-for(int i = 0; i < n; i++)
-{
-s[i] = format(p[i]);
-}
-return s;
-}
-
-// Method to get uniform distribution values
-private double[] getUniformDistributionArray(Pair[] p)
-{
-int n = p.length;
-double[] a = new double[n];
-for(int i = 0; i < n; i++)
-{
-a[i] = (double)p[i].getSecond();
-}
-return a;
 }
 
 // Method to adjust pmf plot verticqal bound if necessary
@@ -1334,7 +1234,6 @@ private JSpinner _cdfIndex;
 
 private JTextField _param1;
 private JTextField _param2;
-private JTextField _param3;
 
 private JLabel _mean;  // show mean
 private JLabel _var;  // show variance
@@ -1363,7 +1262,6 @@ public static final int NEGATIVE = 3;
 public static final int NORMAL = 4;
 public static final int PASCAL = 5;
 public static final int POISSON = 6;
-public static final int UNIFORM = 7;
 
 }
 

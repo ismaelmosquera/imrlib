@@ -67,7 +67,8 @@ public static double pr(double x, double m, double v)
 {
 	assert(m >= 0.0): "NormalDistribution -> pr(...): Bad parameter; 'm' ( mean ) must be equal or greater than 0";
 	assert(v > 0.0): "NormalDistribution -> pr(...): Bad parameter; 'v' ( var ) must be greater than 0.0";
-return 1.0/Math.sqrt(2.0*Math.PI*v) * Math.exp(-Math.pow(x-m, 2)/(2.0*v));
+double scaleFactor = 1.0/Math.sqrt(v);
+return 1.0/Math.sqrt(2.0*Math.PI*v) * Math.exp(-Math.pow(x-m, 2)/(2.0*v)) * scaleFactor;
 }
 
 /**
@@ -97,13 +98,12 @@ public static double[] pdf(double m, double v, int span, int step)
 	assert(span > 0): "NormalDistribution -> pdf(...): Bad parameter; 'span' must be greater than 0";
 	assert(step > 0): "NormalDistribution -> pdf(...): Bad parameter; 'step' must be greater than 0";
 Range r = new Range(m-(double)span, m+(double)span);
-double std = 1.0/Math.sqrt(v);
 LinkedList<Double> list = new LinkedList<>();
 double sum = 0.0;
 double p = 0.0;
 for(double x = r.getMin(); x <= r.getMax(); x += 1.0/(double)step)
 {
-p = pr(x, m, v)*std;
+p = pr(x, m, v);
 list.add(p);
 sum += p;
 }
