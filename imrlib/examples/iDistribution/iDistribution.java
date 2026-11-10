@@ -1091,8 +1091,11 @@ for(int i = 0; i < n; i++)
 private void checkPmfPlotVBounds(double ymax)
 {
 	double y = yMax(ymax);
-_pmfPlot.getRenderer("YAxis").setVBounds(0.0f, (float)y);
+_pmfPlot.setVBounds(0.0f, (float)y);
+if(_currentWorkspace != Workspace.NORMAL)
+{
 ((LineRenderer)_pmfPlot.getRenderer("YAxis")).setPoints(new Point2D(0.0, 0.0), new Point2D(0.0, y));
+}
 }
 
 // Method to reset axis points
@@ -1245,7 +1248,7 @@ private JLabel _yAxisRange;
 private JLabel _yMax;
 
 // Some symbolic constants
-private static final int SPAN = 5;
+private static final int SPAN = 4;
 private static final int XPOS = 200;
 private static final int YPOS = 50;
 private static final int WIDTH = 800;
