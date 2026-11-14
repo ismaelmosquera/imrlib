@@ -57,7 +57,6 @@ public final class GammaFunction
 */
 public static double compute(double x)
 {
-	assert(x > 0.0): "GammaFunction -> compute(...): Bad parameter; x must be greater than zero.";
 if(x < 0.5) return Math.PI / (Math.sin(Math.PI*x)* compute(1.0-x));
 double g = 7.0;
 x -= 1.0;
@@ -81,7 +80,6 @@ return Math.sqrt(2.0*Math.PI) * Math.pow(t, x+0.5) * Math.exp(-t) * w;
 */
 public static ComplexNumber compute(ComplexNumber z)
 {
-	assert(z.getReal() > 0.0): "GammaFunction -> compute(...): Bad parameter; real part must be greater than zero.";
 ComplexNumber c = null;
 if(Math.abs(z.getImag()) < 1E-6)
 {
