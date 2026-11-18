@@ -41,7 +41,6 @@ public final class ChebyshevTPolynomial
 
 /**
 * Static method to compute n-th Chebyshev polynomials of first kind. <p>
-* Take in account that we return such a polynomial in ascending powers in order to prepare them to solve polynomial roots. <p>
 * @param n
 * An integer value greater than zero.
 * <p>
@@ -59,12 +58,11 @@ for(int k = 0; k <= n; k++)
 {
 p[k] = term(k, x);
 }
-return Polynomial.reverse(p);
+return p;
 }
 
 /**
 * Static method to compute the n-th term for a first kind Chebyshev polynomial. <p>
-* Take in account that for n = 0, the leading polynomial coefficient is returned. <p>
 * @param n
 * An integer value equal or greater than zero.
 * <p>

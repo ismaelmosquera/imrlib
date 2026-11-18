@@ -37,7 +37,6 @@ import imr.math.stat.GammaFunction;
 * n-permutations(alpha, beta)x, are a class of classic orthogonal polynomials. <p>
 * They are orthogonal respect to the weight: <code>(1 - x)^alpha(1+x)^beta on the interval [-1, 1]</code>
 * <p>
-* The static methods in this class return polynomials in increase power order [0 .. n]. <p>
 * This class uses assertions; to enable them, you can use the '-ea' modifier when execute: <p>
 * <code>java -ea MyApp</code>
 * <p>
@@ -46,26 +45,6 @@ import imr.math.stat.GammaFunction;
 */
 public final class JacobiPolynomial
 {
-
-/**
-* Static method to compute the coefficients for a Jacobi polynomial with params alpha and beta. <p>
-* The computed polynomial will be returned as a double floating-point array in increased order [0 .. n] <p>
-* @param n
-* An integer value greater than zero to set the order of the wanted polynomial.
-* <p>
-* @param alpha
-* A double floating-point value.
-* <p>
-* @param beta
-* A double floating-point value.
-* <p>
-* @return Computed polynomial.
-*
-*/
-public static double[] compute(int n, double alpha, double beta)
-{
-return compute(n, alpha, beta, 0.0);
-}
 
 /**
 * Static method to compute the Jacobi polynomial evaluated for a given 'x' value. <p>
@@ -92,13 +71,11 @@ for(int k = 0; k <= n; k++)
 {
 p[k] = term(k, alpha, beta, x);
 }
-return Polynomial.reverse(p);
+return p;
 }
 
 /**
 * This method computes the n-th term of a Jacobi polynomial. <p>
-* Mind that the 0-th term is, actually, the leading coefficient. <p>
-* That is because we arrange terms in the needed order to solve polynomial roots. <p>
 * @param n
 * An integer value equal or greater than zero.
 * <p>
@@ -111,7 +88,7 @@ return Polynomial.reverse(p);
 * @param x
 * A double floating-point value.
 * <p>
-* @return Computed value.
+* @return Computed term.
 *
 */
 public static double term(int n, double alpha, double beta, double x)

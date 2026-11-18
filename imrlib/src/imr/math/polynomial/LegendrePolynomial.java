@@ -33,7 +33,6 @@ import imr.math.Factorial;
 /**
 * This class implements some functionallity related to Legendre polynomials. <p>
 * Legendre polynomials are a complete class of orthogonal polynomials. <p>
-* The static methods in this class return polynomials in increase power order [0 .. n]. <p>
 * this class uses assertions; to enable them, you can use the '-ea' modifier: <p>
 * <code>java -ea MyApp</code>
 * <p>
@@ -44,22 +43,7 @@ public final class LegendrePolynomial
 {
 
 /**
-* Static method to compute the coefficients for a n-th order Legendre polynomial. <p>
-* Mind that we return polynomial terms in ascending powers in order to prepare them to solve polynomial roots. <p >
-* @param n
-* An integer value greater than zero to set the order of the polynomial.
-* <p>
-* @return Computed polynomial.
-*
-*/
-public static double[] compute(int n)
-{
-return compute(n, 0.0);
-}
-
-/**
 * Static method to compute a n-th order Legendre polynomial evaluated at the param 'x'. <p>
-* Mind that we return the polynomial terms in ascending order to prepare them for solve polynomial roots. <p>
 * @param n
 * An integer value greater than zero to set the order of the wanted polynomial.
 * <p>
@@ -77,12 +61,11 @@ for(int k = 0; k <= n; k++)
 {
 p[k] = term(k, x);
 }
-return Polynomial.reverse(p);
+return p;
 }
 
 /**
 * This method computes the n-th term of a Legendre polynomial. <p>
-* Take in account that n = 0 is, actually, the leading polynomial coefficient. <p>
 * @param n
 * An integer value greater than zero to set the order for the wanted polynomial.
 * <p>

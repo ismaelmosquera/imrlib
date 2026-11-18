@@ -402,6 +402,23 @@ out[i] = new ComplexNumber(p[i], 0.0);
 return out;
 }
 
+
+/**
+* Static method to convert a double floating-point number array into a vector. <p>
+* @param x
+* A double floating-point number array.
+* <p>
+* @return Input parameter converted to a <code>Vector</code> object.
+*
+*/
+public static Vector toVector(double[] x)
+{
+int n = x.length;
+Vector v = new Vector(n);
+for(int i = 0; i < n; i++) v.set(i, x[i]);
+return v;
+}
+
 /**
 * Static method to convert a real matrix to a complex matrix. <p>
 * @param m
