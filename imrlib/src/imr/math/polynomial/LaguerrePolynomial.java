@@ -32,8 +32,6 @@ import imr.math.Factorial;
 
 /**
 * This class offers functionallity related to Laguerre polynomials. <p>
-* You can compute just a single term or an entire n-th degree polynomial.
-* <p>
 * This class uses assertions; to enable them you can use the '-ea' modifier at execution time: <p>
 * <code>java -ea MyApp</code>
 * <p>
@@ -60,23 +58,23 @@ assert(n > 0): "LaguerrePolynomial -> compute(...): Bad parameter; 'n' must be g
 double[] p = new double[n+1];
 for(int k = 0; k <= n; k++)
 {
-p[k] = term(k, x);
+p[k] = Math.pow(-1.0, k)/Factorial.compute(k)*BinomialCoefficient.compute(n, k).doubleValue()*Math.pow(x, k);
 }
 return p;
 }
 
 /**
-* Static method to compute a single term of a Laguerre polynomial. <p>
+* Static method to evaluate a n-th degree Laguerre polynomial for a given 'x' point. <p>
 * @param n
 * An integer value equal or greater than 0 to get the wanted term.
 * <p>
 * @param x
 * A double floating-point value.
 * <p>
-* @return Computed term.
+* @return Computed value.
 *
 */
-public static double term(int n, double x)
+public static double evaluate(int n, double x)
 {
 assert(n >= 0): "LaguerrePolynomial -> term(...) Bad parameter; 'n' must be equal or greater than zero.:";
 double s = 0.0;

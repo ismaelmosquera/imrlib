@@ -67,15 +67,15 @@ public static double[] compute(int n, double alpha, double beta, double x)
 {
 assert(n > 0): "JacobiPolynomial -> compute(...): Bad parameter; 'n' must be greater than zero.";
 double[] p = new double[n+1];
-for(int k = 0; k <= n; k++)
+for(int m = 0; m <= n; m++)
 {
-p[k] = term(k, alpha, beta, x);
+p[m] = GammaFunction.compute(alpha+n+1) / (Factorial.compute(n)*GammaFunction.compute(alpha+beta+n+1)) * BinomialCoefficient.compute(n, m).doubleValue() * GammaFunction.compute(alpha+beta+n+m+1)/GammaFunction.compute(alpha+m+1) * Math.pow((x-1.0)/2.0, m);
 }
 return p;
 }
 
 /**
-* This method computes the n-th term of a Jacobi polynomial. <p>
+* This method evaluates the n-th degree of a Jacobi polynomial for a given 'x' point. <p>
 * @param n
 * An integer value equal or greater than zero.
 * <p>
@@ -88,10 +88,10 @@ return p;
 * @param x
 * A double floating-point value.
 * <p>
-* @return Computed term.
+* @return Computed value.
 *
 */
-public static double term(int n, double alpha, double beta, double x)
+public static double evaluate(int n, double alpha, double beta, double x)
 {
 	assert(n >= 0): "JacobiPolynomial -> term(...): Bad parameter; 'n' must be equal or greater than zero.";
 	if(n == 0) return 1.0;

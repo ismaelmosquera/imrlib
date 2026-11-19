@@ -57,15 +57,15 @@ public static double[] compute(int n, double x)
 {
 assert(n > 0): "LegendrePolynomial -> compute(...): Bad parameter; 'n' must be equal or greater than zero.";
 double[] p = new double[n+1];
-for(int k = 0; k <= n; k++)
+for(int m = 0; m <= n; m++)
 {
-p[k] = term(k, x);
+p[m] = 1.0 / Factorial.compute(n) * BinomialCoefficient.compute(n, m).doubleValue() * Factorial.compute(n+m)/Factorial.compute(m) * Math.pow((x-1.0)/2.0, m);
 }
 return p;
 }
 
 /**
-* This method computes the n-th term of a Legendre polynomial. <p>
+* This method evaluates the n-th degree of a Legendre polynomial for a given 'x' point. <p>
 * @param n
 * An integer value greater than zero to set the order for the wanted polynomial.
 * <p>
@@ -75,7 +75,7 @@ return p;
 * @return Computed term.
 *
 */
-public static double term(int n, double x)
+public static double evaluate(int n, double x)
 {
 	assert(n >= 0): "LegendrePolynomial -> term(...): Bad parameter; 'n' must be equal or greater than zero.";
 	double sum = 0.0;

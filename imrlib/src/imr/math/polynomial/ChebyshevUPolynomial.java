@@ -40,44 +40,22 @@ public final class ChebyshevUPolynomial
 {
 
 /**
-* Static method to compute n-th Chebyshev polynomials of second kind. <p>
-* @param n
-* An integer value greater than zero.
-* <p>
-* @param x
-* A double floating-point value.
-* <p>
-* @return Computed polynomial.
-*
-*/
-public static double[] compute(int n, double x)
-{
-assert(n > 0): "ChebyshevUPolynomial -> compute(...): Bad parameter; 'n' must be greater than zero.";
-double[] p = new double[n+1];
-for(int k = 0; k <= n; k++)
-{
-p[k] = term(k, x);
-}
-return p;
-}
-
-/**
-* Static method to compute the n-th term for a second kind Chebyshev polynomial. <p>
+* Static method to evaluate the n-th  degree of a second kind Chebyshev polynomial for a given 'x' point. <p>
 * @param n
 * An integer value equal or greater than zero.
 * <p>
 * @param x
 * A double floating-point value.
 * <p>
-* @return Computed term.
+* @return Computed value.
 *
 */
-public static double term(int n, double x)
+public static double evaluate(int n, double x)
 {
 assert(n >= 0): "ChebyshevUPolynomial -> term(...): Bad parameter, 'n' must be equal or greater than zero.";
 if(n == 0) return 1.0;
 if(n == 1) return 2.0*x;
-return 2.0 * x * term(n-1, x) - term(n-2, x);
+return 2.0 * x * evaluate(n-1, x) - evaluate(n-2, x);
 }
 
 
